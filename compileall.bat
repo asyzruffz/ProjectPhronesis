@@ -1,1 +1,1 @@
-g++ main.cpp -o Phronesis -std=c++11 -I"c:\SFML-2.1\include" -I"c:\Thor\include" -L"c:\SFML-2.1\lib" -L"c:\Thor\lib" -lsfml-system -lsfml-window -lopengl32 -lglu32 -lsfml-graphics -lsfml-main -lsfml-audio -lsfml-network -lthor
+g++ main.cpp phro_game.cpp -o Phronesis -std=c++11 -I"c:\SFML-2.1\include" -I"c:\Thor\include" -L"c:\SFML-2.1\lib" -L"c:\Thor\lib" -lsfml-system -lsfml-window -lopengl32 -lglu32 -lsfml-graphics -lsfml-main -lsfml-audio -lsfml-network -lthor
