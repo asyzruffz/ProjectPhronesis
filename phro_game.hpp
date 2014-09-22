@@ -5,25 +5,28 @@
 #define PHRO_GAME_HPP
 
 #include <SFML/Graphics.hpp>
-#include <Thor/Input.hpp>
 
-#include <iostream>
 #include <string>
 using namespace std;
 
+#include "phro_data.hpp"
+#include "phro_state_stack.hpp"
+
 class Core
 {
-private:
-	
-	sf::RenderWindow window;
-	thor::ActionMap<string> inputSystem;
-	
 public:
 	
-	Core();
+	Core(Data* gameData);
 	
 	void run();
 	void inputReact();
+	
+	StateStack states;
+	
+private:
+	
+	Data* data;
+	
 };
 
 #endif // PHRO_GAME_HPP

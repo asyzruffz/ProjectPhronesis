@@ -8,10 +8,13 @@ Contacts #3 :
 *********************************************/
 
 #include "phro_game.hpp"
+#include "phro_data.hpp"
 
 int main()
 {
-    Core game;
+    Data data;
+	Core game(&data);
+	
 	game.run();
 	
     return EXIT_SUCCESS;

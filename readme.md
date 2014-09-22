@@ -14,3 +14,23 @@ Initial configuration:
 3. Set environment for both of library e.g. C:\SFML-2.1\bin;C:\Thor\bin;
 
 4. Edit the codes and compile using compileall.bat
+
+
+
+
+
+Next Plan:
+
+1. Handling different states
+
+2. Assets/Resource manager
+
+3. Buttons
+
+4. Placeholder main menu
+
+5. Animations
+
+6. Rendering Tiles
+
+7. Setting World/Map
