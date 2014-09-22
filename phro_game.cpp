@@ -5,6 +5,9 @@
 
 Core::Core(Data* gameData) : data(gameData)
 {
+	//Load everything needed
+	loadResources();
+	
 	// Create window
 	data->window.create(sf::VideoMode(800, 600),
 						"Prototype - Project Phronesis",
@@ -71,6 +74,14 @@ void Core::draw()
 
 	//End the current frame
 	data->window.display();
+}
+
+void Core::loadResources()
+{
+	//Example code:
+	//data->store.loadTexture("background", "assets/image.png");
+	//data->store.loadFont("titleFont", "assets/font.ttf");
+	//data->store.loadSfx("gameOver", "assets/lose.ogg");
 }
 
 // Registering states with different type of class

@@ -6,6 +6,9 @@
 GameState::GameState(Data* gameData)
 {
 	data = gameData;
+	
+	//Additional load for this state
+	loadResources();
 }
 
 void GameState::draw()
@@ -21,4 +24,12 @@ bool GameState::update(float dt)
 bool GameState::handleEvent()
 {
 	return true;
+}
+
+void GameState::loadResources()
+{
+	//Example code:
+	//data->store.loadTexture("background", "assets/image.png");
+	//data->store.loadFont("titleFont", "assets/font.ttf");
+	//data->store.loadSfx("gameOver", "assets/lose.ogg");
 }

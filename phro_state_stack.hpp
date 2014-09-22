@@ -52,7 +52,7 @@ private:
 	Data* gameData;
 	//Stack containing the states (pointer to state)
 	std::vector<State::Ptr> mStack;
-	//Pending lists of action and state type pair (e.g: "Push", "Pause")
+	//Pending lists of (action and state type) pair (e.g: "Push", "Pause")
 	std::vector<pair<string, string> > mPendingList;
 	//Factory storing the registered states
 	std::map<string, function<State::Ptr()> > mFactories;

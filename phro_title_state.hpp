@@ -19,6 +19,8 @@ public:
 	bool update(float dt);
 	bool handleEvent();
 	
+	void loadResources();
+	
 private:
 	
 	//some variables here

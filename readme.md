@@ -25,7 +25,7 @@ Next Plan:
 
 - Handling different states (done)
 
-- Assets/Resource manager (asyz working on it..)
+- Assets/Resource manager (done)
 
 - Buttons
 

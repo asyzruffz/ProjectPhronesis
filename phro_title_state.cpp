@@ -6,6 +6,9 @@
 TitleState::TitleState(Data* gameData)
 {
 	data = gameData;
+	
+	//Additional load for this state
+	loadResources();
 }
 
 void TitleState::draw()
@@ -21,4 +24,12 @@ bool TitleState::update(float dt)
 bool TitleState::handleEvent()
 {
 	return true;
+}
+
+void TitleState::loadResources()
+{
+	//Example code:
+	//data->store.loadTexture("background", "assets/image.png");
+	//data->store.loadFont("titleFont", "assets/font.ttf");
+	//data->store.loadSfx("gameOver", "assets/lose.ogg");
 }

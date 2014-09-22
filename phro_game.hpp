@@ -30,6 +30,8 @@ public:
 	void update(float dt);	// running in a loop
 	void draw();			//
 	
+	void loadResources();
+	
 	void registerStates();
 	
 	StateStack states;
