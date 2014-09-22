@@ -24,7 +24,7 @@ public:
 	StateStack(){}
 	
 	template <typename T>
-	void registerState(string stateID, Data* gameData);
+	void registerState(string stateID);
 
 	void update(float dt);
 	void draw();
@@ -35,15 +35,26 @@ public:
 	void clearStates();
 	
 	bool isEmpty() const;
+	void getData(Data* gameData);
 	
 private:
 	
 	State::Ptr createState(string stateID);
 	void applyPendingChanges();
 	
+	Data* gameData;
 	std::vector<State::Ptr> mStack;
 	std::vector<pair<string, string> > mPendingList;
 	std::map<string, function<State::Ptr()> > mFactories;
 };
+
+template <typename T>
+void StateStack::registerState(string stateID)
+{
+	mFactories[stateID] = [this] ()
+	{
+		return State::Ptr(new T(gameData));
+	};
+}
 
 #endif // PHRO_STATE_STACK_HPP

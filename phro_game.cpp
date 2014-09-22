@@ -3,11 +3,19 @@
 
 #include "phro_game.hpp"
 
-Core::Core(Data* gameData): data(gameData)
+Core::Core(Data* gameData) : data(gameData)
 {
 	data->window.create(sf::VideoMode(800, 600), "Prototype - Project Phronesis",
                   sf::Style::Titlebar | sf::Style::Close);
 	data->window.setFramerateLimit(60);
+	
+	thor::Action clx(sf::Event::Closed);
+	data->inputSystem["quit"] = clx;
+	
+	states.getData(data);
+	
+	registerStates();
+	states.pushState("Title");
 }
 
 void Core::run()
@@ -23,24 +31,39 @@ void Core::run()
 		
 		//Poll the window for new events, update actions
         data->inputSystem.update(data->window);
-		inputReact();
 		
-		//Clear the window with black color
-        data->window.clear(sf::Color::Black);
-
-        //Draw everything here...
-        //data->window.draw(...);
-
-        //End the current frame
-        data->window.display();
+		inputReact();
+		update(dt);
+		draw();
 	}
 }
 
 void Core::inputReact()
 {
-	thor::Action clx(sf::Event::Closed);
-	data->inputSystem["quit"] = clx;
-	
 	if(data->inputSystem.isActive("quit"))
 		data->window.close();
+	
+	states.handleEvent();
+}
+
+void Core::update(float dt)
+{
+	states.update(dt);
+}
+
+void Core::draw()
+{
+	//Clear the window with black color
+	data->window.clear(sf::Color::Black);
+	
+	//Draw everything here...
+	states.draw();
+
+	//End the current frame
+	data->window.display();
+}
+
+void Core::registerStates()
+{
+	states.registerState<TitleState>("Title");
 }

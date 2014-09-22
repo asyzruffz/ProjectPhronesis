@@ -3,15 +3,6 @@
 
 #include "phro_state_stack.hpp"
 
-template <typename T>
-void StateStack::registerState(string stateID, Data* gameData)
-{
-	mFactories[stateID] = [this] (Data* gameData)
-	{
-		return State::Ptr(new T(gameData));
-	};
-}
-
 void StateStack::update(float dt)
 {
 	// Iterate from top to bottom, stop as soon as update() returns false
@@ -84,4 +75,9 @@ void StateStack::applyPendingChanges()
 	}
 	
 	mPendingList.clear();
+}
+
+void StateStack::getData(Data* data)
+{
+	gameData = data;
 }

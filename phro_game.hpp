@@ -11,6 +11,7 @@ using namespace std;
 
 #include "phro_data.hpp"
 #include "phro_state_stack.hpp"
+#include "phro_title_state.hpp"
 
 class Core
 {
@@ -20,6 +21,10 @@ public:
 	
 	void run();
 	void inputReact();
+	void update(float dt);
+	void draw();
+	
+	void registerStates();
 	
 	StateStack states;
 	

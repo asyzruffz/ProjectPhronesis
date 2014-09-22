@@ -16,6 +16,7 @@ class State
 {
 public:
 	
+	State(){}
 	State(Data* gameData);
 	virtual ~State();
 
@@ -24,6 +25,7 @@ public:
 	virtual bool handleEvent() = 0;
 	
 	typedef unique_ptr<State> Ptr;
+	Data* data;
 	
 protected:
 	
@@ -33,7 +35,6 @@ protected:
 	
 private:
 	
-	Data* data;
 	StateStack*	mStack;
 };
 
