@@ -12,6 +12,9 @@ using namespace std;
 #include "phro_data.hpp"
 #include "phro_state_stack.hpp"
 #include "phro_title_state.hpp"
+#include "phro_menu_state.hpp"
+#include "phro_game_state.hpp"
+#include "phro_pause_state.hpp"
 
 class Core
 {

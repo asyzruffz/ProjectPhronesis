@@ -66,4 +66,7 @@ void Core::draw()
 void Core::registerStates()
 {
 	states.registerState<TitleState>("Title");
+	states.registerState<MenuState>("Menu");
+	states.registerState<GameState>("Game");
+	states.registerState<PauseState>("Pause");
 }

@@ -21,16 +21,16 @@ Initial configuration:
 
 Next Plan:
 
-1. Handling different states
+- Handling different states
 
-2. Assets/Resource manager
+- Assets/Resource manager
 
-3. Buttons
+- Buttons
 
-4. Placeholder main menu
+- Placeholder main menu
 
-5. Animations
+- Animations
 
-6. Rendering Tiles
+- Rendering Tiles
 
-7. Setting World/Map
+- Setting World/Map
