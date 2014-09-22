@@ -40,10 +40,6 @@ void Core::run()
 		//Poll the window for new events, update actions
         data->inputSystem.update(data->window);
 		
-		//Close if no state
-		if (states.isEmpty())
-			data->window.close();
-		
 		inputHandling();
 		update(dt);
 		draw();

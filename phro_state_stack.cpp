@@ -36,17 +36,26 @@ void StateStack::handleEvent()
 	
 void StateStack::pushState(string stateID)
 {
-	mPendingList.push_back(make_pair("push", stateID));
+	Pending push;
+	push.action = "push";
+	push.stateType = stateID;
+	mPendingList.push_back(push);
 }
 
 void StateStack::popState()
 {
-	mPendingList.push_back(make_pair("pop", ""));
+	Pending pop;
+	pop.action = "pop";
+	pop.stateType = "";
+	mPendingList.push_back(pop);
 }
 
 void StateStack::clearStates()
 {
-	mPendingList.push_back(make_pair("clear", ""));
+	Pending clear;
+	clear.action = "clear";
+	clear.stateType = "";
+	mPendingList.push_back(clear);
 }
 	
 bool StateStack::isEmpty() const
@@ -66,11 +75,11 @@ void StateStack::applyPendingChanges()
 {
 	for(int i = 0; i < mPendingList.size(); i++)
 	{
-		if(mPendingList[i].first == "push")
-			mStack.push_back(createState(mPendingList[i].second));
-		else if(mPendingList[i].first == "pop")
+		if(mPendingList[i].action == "push")
+			mStack.push_back(createState(mPendingList[i].stateType));
+		else if(mPendingList[i].action == "pop")
 			mStack.pop_back();
-		else if(mPendingList[i].first == "clear")
+		else if(mPendingList[i].action == "clear")
 			mStack.clear();
 	}
 	

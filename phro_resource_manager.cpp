@@ -3,7 +3,7 @@
 
 #include "phro_resource_manager.hpp"
 
-void loadTexture(const string& name, const string &filename)
+void ResourceManager::loadTexture(const string& name, const string &filename)
 {
 	sf::Texture tex;
     if(!tex.loadFromFile(filename))
@@ -15,7 +15,7 @@ void loadTexture(const string& name, const string &filename)
     textures[name] = tex;
 }
 
-void loadFont(const string& name, const string &filename)
+void ResourceManager::loadFont(const string& name, const string &filename)
 {
 	sf::Font fon;
     if(!fon.loadFromFile(filename))
@@ -27,7 +27,7 @@ void loadFont(const string& name, const string &filename)
     fonts[name] = fon;
 }
 
-void loadSfx(const string& name, const string &filename)
+void ResourceManager::loadSfx(const string& name, const string &filename)
 {
 	sf::SoundBuffer soun;
     if(!soun.loadFromFile(filename))
@@ -39,17 +39,17 @@ void loadSfx(const string& name, const string &filename)
     sfx[name] = soun;
 }
 
-sf::Texture& getTextureRef(const string& texture)
+sf::Texture& ResourceManager::getTextureRef(const string& texture)
 {
 	return textures.at(texture);
 }
 
-sf::Font* getFontRef(const string& font)
+sf::Font* ResourceManager::getFontRef(const string& font)
 {
 	return &fonts.at(font);
 }
 
-sf::SoundBuffer& getSfxRef(const string& sound)
+sf::SoundBuffer& ResourceManager::getSfxRef(const string& sound)
 {
 	return sfx.at(sound);
 }

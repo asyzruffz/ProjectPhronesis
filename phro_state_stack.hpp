@@ -7,7 +7,6 @@
 #include <SFML/Graphics.hpp>
 
 #include <string>
-#include <utility>
 #include <vector>
 #include <map>
 #include <cassert>
@@ -16,6 +15,12 @@ using namespace std;
 
 #include "phro_data.hpp"
 #include "phro_state.hpp"
+
+struct Pending
+{
+	string action;
+	string stateType;
+};
 
 class StateStack : private sf::NonCopyable
 {
@@ -53,7 +58,7 @@ private:
 	//Stack containing the states (pointer to state)
 	std::vector<State::Ptr> mStack;
 	//Pending lists of (action and state type) pair (e.g: "Push", "Pause")
-	std::vector<pair<string, string> > mPendingList;
+	std::vector<Pending> mPendingList;
 	//Factory storing the registered states
 	std::map<string, function<State::Ptr()> > mFactories;
 };
