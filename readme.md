@@ -21,9 +21,11 @@ Initial configuration:
 
 Next Plan:
 
-- Handling different states
+- Basic window creation (done)
 
-- Assets/Resource manager
+- Handling different states (done)
+
+- Assets/Resource manager (asyz working on it..)
 
 - Buttons
 
@@ -34,3 +36,5 @@ Next Plan:
 - Rendering Tiles
 
 - Setting World/Map
+
+- More...
