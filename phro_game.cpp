@@ -5,15 +5,20 @@
 
 Core::Core(Data* gameData) : data(gameData)
 {
-	data->window.create(sf::VideoMode(800, 600), "Prototype - Project Phronesis",
-                  sf::Style::Titlebar | sf::Style::Close);
+	// Create window
+	data->window.create(sf::VideoMode(800, 600),
+						"Prototype - Project Phronesis",
+						sf::Style::Titlebar | sf::Style::Close);
 	data->window.setFramerateLimit(60);
 	
+	// Close window action based on Thor's ActionMap
 	thor::Action clx(sf::Event::Closed);
 	data->inputSystem["quit"] = clx;
 	
-	states.getData(data);
+	// Pass data to stack, so every states get it
+	states.acquireData(data);
 	
+	// Register states, then push the first state
 	registerStates();
 	states.pushState("Title");
 }
@@ -32,17 +37,22 @@ void Core::run()
 		//Poll the window for new events, update actions
         data->inputSystem.update(data->window);
 		
-		inputReact();
+		//Close if no state
+		if (states.isEmpty())
+			data->window.close();
+		
+		inputHandling();
 		update(dt);
 		draw();
 	}
 }
 
-void Core::inputReact()
+void Core::inputHandling()
 {
 	if(data->inputSystem.isActive("quit"))
 		data->window.close();
 	
+	// All other input from the states
 	states.handleEvent();
 }
 
@@ -63,6 +73,8 @@ void Core::draw()
 	data->window.display();
 }
 
+// Registering states with different type of class
+// to be fit into the states stack
 void Core::registerStates()
 {
 	states.registerState<TitleState>("Title");

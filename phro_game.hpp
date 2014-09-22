@@ -16,16 +16,19 @@ using namespace std;
 #include "phro_game_state.hpp"
 #include "phro_pause_state.hpp"
 
+// The core of the game handling all of the states
+
 class Core
 {
 public:
 	
 	Core(Data* gameData);
 	
-	void run();
-	void inputReact();
-	void update(float dt);
-	void draw();
+	void run();				// main loop
+	
+	void inputHandling();	// The big 3 functions 
+	void update(float dt);	// running in a loop
+	void draw();			//
 	
 	void registerStates();
 	

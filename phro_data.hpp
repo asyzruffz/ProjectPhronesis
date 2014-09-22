@@ -7,6 +7,10 @@
 #include <SFML/Graphics.hpp>
 #include <Thor/Input.hpp>
 
+// A data class with a very wide scope so that
+// its members can be accessed from anywhere
+// or from any state.
+
 class Data
 {
 public:

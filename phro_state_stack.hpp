@@ -30,24 +30,36 @@ public:
 	void draw();
 	void handleEvent();
 	
+	//These actions are not done immediately
+	//(push, pop, clear) are put in a pending list first
+	//so that it can be executed when it is safe
 	void pushState(string stateID);
 	void popState();
 	void clearStates();
 	
 	bool isEmpty() const;
-	void getData(Data* gameData);
+	
+	//Acquire 'data' to be given to states
+	void acquireData(Data* gameData);
 	
 private:
 	
+	//Convert the pending list to a State pointer
 	State::Ptr createState(string stateID);
+	//Do the pending push, pop or clear of states when it's safe
 	void applyPendingChanges();
 	
 	Data* gameData;
+	//Stack containing the states (pointer to state)
 	std::vector<State::Ptr> mStack;
+	//Pending lists of action and state type pair (e.g: "Push", "Pause")
 	std::vector<pair<string, string> > mPendingList;
+	//Factory storing the registered states
 	std::map<string, function<State::Ptr()> > mFactories;
 };
 
+// Since all states are different datatypes (class),
+// we 'register' it to be a function that return a pointer to State
 template <typename T>
 void StateStack::registerState(string stateID)
 {

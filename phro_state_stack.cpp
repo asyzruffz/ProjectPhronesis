@@ -77,7 +77,7 @@ void StateStack::applyPendingChanges()
 	mPendingList.clear();
 }
 
-void StateStack::getData(Data* data)
+void StateStack::acquireData(Data* data)
 {
 	gameData = data;
 }
