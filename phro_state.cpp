@@ -5,8 +5,9 @@
 #include "phro_state_stack.hpp"
 
 State::State(Data* gameData)
-: data(gameData)
-{}
+{
+	data = gameData;
+}
 
 State::~State()
 {}

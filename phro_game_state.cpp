@@ -29,7 +29,7 @@ bool GameState::handleEvent()
 void GameState::loadResources()
 {
 	//Example code:
-	//data->store.loadTexture("background", "assets/image.png");
-	//data->store.loadFont("titleFont", "assets/font.ttf");
-	//data->store.loadSfx("gameOver", "assets/lose.ogg");
+	//data->rscStorage.loadTexture("background", "assets/image.png");
+	//data->rscStorage.loadFont("titleFont", "assets/font.ttf");
+	//data->rscStorage.loadSfx("gameOver", "assets/lose.ogg");
 }

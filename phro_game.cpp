@@ -58,6 +58,7 @@ void Core::inputHandling()
 void Core::update(float dt)
 {
 	states.update(dt);
+	data->animStorage.updateAll(dt);
 }
 
 void Core::draw()

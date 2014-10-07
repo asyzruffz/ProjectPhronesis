@@ -1,0 +1,7 @@
+frameSize: 70 63
+dimensions: 6 3
+mode: default walk jump fall
+default: 2
+walk: 2 4 5 6
+jump: 8 9 10 11 12
+fall: 12 11 10 9 8
