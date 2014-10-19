@@ -5,16 +5,13 @@
 #define PHRO_ANIM_UNIT_HPP
 
 #include <string>
-#include <vector>
-#include <cmath>
 using namespace std;
 
 #include <SFML/Graphics.hpp>
-#include <Thor/Animation.hpp>
 
 #include "phro_frame_info.hpp"
 
-class AnimUnit
+class AnimUnit : public sf::Drawable
 {
 public:
 	
@@ -23,9 +20,11 @@ public:
 	AnimUnit(const string& name, const sf::Texture& texture, const string& fileDirectory);
 	
 	void update(float dt);
-	void play(const string& modeName);
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
-	sf::Sprite& show();
+	void play(const string& modeName, bool looping = true);
+	void stop();
+	bool isPlaying();
 	
 private:
 	
@@ -33,6 +32,9 @@ private:
 	sf::Sprite animSprite;
 	string currentMode;
 	float animTimer;
+	int animPosition;
+	bool playing;
+	bool loop;
 };
 
 #endif // PHRO_ANIM_UNIT_HPP

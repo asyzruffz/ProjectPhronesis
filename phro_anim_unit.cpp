@@ -15,43 +15,62 @@ AnimUnit::AnimUnit(const string& name, const sf::Texture& texture, const string&
 	animSprite.setTexture(texture);
 	animSprite.setPosition(100.f, 100.f);
 	
+	loop = true;
+	playing = false;
 	animTimer = 0.f;
+	animPosition = 0;
 	currentMode = "default";
 	animSprite.setTextureRect(frameInfo.getFrameRect(frameInfo.defaultFrame()));
 	
-	/*for(auto mtype : frameInfo.modeType)
-	{
-		cout << "For " << mtype.first << ":\n";
-		thor::FrameAnimation animFrame;
-		for(int i = 0; i < mtype.second.size(); i++)
-		{
-			animFrame.addFrame(1.f, frameInfo.getFrameRect(mtype.second[i]));
-			cout << "  adding frame " << mtype.second[i] << endl;
-		}
-		
-		animator.addAnimation(mtype.first, animFrame, sf::seconds(1.f));
-		cout << endl;
-	}*/
-	
+}
+
+void AnimUnit::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	 target.draw(animSprite, states);
 }
 
 void AnimUnit::update(float dt)
 {
+	if(!playing) return;
+	
 	animTimer += dt;
 	
-	if(animTimer >= frameInfo.modeType[currentMode].size())
-		animTimer = 0.f;
-	else
-		animSprite.setTextureRect(frameInfo.getFrameRect(frameInfo.modeType[currentMode][floor(animTimer)]));
+	if(animTimer > frameInfo.frameDelay)
+	{
+		animTimer -= frameInfo.frameDelay;
+		animPosition++;
+	}
 	
+	if(animPosition >= frameInfo.modeType[currentMode].size())
+	{
+		animPosition = 0;
+		if(!loop)
+			stop();
+	}
+	
+	animSprite.setTextureRect(frameInfo.getFrameRect(frameInfo.modeType[currentMode][animPosition]));
 }
 
-void AnimUnit::play(const string& modeName)
+void AnimUnit::play(const string& modeName, bool looping)
 {
+	loop = looping;
+	
+	if(currentMode != modeName)
+	{
+		animTimer = 0.f;
+		animPosition = 0;
+	}
+	
 	currentMode = modeName;
+	playing = true;
 }
 
-sf::Sprite& AnimUnit::show()
+void AnimUnit::stop()
 {
-	return animSprite;
+	playing = false;
+}
+
+bool AnimUnit::isPlaying()
+{
+	return playing;
 }

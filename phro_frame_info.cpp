@@ -27,6 +27,8 @@ void FrameInfo::readFile(const string& fileName)
 		frameSize = sf::Vector2i(sizeX, sizeY);
 		dimensions = sf::Vector2i(dimX, dimY);
 		
+		infoFile >> desc >> frameDelay;
+		
 		infoFile >> desc;
 		getline(infoFile, line);
 		stringstream lineStream(line);

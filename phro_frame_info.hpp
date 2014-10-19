@@ -27,6 +27,7 @@ public:
 
 	sf::Vector2i frameSize;
 	sf::Vector2i dimensions;
+	float frameDelay;
 	map<string, vector<int> > modeType;
 };
 

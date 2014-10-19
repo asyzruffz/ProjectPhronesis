@@ -1,5 +1,6 @@
 frameSize: 70 63
 dimensions: 6 3
+delay: 0.5
 mode: default walk jump fall
 default: 2
 walk: 2 4 5 6
