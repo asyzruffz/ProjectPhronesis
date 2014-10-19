@@ -17,9 +17,9 @@ TitleState::TitleState(Data* gameData)
 void TitleState::draw()
 {
 	data->window.clear(sf::Color::Blue);
-
-	data->animStorage.animCollection["roboegg"].animate(test);
-	data->window.draw(test);
+	
+	data->window.draw(data->animStorage.animList["roboegg"].show());
+	//data->window.draw(test);
 }
 
 bool TitleState::update(float dt)
@@ -30,7 +30,7 @@ bool TitleState::update(float dt)
 bool TitleState::handleEvent()
 {
 	if(data->inputSystem.isActive("hover"))
-		data->animStorage.animCollection["roboegg"].play("fall");
+		data->animStorage.animList["roboegg"].play("walk");
 	
 	return true;
 }
@@ -44,5 +44,4 @@ void TitleState::loadResources()
 
 	data->rscStorage.loadTexture("roboegg", "assets/animations/roboegg.png");
 	data->animStorage.addAnim("roboegg", "assets/animations");
-	test.setTexture(data->rscStorage.getTextureRef("roboegg"));
 }

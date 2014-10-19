@@ -8,14 +8,11 @@ AnimationManager::AnimationManager(ResourceManager* rscMgr)
 
 void AnimationManager::addAnim(string name, string fileDirectory)
 {
-	AnimUnit newAnim;
-	newAnim.loadAnimation(name, textureSource->getTextureRef(name), fileDirectory);
-
-	animCollection[name] = newAnim;
+	animList[name] = AnimUnit(name, textureSource->getTextureRef(name), fileDirectory);
 }
 
 void AnimationManager::updateAll(float dt)
 {
-	for(auto animObject : animCollection)
-		animObject.second.update(dt);
+	for(map<string, AnimUnit>::iterator it = animList.begin(); it != animList.end(); it++)
+		it->second.update(dt);
 }

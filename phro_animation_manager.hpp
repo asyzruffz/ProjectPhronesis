@@ -22,7 +22,7 @@ public:
 	void updateAll(float dt);
 
 	//Resources stored here
-	map<string, AnimUnit> animCollection;
+	map<string, AnimUnit> animList;
 
 private:
 

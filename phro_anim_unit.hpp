@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 #include <SFML/Graphics.hpp>
@@ -18,12 +19,10 @@ class AnimUnit
 public:
 	
 	AnimUnit(){}
-	
 	//Load from a file
-	void loadAnimation(const string& name, const sf::Texture& texture, const string& fileDirectory);
+	AnimUnit(const string& name, const sf::Texture& texture, const string& fileDirectory);
 	
 	void update(float dt);
-	void animate(sf::Sprite& animSprite);
 	void play(const string& modeName);
 	
 	sf::Sprite& show();
@@ -31,13 +30,9 @@ public:
 private:
 	
 	FrameInfo frameInfo;
-	vector<thor::FrameAnimation> animFrames;
-	thor::Animator<sf::Sprite, string> animator;
-	thor::FrameAnimation adefault;
-	thor::FrameAnimation walk;
-	thor::FrameAnimation jump;
-	thor::FrameAnimation fall;
-	//float aProgress;
+	sf::Sprite animSprite;
+	string currentMode;
+	float animTimer;
 };
 
 #endif // PHRO_ANIM_UNIT_HPP

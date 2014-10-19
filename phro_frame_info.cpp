@@ -81,7 +81,7 @@ void FrameInfo::readFile(const string& fileName)
 
 sf::Vector2i FrameInfo::frameOrigin(int frameNumber)
 {
-	int row = (frameNumber / dimensions.x);
+	int row = (frameNumber-1) / dimensions.x;
 	int column = (frameNumber-1) % dimensions.x;
 	return sf::Vector2i(column * frameSize.x, row * frameSize.y);
 }
