@@ -41,15 +41,24 @@ void ResourceManager::loadSfx(const string& name, const string &filename)
 
 sf::Texture& ResourceManager::getTextureRef(const string& texture)
 {
-	return textures.at(texture);
+	if(textures.count(texture) != 1)
+		cout << "Assets Manager: Cannot find texture [" << texture << "]" << endl;
+	else
+		return textures.at(texture);
 }
 
 sf::Font* ResourceManager::getFontRef(const string& font)
 {
-	return &fonts.at(font);
+	if(fonts.count(font) != 1)
+		cout << "Assets Manager: Cannot find font [" << font << "]" << endl;
+	else
+		return &fonts.at(font);
 }
 
 sf::SoundBuffer& ResourceManager::getSfxRef(const string& sound)
 {
-	return sfx.at(sound);
+	if(sfx.count(sound) != 1)
+		cout << "Assets Manager: Cannot find sound [" << sound << "]" << endl;
+	else
+		return sfx.at(sound);
 }

@@ -24,6 +24,7 @@ public:
 private:
 	
 	//some variables here
+	sf::Sprite test;
 };
 
 #endif // PHRO_TITLE_STATE_HPP

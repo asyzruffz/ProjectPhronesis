@@ -9,11 +9,20 @@ TitleState::TitleState(Data* gameData)
 	
 	//Additional load for this state
 	loadResources();
+	
+	data->inputSystem["hover"] = thor::Action(sf::Event::MouseMoved);
+	data->inputSystem["rightwalk"] = thor::Action(sf::Keyboard::D);
+	data->inputSystem["brake"] = thor::Action(sf::Keyboard::A);
+	data->inputSystem["jump"] = thor::Action(sf::Keyboard::Space);
 }
 
 void TitleState::draw()
 {
 	data->window.clear(sf::Color::Blue);
+	
+	data->window.draw(data->animStorage.animList["blue_button"]);
+	data->window.draw(data->animStorage.animList["roboegg"]);
+	//data->window.draw(test);
 }
 
 bool TitleState::update(float dt)
@@ -23,13 +32,35 @@ bool TitleState::update(float dt)
 
 bool TitleState::handleEvent()
 {
+	if(data->inputSystem.isActive("hover"))
+		data->animStorage.animList["blue_button"].play("hover");
+	else
+		data->animStorage.animList["blue_button"].play("default");
+	
+	if(data->inputSystem.isActive("jump"))
+		data->animStorage.animList["roboegg"].play("jump", false);
+	else if(data->inputSystem.isActive("rightwalk"))
+		data->animStorage.animList["roboegg"].play("walk");
+	else if(data->inputSystem.isActive("brake"))
+		data->animStorage.animList["roboegg"].stop();
+	else if(!data->animStorage.animList["roboegg"].isPlaying())
+		data->animStorage.animList["roboegg"].play("default");
+	
 	return true;
 }
 
 void TitleState::loadResources()
 {
 	//Example code:
-	//data->store.loadTexture("background", "assets/image.png");
-	//data->store.loadFont("titleFont", "assets/font.ttf");
-	//data->store.loadSfx("gameOver", "assets/lose.ogg");
+	//data->rscStorage.loadTexture("background", "assets/image.png");
+	//data->rscStorage.loadFont("titleFont", "assets/font.ttf");
+	//data->rscStorage.loadSfx("gameOver", "assets/lose.ogg");
+
+	data->rscStorage.loadTexture("roboegg", "assets/animations/roboegg.png");
+	data->animStorage.addAnim("roboegg", "assets/animations");
+	data->animStorage.animList["roboegg"].setPosition(300.f, 400.f);
+	
+	data->rscStorage.loadTexture("blue_button", "assets/animations/blue_button.png");
+	data->animStorage.addAnim("blue_button", "assets/animations");
+	data->animStorage.animList["blue_button"].setPosition(100.f, 100.f);
 }

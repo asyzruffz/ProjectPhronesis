@@ -36,28 +36,22 @@ void StateStack::handleEvent()
 	
 void StateStack::pushState(string stateID)
 {
-	Pending push;
-	push.action = "push";
-	push.stateType = stateID;
+	Pending push("push", stateID);
 	mPendingList.push_back(push);
 }
 
 void StateStack::popState()
 {
-	Pending pop;
-	pop.action = "pop";
-	pop.stateType = "";
+	Pending pop("pop", "");
 	mPendingList.push_back(pop);
 }
 
 void StateStack::clearStates()
 {
-	Pending clear;
-	clear.action = "clear";
-	clear.stateType = "";
+	Pending clear("clear", "");
 	mPendingList.push_back(clear);
 }
-	
+
 bool StateStack::isEmpty() const
 {
 	return mStack.empty();

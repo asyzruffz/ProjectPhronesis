@@ -20,6 +20,8 @@ struct Pending
 {
 	string action;
 	string stateType;
+	
+	Pending(string action_, string stateType_) : action(action_), stateType(stateType_) {}
 };
 
 class StateStack : private sf::NonCopyable
