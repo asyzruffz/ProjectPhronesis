@@ -23,8 +23,9 @@ public:
 	
 private:
 	
-	//some variables here
-	sf::Sprite test;
+	int rgb[3];
+	
+	void goMainMenu();
 };
 
 #endif // PHRO_TITLE_STATE_HPP
