@@ -27,11 +27,11 @@ Next Plan:
 
 - Assets/Resource manager (done)
 
-- Buttons
+- Buttons (sorta done-will revisit)
 
 - Placeholder main menu
 
-- Animations
+- Animations (done)
 
 - Rendering Tiles
 
