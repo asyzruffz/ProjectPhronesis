@@ -78,6 +78,7 @@ void FrameInfo::readFile(const string& fileName)
 	else
 	{
 		cout << "Fail loading [" << fileName << "]" << endl;
+		exit(1);
 	}
 }
 

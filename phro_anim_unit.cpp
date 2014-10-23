@@ -13,7 +13,6 @@ AnimUnit::AnimUnit(const string& name, const sf::Texture& texture, const string&
 	frameInfo.readFile(infoAdress);
 	
 	animSprite.setTexture(texture);
-	animSprite.setPosition(100.f, 100.f);
 	
 	loop = true;
 	playing = false;
@@ -26,7 +25,8 @@ AnimUnit::AnimUnit(const string& name, const sf::Texture& texture, const string&
 
 void AnimUnit::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	 target.draw(animSprite, states);
+	states.transform *= getTransform();
+	target.draw(animSprite, states);
 }
 
 void AnimUnit::update(float dt)
@@ -61,8 +61,16 @@ void AnimUnit::play(const string& modeName, bool looping)
 		animPosition = 0;
 	}
 	
-	currentMode = modeName;
-	playing = true;
+	if(frameInfo.modeType.count(modeName) != 1)
+	{
+		playing = false;
+		cout << "Animation Error: There is no [" << modeName << "]" << endl;
+	}
+	else
+	{
+		currentMode = modeName;
+		playing = true;
+	}
 }
 
 void AnimUnit::stop()

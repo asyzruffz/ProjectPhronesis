@@ -11,7 +11,7 @@ using namespace std;
 
 #include "phro_frame_info.hpp"
 
-class AnimUnit : public sf::Drawable
+class AnimUnit : public sf::Transformable, public sf::Drawable
 {
 public:
 	

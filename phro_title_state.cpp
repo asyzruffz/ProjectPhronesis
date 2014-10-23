@@ -20,6 +20,7 @@ void TitleState::draw()
 {
 	data->window.clear(sf::Color::Blue);
 	
+	data->window.draw(data->animStorage.animList["blue_button"]);
 	data->window.draw(data->animStorage.animList["roboegg"]);
 	//data->window.draw(test);
 }
@@ -31,6 +32,11 @@ bool TitleState::update(float dt)
 
 bool TitleState::handleEvent()
 {
+	if(data->inputSystem.isActive("hover"))
+		data->animStorage.animList["blue_button"].play("hover");
+	else
+		data->animStorage.animList["blue_button"].play("default");
+	
 	if(data->inputSystem.isActive("jump"))
 		data->animStorage.animList["roboegg"].play("jump", false);
 	else if(data->inputSystem.isActive("rightwalk"))
@@ -52,4 +58,9 @@ void TitleState::loadResources()
 
 	data->rscStorage.loadTexture("roboegg", "assets/animations/roboegg.png");
 	data->animStorage.addAnim("roboegg", "assets/animations");
+	data->animStorage.animList["roboegg"].setPosition(300.f, 400.f);
+	
+	data->rscStorage.loadTexture("blue_button", "assets/animations/blue_button.png");
+	data->animStorage.addAnim("blue_button", "assets/animations");
+	data->animStorage.animList["blue_button"].setPosition(100.f, 100.f);
 }
