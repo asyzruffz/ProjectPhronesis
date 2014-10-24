@@ -7,9 +7,10 @@ using namespace std;
 
 #include "phro_title_state.hpp"
 
-TitleState::TitleState(Data* gameData)
+TitleState::TitleState(Data* gameData, StateStack* stack)
 {
 	data = gameData;
+	mStack = stack;
 	
 	//Additional load for this state
 	loadResources();
@@ -83,5 +84,6 @@ void TitleState::loadResources()
 
 void TitleState::goMainMenu()
 {
-	cout << "Title Screen: Going to Main Menu!" << endl;
+	requestStackPop();
+	requestStackPush("Game");
 }

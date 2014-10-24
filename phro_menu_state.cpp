@@ -3,9 +3,10 @@
 
 #include "phro_menu_state.hpp"
 
-MenuState::MenuState(Data* gameData)
+MenuState::MenuState(Data* gameData, StateStack* stack)
 {
 	data = gameData;
+	mStack = stack;
 }
 
 void MenuState::draw()

@@ -13,7 +13,7 @@ class TitleState : public State
 {
 public:
 	
-	TitleState(Data* gameData);
+	TitleState(Data* gameData, StateStack* stack);
 	
 	void draw();
 	bool update(float dt);

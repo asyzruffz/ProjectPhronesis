@@ -13,7 +13,7 @@ class PauseState : public State
 {
 public:
 	
-	PauseState(Data* gameData);
+	PauseState(Data* gameData, StateStack* stack);
 	
 	void draw();
 	bool update(float dt);

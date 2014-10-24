@@ -13,7 +13,7 @@ class MenuState : public State
 {
 public:
 	
-	MenuState(Data* gameData);
+	MenuState(Data* gameData, StateStack* stack);
 	
 	void draw();
 	bool update(float dt);

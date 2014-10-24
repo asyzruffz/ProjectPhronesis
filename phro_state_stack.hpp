@@ -72,7 +72,7 @@ void StateStack::registerState(string stateID)
 {
 	mFactories[stateID] = [this] ()
 	{
-		return State::Ptr(new T(gameData));
+		return State::Ptr(new T(gameData, this));
 	};
 }
 

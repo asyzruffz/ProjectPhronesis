@@ -17,7 +17,7 @@ class State
 public:
 	
 	State(){}
-	State(Data* gameData);
+	State(Data* gameData, StateStack* stack);
 	virtual ~State();
 
 	virtual void draw() = 0;
@@ -29,11 +29,9 @@ public:
 	
 protected:
 	
-	void requestStackPush(string stateID);
+	void requestStackPush(const string& stateID);
 	void requestStackPop();
 	void requestStateClear();
-	
-private:
 	
 	StateStack*	mStack;
 };
