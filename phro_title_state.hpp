@@ -25,7 +25,6 @@ private:
 	
 	int rgb[3];
 	
-	bool bluebuttonPressed();
 	void goMainMenu();
 };
 

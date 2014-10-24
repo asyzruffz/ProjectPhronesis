@@ -44,7 +44,9 @@ bool TitleState::update(float dt)
 
 bool TitleState::handleEvent()
 {
-	if(bluebuttonPressed())
+	sf::Vector2i pointerPos = sf::Mouse::getPosition(data->window);
+	
+	if(data->animStorage.animList["blue_button"].clicked(pointerPos))
 		goMainMenu();
 	
 	if(data->inputSystem.isActive("jump"))
@@ -77,25 +79,6 @@ void TitleState::loadResources()
 	data->animStorage.addAnim("blue_button", "assets/animations");
 	data->animStorage.animList["blue_button"].setOrigin(90, 24);
 	data->animStorage.animList["blue_button"].setPosition(screenCenter);
-}
-
-bool TitleState::bluebuttonPressed()
-{
-	sf::Vector2i pointerPos = sf::Mouse::getPosition(data->window);
-	data->inputSystem["blue_button"] = thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce);
-	
-	if(data->animStorage.animList["blue_button"].contains(pointerPos))
-	{
-		data->animStorage.animList["blue_button"].play("hover");
-		if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			data->animStorage.animList["blue_button"].play("pressed");
-		if(data->inputSystem.isActive("blue_button"))
-			return true;
-	}
-	else
-		data->animStorage.animList["blue_button"].play("default");
-	
-	return false;
 }
 
 void TitleState::goMainMenu()

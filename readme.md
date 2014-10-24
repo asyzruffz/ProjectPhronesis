@@ -27,7 +27,7 @@ Next Plan:
 
 - Assets/Resource manager (done)
 
-- Buttons (sorta done-will revisit)
+- Buttons (done)
 
 - Placeholder main menu
 

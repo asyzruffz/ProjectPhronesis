@@ -8,7 +8,8 @@ using namespace std;
 
 AnimUnit::AnimUnit(const string& name, const sf::Texture& texture, const string& fileDirectory)
 {
-	string infoAdress = fileDirectory + "/" + name + ".frame";
+	unitName = name;
+	string infoAdress = fileDirectory + "/" + unitName + ".frame";
 	
 	frameInfo.readFile(infoAdress);
 	
@@ -20,7 +21,7 @@ AnimUnit::AnimUnit(const string& name, const sf::Texture& texture, const string&
 	animPosition = 0;
 	currentMode = "default";
 	animSprite.setTextureRect(frameInfo.getFrameRect(frameInfo.defaultFrame()));
-	
+	isClicked = false;
 }
 
 void AnimUnit::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -64,7 +65,7 @@ void AnimUnit::play(const string& modeName, bool looping)
 	if(frameInfo.modeType.count(modeName) != 1)
 	{
 		playing = false;
-		cout << "Animation Error: There is no [" << modeName << "]" << endl;
+		cout << "Animation Error: There is no [" << modeName << "] for " << unitName << endl;
 	}
 	else
 	{
@@ -89,4 +90,38 @@ bool AnimUnit::contains(sf::Vector2i& point)
 	sf::FloatRect spriteBounds = animSprite.getGlobalBounds();
 	spriteBounds = trans.transformRect(spriteBounds);
 	return spriteBounds.contains(sf::Vector2f(point));
+}
+
+bool AnimUnit::clicked(sf::Vector2i& cursorPos, bool holding)
+{
+	string pressed, hover;
+	if(frameInfo.modeType.count("pressed") == 1)
+		pressed = "pressed";
+	else
+		pressed = "default";
+	if(frameInfo.modeType.count("hover") == 1)
+		hover = "hover";
+	else
+		hover = "default";
+	
+	if(contains(cursorPos))
+	{
+		if(isClicked && (holding || !sf::Mouse::isButtonPressed(sf::Mouse::Left)))
+		{
+			isClicked = false;
+			return true;
+		}
+		
+		if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			isClicked = true;
+			play(pressed);
+		}
+		else
+			play(hover);
+	}
+	else
+		play("default");
+	
+	return false;
 }

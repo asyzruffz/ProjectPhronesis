@@ -25,10 +25,11 @@ public:
 	void play(const string& modeName, bool looping = true);
 	void stop();
 	bool isPlaying();
-	bool contains(sf::Vector2i& point);
+	bool clicked(sf::Vector2i& cursorPos, bool holding = false);
 	
 private:
 	
+	string unitName;
 	FrameInfo frameInfo;
 	sf::Sprite animSprite;
 	string currentMode;
@@ -36,6 +37,9 @@ private:
 	int animPosition;
 	bool playing;
 	bool loop;
+	
+	bool isClicked;
+	bool contains(sf::Vector2i& point);
 };
 
 #endif // PHRO_ANIM_UNIT_HPP
