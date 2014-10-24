@@ -82,3 +82,11 @@ bool AnimUnit::isPlaying()
 {
 	return playing;
 }
+
+bool AnimUnit::contains(sf::Vector2i& point)
+{
+	sf::Transform trans = getTransform();
+	sf::FloatRect spriteBounds = animSprite.getGlobalBounds();
+	spriteBounds = trans.transformRect(spriteBounds);
+	return spriteBounds.contains(sf::Vector2f(point));
+}

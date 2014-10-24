@@ -25,6 +25,7 @@ public:
 	void play(const string& modeName, bool looping = true);
 	void stop();
 	bool isPlaying();
+	bool contains(sf::Vector2i& point);
 	
 private:
 	

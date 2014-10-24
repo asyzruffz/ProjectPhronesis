@@ -17,7 +17,7 @@ TitleState::TitleState(Data* gameData)
 	for(int i = 0; i < 3; i++)
 		rgb[i] = 0;
 	
-	data->inputSystem["hover"] = thor::Action(sf::Event::MouseMoved);
+	//data->inputSystem["hover"] = thor::Action(sf::Event::MouseMoved);
 	data->inputSystem["rightwalk"] = thor::Action(sf::Keyboard::D);
 	data->inputSystem["brake"] = thor::Action(sf::Keyboard::A);
 	data->inputSystem["jump"] = thor::Action(sf::Keyboard::Space);
@@ -44,10 +44,8 @@ bool TitleState::update(float dt)
 
 bool TitleState::handleEvent()
 {
-	if(data->inputSystem.isActive("hover"))
-		data->animStorage.animList["blue_button"].play("hover");
-	else
-		data->animStorage.animList["blue_button"].play("default");
+	if(bluebuttonPressed())
+		goMainMenu();
 	
 	if(data->inputSystem.isActive("jump"))
 		data->animStorage.animList["roboegg"].play("jump", false);
@@ -56,7 +54,7 @@ bool TitleState::handleEvent()
 	else if(data->inputSystem.isActive("brake"))
 		data->animStorage.animList["roboegg"].stop();
 	else if(!data->animStorage.animList["roboegg"].isPlaying())
-		data->animStorage.animList["roboegg"].play("default");
+		data->animStorage.animList["roboegg"].play("walk");
 	
 	return true;
 }
@@ -79,6 +77,25 @@ void TitleState::loadResources()
 	data->animStorage.addAnim("blue_button", "assets/animations");
 	data->animStorage.animList["blue_button"].setOrigin(90, 24);
 	data->animStorage.animList["blue_button"].setPosition(screenCenter);
+}
+
+bool TitleState::bluebuttonPressed()
+{
+	sf::Vector2i pointerPos = sf::Mouse::getPosition(data->window);
+	data->inputSystem["blue_button"] = thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce);
+	
+	if(data->animStorage.animList["blue_button"].contains(pointerPos))
+	{
+		data->animStorage.animList["blue_button"].play("hover");
+		if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			data->animStorage.animList["blue_button"].play("pressed");
+		if(data->inputSystem.isActive("blue_button"))
+			return true;
+	}
+	else
+		data->animStorage.animList["blue_button"].play("default");
+	
+	return false;
 }
 
 void TitleState::goMainMenu()
