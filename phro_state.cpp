@@ -1,5 +1,5 @@
-/***** P R O J E C T   P H R O N E S I S *****
-*********************************************/
+/***** P R O J E C T   P H R O N E S I S ******
+**********************************************/
 
 #include "phro_state.hpp"
 #include "phro_state_stack.hpp"

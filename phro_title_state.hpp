@@ -1,5 +1,5 @@
-/***** P R O J E C T   P H R O N E S I S *****
-*********************************************/
+/***** P R O J E C T   P H R O N E S I S ******
+**********************************************/
 
 #ifndef PHRO_TITLE_STATE_HPP
 #define PHRO_TITLE_STATE_HPP
@@ -19,12 +19,11 @@ public:
 	bool update(float dt);
 	bool handleEvent();
 	
-	void loadResources();
-	
 private:
 	
 	int rgb[3];
 	
+	void loadResources();
 	void goMainMenu();
 };
 

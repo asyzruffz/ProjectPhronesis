@@ -1,5 +1,5 @@
-/***** P R O J E C T   P H R O N E S I S *****
-*********************************************/
+/***** P R O J E C T   P H R O N E S I S ******
+**********************************************/
 
 #ifndef PHRO_GAME_HPP
 #define PHRO_GAME_HPP

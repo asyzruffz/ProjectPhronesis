@@ -1,5 +1,5 @@
-/***** P R O J E C T   P H R O N E S I S *****
-*********************************************/
+/***** P R O J E C T   P H R O N E S I S ******
+**********************************************/
 
 #ifndef PHRO_MENU_STATE_HPP
 #define PHRO_MENU_STATE_HPP
@@ -21,7 +21,7 @@ public:
 	
 private:
 	
-	//some variables here
+	void loadResources();
 };
 
 #endif // PHRO_MENU_STATE_HPP

@@ -1,5 +1,5 @@
-/***** P R O J E C T   P H R O N E S I S *****
-*********************************************/
+/***** P R O J E C T   P H R O N E S I S ******
+**********************************************/
 
 #ifndef PHRO_GAME_STATE_HPP
 #define PHRO_GAME_STATE_HPP
@@ -19,11 +19,14 @@ public:
 	bool update(float dt);
 	bool handleEvent();
 	
-	void loadResources();
-	
 private:
 	
-	//some variables here
+	sf::View gameView;
+	sf::View guiView;
+	
+	sf::Sprite dirt;
+	
+	void loadResources();
 };
 
 #endif // PHRO_GAME_STATE_HPP
