@@ -6,21 +6,21 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "phro_state.hpp"
-#include "phro_data.hpp"
+#include "../phro_state.hpp"
+#include "../phro_data.hpp"
 
 class PauseState : public State
 {
 public:
-	
+
 	PauseState(Data* gameData, StateStack* stack);
-	
+
 	void draw();
 	bool update(float dt);
 	bool handleEvent();
-	
+
 private:
-	
+
 	//some variables here
 };
 

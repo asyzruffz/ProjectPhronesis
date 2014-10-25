@@ -7,8 +7,8 @@
 #include <SFML/Graphics.hpp>
 #include <Thor/Input.hpp>
 
-#include "phro_resource_manager.hpp"
-#include "phro_animation_manager.hpp"
+#include "resourceshandling/phro_resource_manager.hpp"
+#include "resourceshandling/phro_animation_manager.hpp"
 
 // A data class with a very wide scope so that
 // its members can be accessed from anywhere
@@ -17,15 +17,15 @@
 class Data
 {
 public:
-	
+
 	sf::RenderWindow window;
-	
+
 	thor::ActionMap<string> inputSystem;
-	
+
 	ResourceManager rscStorage;
-	
+
 	AnimationManager animStorage;
-	
+
 	Data()
 	{
 		animStorage = AnimationManager(&rscStorage);

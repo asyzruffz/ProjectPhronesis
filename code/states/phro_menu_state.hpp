@@ -6,21 +6,21 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "phro_state.hpp"
-#include "phro_data.hpp"
+#include "../phro_state.hpp"
+#include "../phro_data.hpp"
 
 class MenuState : public State
 {
 public:
-	
+
 	MenuState(Data* gameData, StateStack* stack);
-	
+
 	void draw();
 	bool update(float dt);
 	bool handleEvent();
-	
+
 private:
-	
+
 	void loadResources();
 };
 
