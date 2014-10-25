@@ -76,8 +76,8 @@ void TitleState::loadResources()
 	data->animStorage.animList["roboegg"].setOrigin(35, 31);
 	data->animStorage.animList["roboegg"].setPosition(screenCenter.x, 400.f);
 	
-	data->rscStorage.loadTexture("blue_button", "assets/animations/blue_button.png");
-	data->animStorage.addAnim("blue_button", "assets/animations");
+	data->rscStorage.loadTexture("blue_button", "assets/buttons/blue_button.png");
+	data->animStorage.addAnim("blue_button", "assets/buttons");
 	data->animStorage.animList["blue_button"].setOrigin(90, 24);
 	data->animStorage.animList["blue_button"].setPosition(screenCenter);
 }
