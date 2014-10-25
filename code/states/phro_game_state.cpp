@@ -43,7 +43,7 @@ void GameState::loadResources()
 {
 	sf::Vector2f screenCenter = sf::Vector2f(data->window.getSize()) * 0.5f;
 	
-	data->rscStorage.loadTexture("dirt", "assets/textures/rpgTile024.png");
+	data->rscStorage.loadTexture("dirt", "assets/tiles/rpgTile024.png");
 	dirt.setTexture(data->rscStorage.getTextureRef("dirt"));
 	dirt.setOrigin(32, 32);
 	dirt.setPosition(screenCenter);
