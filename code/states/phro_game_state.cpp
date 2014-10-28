@@ -16,6 +16,9 @@ GameState::GameState(Data* gameData, StateStack* stack)
 	gameView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	
+	//area = Section(10, 8, "assets/plain.section");
+	area = Section(15, 10, "assets/test.section");
+	area.acquireResource(&data->rscStorage);
 }
 
 void GameState::draw()
@@ -23,7 +26,7 @@ void GameState::draw()
 	data->window.clear(sf::Color::Red);
 	
 	data->window.setView(gameView);
-	data->window.draw(dirt);
+	area.draw(data->window);
 	
 	data->window.setView(guiView);
 	//data->window.draw(bla);
@@ -43,8 +46,28 @@ void GameState::loadResources()
 {
 	sf::Vector2f screenCenter = sf::Vector2f(data->window.getSize()) * 0.5f;
 	
-	data->rscStorage.loadTexture("dirt", "assets/tiles/rpgTile024.png");
-	dirt.setTexture(data->rscStorage.getTextureRef("dirt"));
-	dirt.setOrigin(32, 32);
-	dirt.setPosition(screenCenter);
+	data->rscStorage.loadTexture("void", "assets/tiles/generic/blackTile00.png");
+	data->rscStorage.loadTexture("dirt", "assets/tiles/dirt/dirtTile00.png");
+	data->rscStorage.loadTexture("grass", "assets/tiles/grass/grassTile00.png");
+	data->rscStorage.loadTexture("lake", "assets/tiles/lake/lakeTile00.png");
+	
+	for(int i = 1; i <= 12; i++)
+	{
+		string tName;
+		string tAddr;
+		char tVar1 = '0' + (i/10);
+		char tVar2 = '0' + (i%10);
+		
+		tName = "grass";
+		tName += tVar1; tName += tVar2;
+		tAddr = "assets/tiles/grass/grassTile";
+		tAddr += tVar1; tAddr += tVar2; tAddr += ".png";
+		data->rscStorage.loadTexture(tName, tAddr);
+		
+		tName = "lake";
+		tName += tVar1; tName += tVar2;
+		tAddr = "assets/tiles/lake/lakeTile";
+		tAddr += tVar1; tAddr += tVar2; tAddr += ".png";
+		data->rscStorage.loadTexture(tName, tAddr);
+	}
 }

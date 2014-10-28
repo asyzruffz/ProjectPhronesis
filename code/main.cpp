@@ -7,8 +7,8 @@ Author Name #3 :
 Contacts #3 :
 **********************************************/
 
-#include "code/phro_game.hpp"
-#include "code/phro_data.hpp"
+#include "phro_game.hpp"
+#include "phro_data.hpp"
 
 int main()
 {

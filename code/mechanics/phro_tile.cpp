@@ -3,15 +3,27 @@
 
 #include "phro_tile.hpp"
 
-string tileNameToStr(TileType type)
+string tileNameToStr(TileName name)
 {
-	switch(type)
+	switch(name)
     {
         default:
-        case TileType::VOID:				return "void";
-        case TileType::DIRT:				return "dirt";
-        case TileType::GRASS:				return "grass";
-        case TileType::LAKE:				return "lake";
+        case TileName::VOID:	return "void";
+        case TileName::DIRT:	return "dirt";
+        case TileName::GRASS:	return "grass";
+        case TileName::LAKE:	return "lake";
+	}
+}
+
+TileName intTotileName(int name)
+{
+	switch(name)
+    {
+        default:
+        case 0:		return TileName::VOID;
+        case 1:		return TileName::DIRT;
+        case 2:		return TileName::GRASS;
+        case 3:		return TileName::LAKE;
 	}
 }
 
@@ -35,4 +47,9 @@ void Tile::update(float dt)
 void Tile::setTileVariant(int variant)
 {
 	tileVariant = variant;
+}
+
+int Tile::getTileVariant()
+{
+	return tileVariant;
 }

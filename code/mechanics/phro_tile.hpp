@@ -12,7 +12,8 @@ using namespace std;
 enum class TileName { VOID, DIRT, GRASS, LAKE };
 enum class TileType { VOID, FLOOR, OBSTACLE, PORTAL };
 
-string tileNameToStr(TileType type);
+string tileNameToStr(TileName name);
+TileName intTotileName(int name);
 
 class Tile
 {
@@ -24,12 +25,13 @@ public:
 	void draw(sf::RenderWindow& window);
     void update(float dt);
 	
+	void setTileVariant(int variant);
+	int getTileVariant();
+	
 	sf::Sprite sprite;
 	TileName tileName;
 	
 private:
-	
-	void setTileVariant(int variant);
 	
 	/* Tile variant, allowing for different looking versions of the
      * same tile */

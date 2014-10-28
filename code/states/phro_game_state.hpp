@@ -8,24 +8,25 @@
 
 #include "../phro_state.hpp"
 #include "../phro_data.hpp"
+#include "../mechanics/phro_section.hpp"
 
 class GameState : public State
 {
 public:
-
+	
 	GameState(Data* gameData, StateStack* stack);
-
+	
 	void draw();
 	bool update(float dt);
 	bool handleEvent();
-
+	
 private:
-
+	
 	sf::View gameView;
 	sf::View guiView;
-
-	sf::Sprite dirt;
-
+	
+	Section area;
+	
 	void loadResources();
 };
 
