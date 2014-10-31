@@ -41,19 +41,6 @@ void Tile::draw(sf::RenderWindow& window)
 
 void Tile::update()
 {
-	if((nbrInfo.getVar(0) == 2 || nbrInfo.getVar(0) == 6) && (nbrInfo.getVar(1) == 1 || nbrInfo.getVar(1) == 6) &&
-			tileName == nbrInfo.getName(0) && tileName == nbrInfo.getName(1))
-		setTileVariant(9);
-	else if((nbrInfo.getVar(1) == 3 || nbrInfo.getVar(1) == 7) && (nbrInfo.getVar(2) == 2 || nbrInfo.getVar(2) == 7) &&
-			tileName == nbrInfo.getName(1) && tileName == nbrInfo.getName(2))
-		setTileVariant(10);
-	else if((nbrInfo.getVar(2) == 4 || nbrInfo.getVar(2) == 8) && (nbrInfo.getVar(3) == 3 || nbrInfo.getVar(3) == 8) &&
-			tileName == nbrInfo.getName(2) && tileName == nbrInfo.getName(3))
-		setTileVariant(11);
-	else if((nbrInfo.getVar(0) == 4 || nbrInfo.getVar(0) == 5) && (nbrInfo.getVar(3) == 1 || nbrInfo.getVar(3) == 5) &&
-			tileName == nbrInfo.getName(0) && tileName == nbrInfo.getName(3))
-		setTileVariant(12);
-	
 	switch(tileName)
 	{
 		default:
@@ -78,18 +65,6 @@ void Tile::update()
 				setTileVariant(3);
 			else if(nbrInfo.getName(3) == TileName::DIRT)
 				setTileVariant(4);
-			/*else if(nbrInfo.getName(0) == TileName::GRASS && nbrInfo.getName(1) == TileName::GRASS &&
-					(nbrInfo.getVar(0) == 2 || nbrInfo.getVar(0) == 6) && (nbrInfo.getVar(1) == 1 || nbrInfo.getVar(1) == 6))
-				setTileVariant(9);
-			else if(nbrInfo.getName(1) == TileName::GRASS && nbrInfo.getName(2) == TileName::GRASS &&
-					(nbrInfo.getVar(1) == 3 || nbrInfo.getVar(1) == 7) && (nbrInfo.getVar(2) == 2 || nbrInfo.getVar(2) == 7))
-				setTileVariant(10);
-			else if(nbrInfo.getName(2) == TileName::GRASS && nbrInfo.getName(3) == TileName::GRASS &&
-					(nbrInfo.getVar(2) == 4 || nbrInfo.getVar(2) == 8) && (nbrInfo.getVar(3) == 3 || nbrInfo.getVar(3) == 8))
-				setTileVariant(11);
-			else if(nbrInfo.getName(0) == TileName::GRASS && nbrInfo.getName(3) == TileName::GRASS &&
-					(nbrInfo.getVar(0) == 4 || nbrInfo.getVar(0) == 5) && (nbrInfo.getVar(3) == 1 || nbrInfo.getVar(3) == 5))
-				setTileVariant(12);*/
 			break;
 		case TileName::LAKE:
 			if(nbrInfo.getName(0) == TileName::GRASS && nbrInfo.getName(3) == TileName::GRASS)
@@ -108,20 +83,21 @@ void Tile::update()
 				setTileVariant(3);
 			else if(nbrInfo.getName(3) == TileName::GRASS)
 				setTileVariant(4);
-			/*else if(nbrInfo.getName(0) == TileName::LAKE && nbrInfo.getName(1) == TileName::LAKE &&
-					(nbrInfo.getVar(0) == 2 || nbrInfo.getVar(0) == 6) && (nbrInfo.getVar(1) == 1 || nbrInfo.getVar(1) == 6))
-				setTileVariant(9);
-			else if(nbrInfo.getName(1) == TileName::LAKE && nbrInfo.getName(2) == TileName::LAKE &&
-					(nbrInfo.getVar(1) == 3 || nbrInfo.getVar(1) == 7) && (nbrInfo.getVar(2) == 2 || nbrInfo.getVar(2) == 7))
-				setTileVariant(10);
-			else if(nbrInfo.getName(2) == TileName::LAKE && nbrInfo.getName(3) == TileName::LAKE &&
-					(nbrInfo.getVar(2) == 4 || nbrInfo.getVar(2) == 8) && (nbrInfo.getVar(3) == 3 || nbrInfo.getVar(3) == 8))
-				setTileVariant(11);
-			else if(nbrInfo.getName(0) == TileName::LAKE && nbrInfo.getName(3) == TileName::LAKE &&
-					(nbrInfo.getVar(0) == 4 || nbrInfo.getVar(0) == 5) && (nbrInfo.getVar(3) == 1 || nbrInfo.getVar(3) == 5))
-				setTileVariant(12);*/
 			break;
 	}
+	
+	if((nbrInfo.getVar(0) == 2 || nbrInfo.getVar(0) == 6) && (nbrInfo.getVar(1) == 1 || nbrInfo.getVar(1) == 6) &&
+			tileName == nbrInfo.getName(0) && tileName == nbrInfo.getName(1))
+		setTileVariant(9);
+	else if((nbrInfo.getVar(1) == 3 || nbrInfo.getVar(1) == 7) && (nbrInfo.getVar(2) == 2 || nbrInfo.getVar(2) == 7) &&
+			tileName == nbrInfo.getName(1) && tileName == nbrInfo.getName(2))
+		setTileVariant(10);
+	else if((nbrInfo.getVar(2) == 4 || nbrInfo.getVar(2) == 8) && (nbrInfo.getVar(3) == 3 || nbrInfo.getVar(3) == 8) &&
+			tileName == nbrInfo.getName(2) && tileName == nbrInfo.getName(3))
+		setTileVariant(11);
+	else if((nbrInfo.getVar(0) == 4 || nbrInfo.getVar(0) == 5) && (nbrInfo.getVar(3) == 1 || nbrInfo.getVar(3) == 5) &&
+			tileName == nbrInfo.getName(0) && tileName == nbrInfo.getName(3))
+		setTileVariant(12);
 }
 
 void Tile::setTileVariant(int variant)

@@ -16,8 +16,8 @@ GameState::GameState(Data* gameData, StateStack* stack)
 	gameView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	
-	area = Section(10, 8, "assets/plain.section");
-	//area = Section(15, 10, "assets/test.section");
+	//area = Section(10, 8, "assets/plain.section");
+	area = Section(15, 10, "assets/test.section");
 	area.acquireResource(&data->rscStorage);
 }
 

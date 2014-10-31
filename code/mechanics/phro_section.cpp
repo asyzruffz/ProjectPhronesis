@@ -48,10 +48,10 @@ void Section::updateTileVariant()
 	{
 		for(int x = 1; x < width - 1; x++)
 		{
-			tiles[width*y + x].nbrInfo.set(0, tiles[width*(y-1) + x].tileName, tiles[width*(y-1) + x-1].getTileVariant());
-			tiles[width*y + x].nbrInfo.set(1, tiles[width*y + x+1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
-			tiles[width*y + x].nbrInfo.set(2, tiles[width*(y+1) + x].tileName, tiles[width*(y-1) + x-1].getTileVariant());
-			tiles[width*y + x].nbrInfo.set(3, tiles[width*y + x-1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
+			tiles[width*y + x].nbrInfo.set(0, tiles[width*(y-1) + x].tileName, tiles[width*(y-1) + x].getTileVariant());
+			tiles[width*y + x].nbrInfo.set(1, tiles[width*y + x+1].tileName, tiles[width*y + x+1].getTileVariant());
+			tiles[width*y + x].nbrInfo.set(2, tiles[width*(y+1) + x].tileName, tiles[width*(y+1) + x].getTileVariant());
+			tiles[width*y + x].nbrInfo.set(3, tiles[width*y + x-1].tileName, tiles[width*y + x-1].getTileVariant());
 			//tiles[width*y + x].nbrInfo.set(4, tiles[width*(y-1) + x-1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
 			//tiles[width*y + x].nbrInfo.set(5, tiles[width*(y-1) + x+1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
 			//tiles[width*y + x].nbrInfo.set(6, tiles[width*(y+1) + x+1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
@@ -67,7 +67,6 @@ void Section::updateTileVariant()
 		char tVar2 = '0' + (tiles[i].getTileVariant() % 10);
 		string tName = tileNameToStr(tiles[i].tileName) + tVar1 + tVar2;
 		
-		//cout << "Variant: " << tName << endl;
 		tiles[i].sprite.setTexture(rsc->getTextureRef(tName));
 	}
 }
@@ -75,11 +74,6 @@ void Section::updateTileVariant()
 void Section::acquireResource(ResourceManager* source)
 {
 	rsc = source;
-	
 	for(int i = 0; i < (width * height); i++)
-	{
 		tiles[i].sprite.setTexture(rsc->getTextureRef(tileNameToStr(tiles[i].tileName) + "00"));
-	}
-	
-	updateTileVariant();
 }
