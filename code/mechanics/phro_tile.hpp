@@ -15,6 +15,26 @@ enum class TileType { VOID, FLOOR, OBSTACLE, PORTAL };
 string tileNameToStr(TileName name);
 TileName intTotileName(int name);
 
+class NeighbourInfo
+{
+public:
+	NeighbourInfo(){
+		for(int i = 0; i < 8; i++){
+			names[i] = TileName::VOID;
+			variants[i] = 0;
+		}
+	}
+	void set(int location, TileName name, int variant){
+		names[location] = name;
+		variants[location] = variant;
+	}
+	TileName getName(int location){return names[location];}
+	int getVar(int location){return variants[location];}
+private:
+	TileName names[8];
+	int variants[8];
+};
+
 class Tile
 {
 public:
@@ -23,13 +43,14 @@ public:
 	Tile(const TileName tileName, const TileType tileType);
 	
 	void draw(sf::RenderWindow& window);
-    void update(float dt);
+    void update();
 	
 	void setTileVariant(int variant);
 	int getTileVariant();
 	
 	sf::Sprite sprite;
 	TileName tileName;
+	NeighbourInfo nbrInfo;
 	
 private:
 	

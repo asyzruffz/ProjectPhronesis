@@ -44,108 +44,32 @@ void Section::draw(sf::RenderWindow& window)
 
 void Section::updateTileVariant()
 {
-	for(int y = 0; y < height; y++)
+	for(int y = 1; y < height - 1; y++)
 	{
-		for(int x = 0; x < width; x++)
+		for(int x = 1; x < width - 1; x++)
 		{
-			switch(tiles[width*y + x].tileName)
-			{
-				default:
-				case TileName::VOID:
-					break;
-				case TileName::DIRT:
-					break;
-				case TileName::GRASS:
-					if(tiles[width*(y-1) + x].tileName == TileName::DIRT &&
-							tiles[width*(y) + x-1].tileName == TileName::DIRT)
-						tiles[width*y + x].setTileVariant(5);
-					else if(tiles[width*(y-1) + x].tileName == TileName::DIRT &&
-							tiles[width*(y) + x+1].tileName == TileName::DIRT)
-						tiles[width*y + x].setTileVariant(6);
-					else if(tiles[width*(y) + x+1].tileName == TileName::DIRT &&
-							tiles[width*(y+1) + x].tileName == TileName::DIRT)
-						tiles[width*y + x].setTileVariant(7);
-					else if(tiles[width*(y+1) + x].tileName == TileName::DIRT &&
-							tiles[width*(y) + x-1].tileName == TileName::DIRT)
-						tiles[width*y + x].setTileVariant(8);
-					else if(tiles[width*(y-1) + x].tileName == TileName::DIRT)
-						tiles[width*y + x].setTileVariant(1);
-					else if(tiles[width*(y) + x+1].tileName == TileName::DIRT)
-						tiles[width*y + x].setTileVariant(2);
-					else if(tiles[width*(y+1) + x].tileName == TileName::DIRT)
-						tiles[width*y + x].setTileVariant(3);
-					else if(tiles[width*(y) + x-1].tileName == TileName::DIRT)
-						tiles[width*y + x].setTileVariant(4);
-					else if(tiles[width*(y-1) + x].tileName == TileName::GRASS && tiles[width*(y) + x+1].tileName == TileName::GRASS &&
-							(tiles[width*(y-1) + x].getTileVariant() == 2 || tiles[width*(y-1) + x].getTileVariant() == 6) &&
-							(tiles[width*(y) + x+1].getTileVariant() == 1 || tiles[width*(y) + x+1].getTileVariant() == 6))
-						tiles[width*y + x].setTileVariant(9);
-					else if(tiles[width*(y) + x+1].tileName == TileName::GRASS && tiles[width*(y+1) + x].tileName == TileName::GRASS &&
-							(tiles[width*(y) + x+1].getTileVariant() == 3 || tiles[width*(y) + x+1].getTileVariant() == 7) &&
-							(tiles[width*(y+1) + x].getTileVariant() == 2 || tiles[width*(y+1) + x].getTileVariant() == 7))
-						tiles[width*y + x].setTileVariant(10);
-					else if(tiles[width*(y+1) + x].tileName == TileName::GRASS && tiles[width*(y) + x-1].tileName == TileName::GRASS &&
-							(tiles[width*(y+1) + x].getTileVariant() == 4 || tiles[width*(y+1) + x].getTileVariant() == 8) &&
-							(tiles[width*(y) + x-1].getTileVariant() == 3 || tiles[width*(y) + x-1].getTileVariant() == 8))
-						tiles[width*y + x].setTileVariant(11);
-					else if(tiles[width*(y-1) + x].tileName == TileName::GRASS && tiles[width*(y) + x-1].tileName == TileName::GRASS &&
-							(tiles[width*(y-1) + x].getTileVariant() == 4 || tiles[width*(y-1) + x].getTileVariant() == 5) &&
-							(tiles[width*(y) + x-1].getTileVariant() == 1 || tiles[width*(y) + x-1].getTileVariant() == 5))
-						tiles[width*y + x].setTileVariant(12);
-					break;
-				case TileName::LAKE:
-					if(tiles[width*(y-1) + x].tileName == TileName::GRASS &&
-							tiles[width*(y) + x-1].tileName == TileName::GRASS)
-						tiles[width*y + x].setTileVariant(5);
-					else if(tiles[width*(y-1) + x].tileName == TileName::GRASS &&
-							tiles[width*(y) + x+1].tileName == TileName::GRASS)
-						tiles[width*y + x].setTileVariant(6);
-					else if(tiles[width*(y) + x+1].tileName == TileName::GRASS &&
-							tiles[width*(y+1) + x].tileName == TileName::GRASS)
-						tiles[width*y + x].setTileVariant(7);
-					else if(tiles[width*(y+1) + x].tileName == TileName::GRASS &&
-							tiles[width*(y) + x-1].tileName == TileName::GRASS)
-						tiles[width*y + x].setTileVariant(8);
-					else if(tiles[width*(y-1) + x].tileName == TileName::GRASS)
-						tiles[width*y + x].setTileVariant(1);
-					else if(tiles[width*(y) + x+1].tileName == TileName::GRASS)
-						tiles[width*y + x].setTileVariant(2);
-					else if(tiles[width*(y+1) + x].tileName == TileName::GRASS)
-						tiles[width*y + x].setTileVariant(3);
-					else if(tiles[width*(y) + x-1].tileName == TileName::GRASS)
-						tiles[width*y + x].setTileVariant(4);
-					else if(tiles[width*(y-1) + x].tileName == TileName::LAKE && tiles[width*(y) + x+1].tileName == TileName::LAKE &&
-							(tiles[width*(y-1) + x].getTileVariant() == 2 || tiles[width*(y-1) + x].getTileVariant() == 6) &&
-							(tiles[width*(y) + x+1].getTileVariant() == 1 || tiles[width*(y-1) + x].getTileVariant() == 6))
-						tiles[width*y + x].setTileVariant(9);
-					else if(tiles[width*(y) + x+1].tileName == TileName::LAKE && tiles[width*(y+1) + x].tileName == TileName::LAKE &&
-							(tiles[width*(y) + x+1].getTileVariant() == 3 || tiles[width*(y-1) + x].getTileVariant() == 7) &&
-							(tiles[width*(y+1) + x].getTileVariant() == 2 || tiles[width*(y-1) + x].getTileVariant() == 7))
-						tiles[width*y + x].setTileVariant(10);
-					else if(tiles[width*(y+1) + x].tileName == TileName::LAKE && tiles[width*(y) + x-1].tileName == TileName::LAKE &&
-							(tiles[width*(y+1) + x].getTileVariant() == 4 || tiles[width*(y-1) + x].getTileVariant() == 8) &&
-							(tiles[width*(y) + x-1].getTileVariant() == 3 || tiles[width*(y-1) + x].getTileVariant() == 8))
-						tiles[width*y + x].setTileVariant(11);
-					else if(tiles[width*(y-1) + x].tileName == TileName::LAKE && tiles[width*(y) + x-1].tileName == TileName::LAKE &&
-							(tiles[width*(y-1) + x].getTileVariant() == 4 || tiles[width*(y-1) + x].getTileVariant() == 5) &&
-							(tiles[width*(y) + x-1].getTileVariant() == 1 || tiles[width*(y-1) + x].getTileVariant() == 5))
-						tiles[width*y + x].setTileVariant(12);
-					break;
-			}
+			tiles[width*y + x].nbrInfo.set(0, tiles[width*(y-1) + x].tileName, tiles[width*(y-1) + x-1].getTileVariant());
+			tiles[width*y + x].nbrInfo.set(1, tiles[width*y + x+1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
+			tiles[width*y + x].nbrInfo.set(2, tiles[width*(y+1) + x].tileName, tiles[width*(y-1) + x-1].getTileVariant());
+			tiles[width*y + x].nbrInfo.set(3, tiles[width*y + x-1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
+			//tiles[width*y + x].nbrInfo.set(4, tiles[width*(y-1) + x-1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
+			//tiles[width*y + x].nbrInfo.set(5, tiles[width*(y-1) + x+1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
+			//tiles[width*y + x].nbrInfo.set(6, tiles[width*(y+1) + x+1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
+			//tiles[width*y + x].nbrInfo.set(7, tiles[width*(y+1) + x-1].tileName, tiles[width*(y-1) + x-1].getTileVariant());
 		}
 	}
 	
 	for(int i = 0; i < (width * height); i++)
-		if(tiles[i].getTileVariant() != 0)
-		{
-			char tVar1 = '0' + (tiles[i].getTileVariant() / 10);
-			char tVar2 = '0' + (tiles[i].getTileVariant() % 10);
-			string tName = tileNameToStr(tiles[i].tileName) + tVar1 + tVar2;
-			
-			cout << "Variant: " << tName << endl;
-			tiles[i].sprite.setTexture(rsc->getTextureRef(tName));
-		}
-	return;
+	{
+		tiles[i].update();
+		
+		char tVar1 = '0' + (tiles[i].getTileVariant() / 10);
+		char tVar2 = '0' + (tiles[i].getTileVariant() % 10);
+		string tName = tileNameToStr(tiles[i].tileName) + tVar1 + tVar2;
+		
+		//cout << "Variant: " << tName << endl;
+		tiles[i].sprite.setTexture(rsc->getTextureRef(tName));
+	}
 }
 
 void Section::acquireResource(ResourceManager* source)
@@ -154,7 +78,7 @@ void Section::acquireResource(ResourceManager* source)
 	
 	for(int i = 0; i < (width * height); i++)
 	{
-		tiles[i].sprite.setTexture(rsc->getTextureRef(tileNameToStr(tiles[i].tileName)));
+		tiles[i].sprite.setTexture(rsc->getTextureRef(tileNameToStr(tiles[i].tileName) + "00"));
 	}
 	
 	updateTileVariant();

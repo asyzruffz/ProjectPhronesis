@@ -16,8 +16,8 @@ GameState::GameState(Data* gameData, StateStack* stack)
 	gameView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	
-	//area = Section(10, 8, "assets/plain.section");
-	area = Section(15, 10, "assets/test.section");
+	area = Section(10, 8, "assets/plain.section");
+	//area = Section(15, 10, "assets/test.section");
 	area.acquireResource(&data->rscStorage);
 }
 
@@ -34,6 +34,7 @@ void GameState::draw()
 
 bool GameState::update(float dt)
 {
+	area.updateTileVariant();
 	return true;
 }
 
@@ -46,12 +47,10 @@ void GameState::loadResources()
 {
 	sf::Vector2f screenCenter = sf::Vector2f(data->window.getSize()) * 0.5f;
 	
-	data->rscStorage.loadTexture("void", "assets/tiles/generic/blackTile00.png");
-	data->rscStorage.loadTexture("dirt", "assets/tiles/dirt/dirtTile00.png");
-	data->rscStorage.loadTexture("grass", "assets/tiles/grass/grassTile00.png");
-	data->rscStorage.loadTexture("lake", "assets/tiles/lake/lakeTile00.png");
+	data->rscStorage.loadTexture("void00", "assets/tiles/generic/blackTile00.png");
+	data->rscStorage.loadTexture("dirt00", "assets/tiles/dirt/dirtTile00.png");
 	
-	for(int i = 1; i <= 12; i++)
+	for(int i = 0; i <= 12; i++)
 	{
 		string tName;
 		string tAddr;

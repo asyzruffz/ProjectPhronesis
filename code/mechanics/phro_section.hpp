@@ -23,9 +23,9 @@ public:
 	void draw(sf::RenderWindow& window);
 	void acquireResource(ResourceManager* source);
 	
-private:
-	
 	void updateTileVariant();
+	
+private:
 	
 	vector<Tile> tiles;
 	int width;
