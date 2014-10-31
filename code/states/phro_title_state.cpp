@@ -34,6 +34,7 @@ void TitleState::draw()
 	
 	data->window.draw(data->animStorage.animList["blue_button"]);
 	data->window.draw(data->animStorage.animList["roboegg"]);
+	data->window.draw(data->animStorage.animList["greenalien"]);
 }
 
 bool TitleState::update(float dt)
@@ -59,6 +60,7 @@ bool TitleState::handleEvent()
 		
 		data->animStorage.animList["blue_button"].setPosition(screenCenter);
 		data->animStorage.animList["roboegg"].setPosition(screenCenter.x, screenCenter.y+100.f);
+		data->animStorage.animList["greenalien"].setPosition(screenCenter.x, screenCenter.y-150.f);
 	}
 	
 	sf::Vector2i pointerPos = sf::Mouse::getPosition(data->window);
@@ -75,6 +77,15 @@ bool TitleState::handleEvent()
 	else if(!data->animStorage.animList["roboegg"].isPlaying())
 		data->animStorage.animList["roboegg"].play("walk");
 	
+	if(data->inputSystem.isActive("jump"))
+		data->animStorage.animList["greenalien"].play("jump", false);
+	else if(data->inputSystem.isActive("rightwalk"))
+		data->animStorage.animList["greenalien"].play("walk");
+	else if(data->inputSystem.isActive("brake"))
+		data->animStorage.animList["greenalien"].stop();
+	else if(!data->animStorage.animList["greenalien"].isPlaying())
+		data->animStorage.animList["greenalien"].play("walk");
+
 	return true;
 }
 
@@ -91,6 +102,11 @@ void TitleState::loadResources()
 	data->animStorage.addAnim("roboegg", "assets/animations");
 	data->animStorage.animList["roboegg"].setOrigin(35, 31);
 	data->animStorage.animList["roboegg"].setPosition(screenCenter.x, screenCenter.y+100.f);
+	
+	data->rscStorage.loadTexture("greenalien", "assets/characters/greenalien.png");
+	data->animStorage.addAnim("greenalien", "assets/characters");
+	data->animStorage.animList["greenalien"].setOrigin(36, 48);
+	data->animStorage.animList["greenalien"].setPosition(screenCenter.x, screenCenter.y-150.f);
 	
 	data->rscStorage.loadTexture("blue_button", "assets/buttons/blue_button.png");
 	data->animStorage.addAnim("blue_button", "assets/buttons");
