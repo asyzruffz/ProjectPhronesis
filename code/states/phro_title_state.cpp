@@ -15,6 +15,9 @@ TitleState::TitleState(Data* gameData, StateStack* stack)
 	//Additional load for this state
 	loadResources();
 	
+	view.setSize(sf::Vector2f(data->window.getSize()));
+	view.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
+	
 	for(int i = 0; i < 3; i++)
 		rgb[i] = 0;
 	
@@ -27,6 +30,7 @@ TitleState::TitleState(Data* gameData, StateStack* stack)
 void TitleState::draw()
 {
 	data->window.clear(sf::Color(rgb[0], rgb[1], rgb[2]));
+	data->window.setView(view);
 	
 	data->window.draw(data->animStorage.animList["blue_button"]);
 	data->window.draw(data->animStorage.animList["roboegg"]);
@@ -45,6 +49,16 @@ bool TitleState::update(float dt)
 
 bool TitleState::handleEvent()
 {
+	if(data->inputSystem.isActive("resize"))
+	{
+		view.setSize(sf::Vector2f(data->window.getSize()));
+		view.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
+		
+		sf::Vector2f screenCenter = sf::Vector2f(data->window.getSize()) * 0.5f;
+		data->animStorage.animList["blue_button"].setPosition(data->window.mapPixelToCoords(sf::Vector2i(screenCenter), view));
+		data->animStorage.animList["roboegg"].setPosition(data->window.mapPixelToCoords(sf::Vector2i(screenCenter.x, screenCenter.y+100.f), view));
+	}
+	
 	sf::Vector2i pointerPos = sf::Mouse::getPosition(data->window);
 	
 	if(data->animStorage.animList["blue_button"].clicked(pointerPos))
@@ -74,7 +88,7 @@ void TitleState::loadResources()
 	data->rscStorage.loadTexture("roboegg", "assets/animations/roboegg.png");
 	data->animStorage.addAnim("roboegg", "assets/animations");
 	data->animStorage.animList["roboegg"].setOrigin(35, 31);
-	data->animStorage.animList["roboegg"].setPosition(screenCenter.x, 400.f);
+	data->animStorage.animList["roboegg"].setPosition(screenCenter.x, screenCenter.y+100.f);
 	
 	data->rscStorage.loadTexture("blue_button", "assets/buttons/blue_button.png");
 	data->animStorage.addAnim("blue_button", "assets/buttons");

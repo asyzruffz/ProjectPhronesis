@@ -17,7 +17,7 @@ GameState::GameState(Data* gameData, StateStack* stack)
 	guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	
 	//area = Section(10, 8, "assets/plain.section");
-	area = Section(15, 10, "assets/test.section");
+	area = Section(16, 11, "assets/test.section");
 	area.acquireResource(&data->rscStorage);
 }
 
@@ -40,6 +40,14 @@ bool GameState::update(float dt)
 
 bool GameState::handleEvent()
 {
+	if(data->inputSystem.isActive("resize"))
+	{
+		gameView.setSize(sf::Vector2f(data->window.getSize()));
+		guiView.setSize(sf::Vector2f(data->window.getSize()));
+		gameView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
+		guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
+	}
+	
 	return true;
 }
 

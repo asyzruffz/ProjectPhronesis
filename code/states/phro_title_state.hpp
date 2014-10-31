@@ -22,6 +22,7 @@ public:
 private:
 
 	int rgb[3];
+	sf::View view;
 
 	void loadResources();
 	void goMainMenu();

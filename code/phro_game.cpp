@@ -10,13 +10,13 @@ Core::Core(Data* gameData) : data(gameData)
 	
 	// Create window
 	data->window.create(sf::VideoMode(800, 600),
-						"Prototype - Project Phronesis",
-						sf::Style::Titlebar | sf::Style::Close);
+						"Prototype - Project Phronesis");//,
+						//sf::Style::Titlebar | sf::Style::Close);
 	data->window.setFramerateLimit(60);
 	
-	// Close window action based on Thor's ActionMap
-	thor::Action clx(sf::Event::Closed);
-	data->inputSystem["quit"] = clx;
+	// Resize and close window action based on Thor's ActionMap
+	data->inputSystem["resize"] = thor::Action(sf::Event::Resized);
+	data->inputSystem["quit"] = thor::Action(sf::Event::Closed);
 	
 	// Pass data to stack, so every states get it
 	states.acquireData(data);
