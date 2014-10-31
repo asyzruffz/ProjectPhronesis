@@ -43,8 +43,9 @@ bool GameState::handleEvent()
 	if(data->inputSystem.isActive("resize"))
 	{
 		gameView.setSize(sf::Vector2f(data->window.getSize()));
-		guiView.setSize(sf::Vector2f(data->window.getSize()));
 		gameView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
+		
+		guiView.setSize(sf::Vector2f(data->window.getSize()));
 		guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	}
 	
@@ -56,7 +57,6 @@ void GameState::loadResources()
 	sf::Vector2f screenCenter = sf::Vector2f(data->window.getSize()) * 0.5f;
 	
 	data->rscStorage.loadTexture("void00", "assets/tiles/generic/blackTile00.png");
-	data->rscStorage.loadTexture("dirt00", "assets/tiles/dirt/dirtTile00.png");
 	
 	for(int i = 0; i <= 12; i++)
 	{
@@ -64,6 +64,12 @@ void GameState::loadResources()
 		string tAddr;
 		char tVar1 = '0' + (i/10);
 		char tVar2 = '0' + (i%10);
+		
+		tName = "dirt";
+		tName += tVar1; tName += tVar2;
+		tAddr = "assets/tiles/dirt/dirtTile";
+		tAddr += tVar1; tAddr += tVar2; tAddr += ".png";
+		data->rscStorage.loadTexture(tName, tAddr);
 		
 		tName = "grass";
 		tName += tVar1; tName += tVar2;

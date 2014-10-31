@@ -47,6 +47,22 @@ void Tile::update()
 		case TileName::VOID:
 			break;
 		case TileName::DIRT:
+			if(nbrInfo.getName(0) == TileName::LAKE && nbrInfo.getName(3) == TileName::LAKE)
+				setTileVariant(5);
+			else if(nbrInfo.getName(0) == TileName::LAKE && nbrInfo.getName(1) == TileName::LAKE)
+				setTileVariant(6);
+			else if(nbrInfo.getName(1) == TileName::LAKE && nbrInfo.getName(2) == TileName::LAKE)
+				setTileVariant(7);
+			else if(nbrInfo.getName(2) == TileName::LAKE && nbrInfo.getName(3) == TileName::LAKE)
+				setTileVariant(8);
+			else if(nbrInfo.getName(0) == TileName::LAKE)
+				setTileVariant(1);
+			else if(nbrInfo.getName(1) == TileName::LAKE)
+				setTileVariant(2);
+			else if(nbrInfo.getName(2) == TileName::LAKE)
+				setTileVariant(3);
+			else if(nbrInfo.getName(3) == TileName::LAKE)
+				setTileVariant(4);
 			break;
 		case TileName::GRASS:
 			if(nbrInfo.getName(0) == TileName::DIRT && nbrInfo.getName(3) == TileName::DIRT)
@@ -67,21 +83,21 @@ void Tile::update()
 				setTileVariant(4);
 			break;
 		case TileName::LAKE:
-			if(nbrInfo.getName(0) == TileName::GRASS && nbrInfo.getName(3) == TileName::GRASS)
+			if(nbrInfo.getName(0) != TileName::LAKE && nbrInfo.getName(3) != TileName::LAKE)
 				setTileVariant(5);
-			else if(nbrInfo.getName(0) == TileName::GRASS && nbrInfo.getName(1) == TileName::GRASS)
+			else if(nbrInfo.getName(0) != TileName::LAKE && nbrInfo.getName(1) != TileName::LAKE)
 				setTileVariant(6);
-			else if(nbrInfo.getName(1) == TileName::GRASS && nbrInfo.getName(2) == TileName::GRASS)
+			else if(nbrInfo.getName(1) != TileName::LAKE && nbrInfo.getName(2) != TileName::LAKE)
 				setTileVariant(7);
-			else if(nbrInfo.getName(2) == TileName::GRASS && nbrInfo.getName(3) == TileName::GRASS)
+			else if(nbrInfo.getName(2) != TileName::LAKE && nbrInfo.getName(3) != TileName::LAKE)
 				setTileVariant(8);
-			else if(nbrInfo.getName(0) == TileName::GRASS)
+			else if(nbrInfo.getName(0) != TileName::LAKE)
 				setTileVariant(1);
-			else if(nbrInfo.getName(1) == TileName::GRASS)
+			else if(nbrInfo.getName(1) != TileName::LAKE)
 				setTileVariant(2);
-			else if(nbrInfo.getName(2) == TileName::GRASS)
+			else if(nbrInfo.getName(2) != TileName::LAKE)
 				setTileVariant(3);
-			else if(nbrInfo.getName(3) == TileName::GRASS)
+			else if(nbrInfo.getName(3) != TileName::LAKE)
 				setTileVariant(4);
 			break;
 	}

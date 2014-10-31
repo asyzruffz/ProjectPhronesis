@@ -55,8 +55,10 @@ bool TitleState::handleEvent()
 		view.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 		
 		sf::Vector2f screenCenter = sf::Vector2f(data->window.getSize()) * 0.5f;
-		data->animStorage.animList["blue_button"].setPosition(data->window.mapPixelToCoords(sf::Vector2i(screenCenter), view));
-		data->animStorage.animList["roboegg"].setPosition(data->window.mapPixelToCoords(sf::Vector2i(screenCenter.x, screenCenter.y+100.f), view));
+		screenCenter = data->window.mapPixelToCoords(sf::Vector2i(screenCenter), view);
+		
+		data->animStorage.animList["blue_button"].setPosition(screenCenter);
+		data->animStorage.animList["roboegg"].setPosition(screenCenter.x, screenCenter.y+100.f);
 	}
 	
 	sf::Vector2i pointerPos = sf::Mouse::getPosition(data->window);
