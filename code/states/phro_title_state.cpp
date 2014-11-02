@@ -24,6 +24,7 @@ TitleState::TitleState(Data* gameData, StateStack* stack)
 	//data->inputSystem["hover"] = thor::Action(sf::Event::MouseMoved);
 	data->inputSystem["rightwalk"] = thor::Action(sf::Keyboard::D);
 	data->inputSystem["brake"] = thor::Action(sf::Keyboard::A);
+	data->inputSystem["duck"] = thor::Action(sf::Keyboard::S);
 	data->inputSystem["jump"] = thor::Action(sf::Keyboard::Space);
 }
 
@@ -71,18 +72,20 @@ bool TitleState::handleEvent()
 	if(data->inputSystem.isActive("jump"))
 		data->animStorage.animList["roboegg"].play("jump", false);
 	else if(data->inputSystem.isActive("rightwalk"))
-		data->animStorage.animList["roboegg"].play("walk");
+		data->animStorage.animList["roboegg"].setScale(1.f, 1.f);
 	else if(data->inputSystem.isActive("brake"))
-		data->animStorage.animList["roboegg"].stop();
+		data->animStorage.animList["roboegg"].setScale(-1.f, 1.f);
 	else if(!data->animStorage.animList["roboegg"].isPlaying())
 		data->animStorage.animList["roboegg"].play("walk");
 	
-	if(data->inputSystem.isActive("jump"))
+	if(data->inputSystem.isActive("duck"))
+		data->animStorage.animList["greenalien"].play("duck", false);
+	else if(data->inputSystem.isActive("jump"))
 		data->animStorage.animList["greenalien"].play("jump", false);
 	else if(data->inputSystem.isActive("rightwalk"))
-		data->animStorage.animList["greenalien"].play("walk");
+		data->animStorage.animList["greenalien"].setScale(1.f, 1.f);
 	else if(data->inputSystem.isActive("brake"))
-		data->animStorage.animList["greenalien"].stop();
+		data->animStorage.animList["greenalien"].setScale(-1.f, 1.f);
 	else if(!data->animStorage.animList["greenalien"].isPlaying())
 		data->animStorage.animList["greenalien"].play("walk");
 
