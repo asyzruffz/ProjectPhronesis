@@ -21,6 +21,8 @@ AnimUnit::AnimUnit(const string& name, const sf::Texture& texture, const string&
 	animPosition = 0;
 	currentMode = "default";
 	animSprite.setTextureRect(frameInfo.getFrameRect(frameInfo.defaultFrame()));
+	sf::Vector2f fsize(frameInfo.frameSize);
+	animSprite.setOrigin(fsize.x * 0.5, fsize.y * 0.5);
 	isClicked = false;
 }
 
@@ -84,14 +86,6 @@ bool AnimUnit::isPlaying()
 	return playing;
 }
 
-bool AnimUnit::contains(sf::Vector2i& point)
-{
-	sf::Transform trans = getTransform();
-	sf::FloatRect spriteBounds = animSprite.getGlobalBounds();
-	spriteBounds = trans.transformRect(spriteBounds);
-	return spriteBounds.contains(sf::Vector2f(point));
-}
-
 bool AnimUnit::clicked(sf::Vector2i& cursorPos, bool holding)
 {
 	string pressed, hover;
@@ -124,4 +118,12 @@ bool AnimUnit::clicked(sf::Vector2i& cursorPos, bool holding)
 		play("default");
 	
 	return false;
+}
+
+bool AnimUnit::contains(sf::Vector2i& point)
+{
+	sf::Transform trans = getTransform();
+	sf::FloatRect spriteBounds = animSprite.getGlobalBounds();
+	spriteBounds = trans.transformRect(spriteBounds);
+	return spriteBounds.contains(sf::Vector2f(point));
 }

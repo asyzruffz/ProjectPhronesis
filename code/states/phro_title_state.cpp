@@ -100,19 +100,16 @@ void TitleState::loadResources()
 	
 	data->rscStorage.loadTexture("roboegg", "assets/animations/roboegg.png");
 	data->animStorage.addAnim("roboegg", "assets/animations");
-	data->animStorage.animList["roboegg"].setOrigin(35, 31);
 	data->animStorage.animList["roboegg"].setPosition(screenCenter.x, screenCenter.y+100.f);
 	
 	data->rscStorage.loadTexture("greenalien", "assets/characters/greenalien.png");
 	data->animStorage.addAnim("greenalien", "assets/characters");
 	
 	al.setCharacter("greenalien", &data->animStorage);
-	al.setOrigin(36, 48);
 	al.setPosition(screenCenter.x, screenCenter.y-150.f);
 	
 	data->rscStorage.loadTexture("blue_button", "assets/buttons/blue_button.png");
 	data->animStorage.addAnim("blue_button", "assets/buttons");
-	data->animStorage.animList["blue_button"].setOrigin(90, 24);
 	data->animStorage.animList["blue_button"].setPosition(screenCenter);
 }
 

@@ -6,32 +6,37 @@
 GameState::GameState(Data* gameData, StateStack* stack): State(gameData, stack)
 {
 	//Additional load for this state
-	loadResources();
+	//loadResources();
 	
-	gameView.setSize(sf::Vector2f(data->window.getSize()));
+	emptyWorld = new World(data);
+	
 	guiView.setSize(sf::Vector2f(data->window.getSize()));
-	gameView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
 	
 	//area = Section(10, 8, "assets/plain.section");
-	area = Section(16, 11, "assets/test.section");
-	area.acquireResource(&data->rscStorage);
+	//area = Section(16, 11, "assets/test.section");
+	//area.acquireResource(&data->rscStorage);
+}
+
+GameState::~GameState()
+{
+	delete emptyWorld;
 }
 
 void GameState::draw()
 {
 	data->window.clear(sf::Color::Red);
 	
-	data->window.setView(gameView);
-	area.draw(data->window);
+	emptyWorld->draw();
 	
 	data->window.setView(guiView);
-	//data->window.draw(bla);
+	//area.draw(data->window);
 }
 
 bool GameState::update(float dt)
 {
-	area.updateTileVariant();
+	//area.updateTileVariant();
+	emptyWorld->update(dt);
 	return true;
 }
 
@@ -39,11 +44,10 @@ bool GameState::handleEvent()
 {
 	if(data->inputSystem.isActive("resize"))
 	{
-		gameView.setSize(sf::Vector2f(data->window.getSize()));
-		gameView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
-		
 		guiView.setSize(sf::Vector2f(data->window.getSize()));
 		guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
+		
+		emptyWorld->resizeView();
 	}
 	
 	return true;

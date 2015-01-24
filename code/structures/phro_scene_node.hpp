@@ -34,7 +34,7 @@ private:
 	void updateChildren(float dt);
 	
 	// To be overridden by classes deriving from SceneNode
-	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const = 0;
+	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {}
 	
 	vector<Ptr> children;
 	SceneNode* parent;
