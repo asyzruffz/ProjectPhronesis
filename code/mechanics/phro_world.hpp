@@ -15,13 +15,11 @@ using namespace std;
 #include "phro_character.hpp"
 
 class World : private sf::NonCopyable
-{	
-private:
-	
+{
 	enum Layer
 	{
 		Background,
-		Air,
+		Surface,
 		LayerCount
 	};
 	

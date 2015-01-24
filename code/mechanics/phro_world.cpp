@@ -41,7 +41,7 @@ void World::buildScene()
 	playerCharacter = leader.get();
 	playerCharacter->setPosition(spawnPosition);
 	playerCharacter->setVelocity(40.f, scrollSpeed);
-	sceneLayers[Air]->attachChild(std::move(leader));
+	sceneLayers[Surface]->attachChild(std::move(leader));
 }
 
 void World::update(float dt)

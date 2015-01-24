@@ -11,9 +11,6 @@ void Character::setCharacter(string type, AnimationManager* animHoldr)
 
 void Character::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if(cType == "")
-		return; // place generic box drawing here
-	
-	if(animHolder != nullptr)
+	if(animHolder != nullptr && cType != "")
 		target.draw(animHolder->animList[cType], states);
 }
