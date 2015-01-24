@@ -3,11 +3,8 @@
 
 #include "phro_menu_state.hpp"
 
-MenuState::MenuState(Data* gameData, StateStack* stack)
+MenuState::MenuState(Data* gameData, StateStack* stack): State(gameData, stack)
 {
-	data = gameData;
-	mStack = stack;
-	
 	//Additional load for this state
 	loadResources();
 }

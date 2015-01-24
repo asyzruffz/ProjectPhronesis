@@ -4,15 +4,6 @@
 #include "phro_state.hpp"
 #include "phro_state_stack.hpp"
 
-State::State(Data* gameData, StateStack* stack)
-{
-	data = gameData;
-	mStack = stack;
-}
-
-State::~State()
-{}
-
 void State::requestStackPush(const string& stateID)
 {
 	mStack->pushState(stateID);

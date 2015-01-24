@@ -3,11 +3,8 @@
 
 #include "phro_game_state.hpp"
 
-GameState::GameState(Data* gameData, StateStack* stack)
+GameState::GameState(Data* gameData, StateStack* stack): State(gameData, stack)
 {
-	data = gameData;
-	mStack = stack;
-	
 	//Additional load for this state
 	loadResources();
 	

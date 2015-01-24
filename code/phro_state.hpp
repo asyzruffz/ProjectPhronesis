@@ -17,15 +17,14 @@ class State
 public:
 	
 	State(){}
-	State(Data* gameData, StateStack* stack);
-	virtual ~State();
+	State(Data* gameData, StateStack* stack): data(gameData), mStack(stack) {}
+	virtual ~State() {}
 
 	virtual void draw() = 0;
 	virtual bool update(float dt) = 0;
 	virtual bool handleEvent() = 0;
 	
 	typedef unique_ptr<State> Ptr;
-	Data* data;
 	
 protected:
 	
@@ -33,6 +32,7 @@ protected:
 	void requestStackPop();
 	void requestStateClear();
 	
+	Data* data;
 	StateStack*	mStack;
 };
 

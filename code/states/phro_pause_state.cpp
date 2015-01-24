@@ -3,10 +3,9 @@
 
 #include "phro_pause_state.hpp"
 
-PauseState::PauseState(Data* gameData, StateStack* stack)
+PauseState::PauseState(Data* gameData, StateStack* stack): State(gameData, stack)
 {
-	data = gameData;
-	mStack = stack;
+	//
 }
 
 void PauseState::draw()

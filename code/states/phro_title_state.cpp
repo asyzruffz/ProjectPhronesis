@@ -7,11 +7,8 @@ using namespace std;
 
 #include "phro_title_state.hpp"
 
-TitleState::TitleState(Data* gameData, StateStack* stack)
+TitleState::TitleState(Data* gameData, StateStack* stack): State(gameData, stack)
 {
-	data = gameData;
-	mStack = stack;
-	
 	//Additional load for this state
 	loadResources();
 	
