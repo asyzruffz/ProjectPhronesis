@@ -8,6 +8,7 @@
 
 #include "../phro_state.hpp"
 #include "../phro_data.hpp"
+#include "../mechanics/phro_character.hpp"
 
 class TitleState : public State
 {
@@ -23,6 +24,7 @@ private:
 
 	int rgb[3];
 	sf::View view;
+	Character al;
 
 	void loadResources();
 	void goMainMenu();

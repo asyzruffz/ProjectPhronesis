@@ -23,7 +23,7 @@ TitleState::TitleState(Data* gameData, StateStack* stack)
 	
 	//data->inputSystem["hover"] = thor::Action(sf::Event::MouseMoved);
 	data->inputSystem["rightwalk"] = thor::Action(sf::Keyboard::D);
-	data->inputSystem["brake"] = thor::Action(sf::Keyboard::A);
+	data->inputSystem["leftwalk"] = thor::Action(sf::Keyboard::A);
 	data->inputSystem["duck"] = thor::Action(sf::Keyboard::S);
 	data->inputSystem["jump"] = thor::Action(sf::Keyboard::Space);
 }
@@ -35,7 +35,7 @@ void TitleState::draw()
 	
 	data->window.draw(data->animStorage.animList["blue_button"]);
 	data->window.draw(data->animStorage.animList["roboegg"]);
-	data->window.draw(data->animStorage.animList["greenalien"]);
+	data->window.draw(al);
 }
 
 bool TitleState::update(float dt)
@@ -61,7 +61,7 @@ bool TitleState::handleEvent()
 		
 		data->animStorage.animList["blue_button"].setPosition(screenCenter);
 		data->animStorage.animList["roboegg"].setPosition(screenCenter.x, screenCenter.y+100.f);
-		data->animStorage.animList["greenalien"].setPosition(screenCenter.x, screenCenter.y-150.f);
+		al.setPosition(screenCenter.x, screenCenter.y-150.f);
 	}
 	
 	sf::Vector2i pointerPos = sf::Mouse::getPosition(data->window);
@@ -73,7 +73,7 @@ bool TitleState::handleEvent()
 		data->animStorage.animList["roboegg"].play("jump", false);
 	else if(data->inputSystem.isActive("rightwalk"))
 		data->animStorage.animList["roboegg"].setScale(1.f, 1.f);
-	else if(data->inputSystem.isActive("brake"))
+	else if(data->inputSystem.isActive("leftwalk"))
 		data->animStorage.animList["roboegg"].setScale(-1.f, 1.f);
 	else if(!data->animStorage.animList["roboegg"].isPlaying())
 		data->animStorage.animList["roboegg"].play("walk");
@@ -83,9 +83,9 @@ bool TitleState::handleEvent()
 	else if(data->inputSystem.isActive("jump"))
 		data->animStorage.animList["greenalien"].play("jump", false);
 	else if(data->inputSystem.isActive("rightwalk"))
-		data->animStorage.animList["greenalien"].setScale(1.f, 1.f);
-	else if(data->inputSystem.isActive("brake"))
-		data->animStorage.animList["greenalien"].setScale(-1.f, 1.f);
+		al.setScale(1.f, 1.f);
+	else if(data->inputSystem.isActive("leftwalk"))
+		al.setScale(-1.f, 1.f);
 	else if(!data->animStorage.animList["greenalien"].isPlaying())
 		data->animStorage.animList["greenalien"].play("walk");
 
@@ -108,8 +108,10 @@ void TitleState::loadResources()
 	
 	data->rscStorage.loadTexture("greenalien", "assets/characters/greenalien.png");
 	data->animStorage.addAnim("greenalien", "assets/characters");
-	data->animStorage.animList["greenalien"].setOrigin(36, 48);
-	data->animStorage.animList["greenalien"].setPosition(screenCenter.x, screenCenter.y-150.f);
+	
+	al.setCharacter("greenalien", &data->animStorage);
+	al.setOrigin(36, 48);
+	al.setPosition(screenCenter.x, screenCenter.y-150.f);
 	
 	data->rscStorage.loadTexture("blue_button", "assets/buttons/blue_button.png");
 	data->animStorage.addAnim("blue_button", "assets/buttons");
