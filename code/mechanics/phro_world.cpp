@@ -13,6 +13,7 @@ World::World(Data* gameData): data(gameData),
 	loadTextures();
 	buildScene();
 	worldView.setCenter(spawnPosition);
+	worldView.setSize(sf::Vector2f(data->window.getSize()));
 }
 
 void World::loadTextures()
@@ -40,7 +41,7 @@ void World::buildScene()
 	unique_ptr<Character> leader(new Character("greenalien", &data->animStorage));
 	playerCharacter = leader.get();
 	playerCharacter->setPosition(spawnPosition);
-	playerCharacter->setVelocity(40.f, scrollSpeed);
+	playerCharacter->setVelocity(100.f, 0.f);
 	sceneLayers[Surface]->attachChild(std::move(leader));
 }
 

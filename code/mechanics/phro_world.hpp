@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <array>
 #include <memory>
 using namespace std;
 
@@ -38,7 +39,7 @@ private:
 	Data* data;
 	sf::View worldView;
 	SceneNode sceneGraph;
-	std::array<SceneNode*, LayerCount> sceneLayers;
+	array<SceneNode*, LayerCount> sceneLayers;
 	sf::FloatRect worldBounds;
 	sf::Vector2f spawnPosition;
 	float scrollSpeed;
