@@ -41,4 +41,6 @@ Icon
 *.depend
 *.layout
 *.pdn
+dcompileall.bat
 bin/Debug/libstdc++-6.dll
+bin/Debug/libgcc_s_sjlj-1.dll

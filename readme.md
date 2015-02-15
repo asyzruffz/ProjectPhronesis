@@ -27,14 +27,18 @@ Next Plan:
 
 - Assets/Resource manager (done)
 
-- Buttons
+- Buttons (done)
 
-- Placeholder main menu
+- Animations (done)
 
-- Animations
+- Setting World/Map (done)
 
 - Rendering Tiles
 
-- Setting World/Map
+- Control the character (40%)
+
+- Texts
+
+- Placeholder main menu
 
 - More...
