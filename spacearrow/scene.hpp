@@ -25,9 +25,9 @@ public:
 	Scene(SceneHandler* handler): mp_handler(handler) {}
 	virtual ~Scene() {}
 
-	virtual void draw() = 0;
-	virtual bool update(float dt) = 0;
 	virtual bool handleEvent() = 0;
+	virtual bool update(float dt) = 0;
+	virtual void draw() = 0;
 	
 	typedef unique_ptr<Scene> Ptr;
 	

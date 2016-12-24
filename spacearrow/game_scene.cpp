@@ -27,14 +27,17 @@ GameScene::~GameScene()
 	//delete emptyWorld;
 }
 
-void GameScene::draw()
+bool GameScene::handleEvent()
 {
-	GameData::instance().window.clear(sf::Color::Red);
-	
-	//emptyWorld->draw();
-	
-	GameData::instance().window.setView(guiView);
-	//area.draw(data->window);
+	/*if(data->inputSystem.isActive("resize"))
+	{
+	guiView.setSize(sf::Vector2f(data->window.getSize()));
+	guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
+
+	emptyWorld->resizeView();
+	}*/
+
+	return true;
 }
 
 bool GameScene::update(float dt)
@@ -44,15 +47,12 @@ bool GameScene::update(float dt)
 	return true;
 }
 
-bool GameScene::handleEvent()
+void GameScene::draw()
 {
-	/*if(data->inputSystem.isActive("resize"))
-	{
-		guiView.setSize(sf::Vector2f(data->window.getSize()));
-		guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
-		
-		emptyWorld->resizeView();
-	}*/
-	
-	return true;
+	GameData::instance().window.clear(sf::Color::Red);
+
+	//emptyWorld->draw();
+
+	GameData::instance().window.setView(guiView);
+	//area.draw(data->window);
 }

@@ -20,10 +20,10 @@ public:
 	
 	GameScene(SceneHandler* handler);
 	~GameScene();
-	
-	void draw();
-	bool update(float dt);
+
 	bool handleEvent();
+	bool update(float dt);
+	void draw();
 	
 private:
 	
