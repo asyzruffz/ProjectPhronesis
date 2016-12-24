@@ -35,6 +35,12 @@ Icon
 .Spotlight-V100
 .Trashes
 
+# Visual Studio files
+.vs/
+*.opendb
+*.user
+*.db
+
 *.exe
 *.o
 *.cbp
@@ -44,3 +50,4 @@ Icon
 dcompileall.bat
 bin/Debug/libstdc++-6.dll
 bin/Debug/libgcc_s_sjlj-1.dll
+libstdc++-6.dll
