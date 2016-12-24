@@ -12,47 +12,21 @@ Tutorial Section: TC01
 
 GameScene::GameScene(SceneHandler* handler): Scene(handler)
 {
-	//emptyWorld = new World(data);
+	//guiView.setSize(sf::Vector2f(GameData::instance().window.getSize()));
+	//guiView.setCenter(sf::Vector2f(GameData::instance().window.getSize()) * 0.5f);
+}
+
+void GameScene::hierarchy()
+{
 	
-	guiView.setSize(sf::Vector2f(GameData::instance().window.getSize()));
-	guiView.setCenter(sf::Vector2f(GameData::instance().window.getSize()) * 0.5f);
-	
-	//area = Section(10, 8, "assets/plain.section");
-	//area = Section(16, 11, "assets/test.section");
-	//area.acquireResource(&data->rscStorage);
 }
 
-GameScene::~GameScene()
+void GameScene::draw(sf::RenderWindow& window)
 {
-	//delete emptyWorld;
-}
-
-bool GameScene::handleEvent()
-{
-	/*if(data->inputSystem.isActive("resize"))
-	{
-	guiView.setSize(sf::Vector2f(data->window.getSize()));
-	guiView.setCenter(sf::Vector2f(data->window.getSize()) * 0.5f);
-
-	emptyWorld->resizeView();
-	}*/
-
-	return true;
-}
-
-bool GameScene::update(float dt)
-{
-	//area.updateTileVariant();
-	//emptyWorld->update(dt);
-	return true;
-}
-
-void GameScene::draw()
-{
-	GameData::instance().window.clear(sf::Color::Red);
+	Scene::draw(window);
+	window.clear(sf::Color::Red);
 
 	//emptyWorld->draw();
 
-	GameData::instance().window.setView(guiView);
-	//area.draw(data->window);
+	window.setView(guiView);
 }

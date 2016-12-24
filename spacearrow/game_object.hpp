@@ -7,26 +7,21 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#ifndef GAME_SCENE_HPP
-#define GAME_SCENE_HPP
+#ifndef GAME_OBJECT_HPP
+#define GAME_OBJECT_HPP
 
-#include <SFML/Graphics.hpp>
+#include "entity.hpp"
 
-#include "scene.hpp"
-
-class GameScene : public Scene
+class GameObject : public Entity
 {
 public:
-	
-	GameScene(SceneHandler* handler);
 
-	void hierarchy();
-	void draw(sf::RenderWindow& window);
+	GameObject();
 	
-private:
-	
-	sf::View guiView;
+	virtual void start();
+	virtual void update(float dt);
+	virtual void draw(sf::RenderWindow& window);
 
 };
 
-#endif // GAME_SCENE_HPP
+#endif // GAME_OBJECT_HPP

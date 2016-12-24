@@ -13,8 +13,9 @@ Tutorial Section: TC01
 #include <memory>
 using namespace std;
 
-#include "game_data.hpp"
+#include "game_object.hpp"
 
+// Forward declaration to avoid cyclic dependency
 class SceneHandler;
 
 class Scene
@@ -25,18 +26,28 @@ public:
 	Scene(SceneHandler* handler): mp_handler(handler) {}
 	virtual ~Scene() {}
 
-	virtual bool handleEvent() = 0;
-	virtual bool update(float dt) = 0;
-	virtual void draw() = 0;
-	
 	typedef unique_ptr<Scene> Ptr;
+
+	virtual void hierarchy() = 0;
+
+	virtual void start();
+	virtual bool handleEvent();
+	virtual bool update(float dt);
+	virtual void draw(sf::RenderWindow& window);
 	
+	void addToRoot(GameObject& gameObject);
+
 protected:
 	
 	void requestSceneChange(const int& sceneIndex);
 	void requestSceneClear();
 	
 	SceneHandler* mp_handler;
+
+private:
+
+	GameObject m_root;
+
 };
 
 #endif // SCENE_HPP

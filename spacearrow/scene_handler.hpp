@@ -34,7 +34,7 @@ public:
 	SceneHandler();
 	
 	void update(float dt);
-	void draw();
+	void draw(sf::RenderWindow& window);
 	void handleEvent();
 
 	template <typename T>

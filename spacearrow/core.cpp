@@ -19,9 +19,9 @@ Core::Core(string gameTitle)
 	loadResources();
 	
 	// Create window
-	GameData::instance().window.create(sf::VideoMode(800, 600), gameTitle);//,
+	m_window.create(sf::VideoMode(800, 600), gameTitle);//,
 									//sf::Style::Titlebar | sf::Style::Close);
-	GameData::instance().window.setFramerateLimit(60);
+	m_window.setFramerateLimit(60);
 	
 	// Register states, then push the first state
 	registerScenes();
@@ -32,7 +32,7 @@ void Core::run()
 {
 	sf::Clock clock;
 
-    while(GameData::instance().window.isOpen())
+    while(m_window.isOpen())
     {
 		//(Re)Start a timer at the beginning of each frame
         //after storing the time elapsed as dt
@@ -44,7 +44,7 @@ void Core::run()
 		
 		inputHandling();
 		update(dt);
-		draw();
+		draw(m_window);
 	}
 }
 
@@ -53,14 +53,14 @@ void Core::inputHandling()
 	sf::Event gameEvent;
 
 	// while there are pending events...
-	while (GameData::instance().window.pollEvent(gameEvent))
+	while (m_window.pollEvent(gameEvent))
 	{
 		// check the type of the event...
 		switch (gameEvent.type)
 		{
 			// window closed
 			case sf::Event::Closed:
-				GameData::instance().window.close();
+				m_window.close();
 				break;
 
 			// key pressed
@@ -84,16 +84,16 @@ void Core::update(float dt)
 	//data->animStorage.updateAll(dt);
 }
 
-void Core::draw()
+void Core::draw(sf::RenderWindow& window)
 {
 	//Clear the window with black color
-	GameData::instance().window.clear(sf::Color::Black);
+	window.clear(sf::Color::Black);
 	
 	//Draw everything here...
-	m_scenes.draw();
+	m_scenes.draw(window);
 
 	//End the current frame
-	GameData::instance().window.display();
+	window.display();
 }
 
 void Core::loadResources()

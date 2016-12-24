@@ -31,13 +31,13 @@ void SceneHandler::update(float dt)
 	applyPendingChanges();
 }
 
-void SceneHandler::draw()
+void SceneHandler::draw(sf::RenderWindow& window)
 {
 	if (isEmpty())
 		return;
 	
 	// Draw current scene
-	m_storage[m_currentScene]->draw();
+	m_storage[m_currentScene]->draw(window);
 }
 
 void SceneHandler::handleEvent()

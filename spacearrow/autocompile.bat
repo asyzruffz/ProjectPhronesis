@@ -1,1 +1,1 @@
-g++ main.cpp core.cpp scene_handler.cpp scene.cpp game_scene.cpp -o SpaceArrow -std=c++11 -I"c:\SFML-2.1\include" -L"c:\SFML-2.1\lib" -lsfml-system -lsfml-window -lopengl32 -lglu32 -lsfml-graphics -lsfml-main -lsfml-audio -lsfml-network
+g++ main.cpp core.cpp scene_handler.cpp scene.cpp game_scene.cpp entity.cpp component.cpp game_object.cpp -o SpaceArrow -std=c++11 -I"c:\SFML-2.1\include" -L"c:\SFML-2.1\lib" -lsfml-system -lsfml-window -lopengl32 -lglu32 -lsfml-graphics -lsfml-main -lsfml-audio -lsfml-network

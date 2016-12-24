@@ -10,7 +10,7 @@ Tutorial Section: TC01
 #ifndef CORE_HPP
 #define CORE_HPP
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include "scene_handler.hpp"
 
@@ -24,9 +24,9 @@ public:
 
 	void run();				// main loop
 
-	void inputHandling();	// The big 3 functions
-	void update(float dt);	// running in a loop
-	void draw();			//
+	void inputHandling();						// The big 3 functions
+	void update(float dt);						// running in a loop
+	void draw(sf::RenderWindow& window);			//
 
 	void loadResources();
 
@@ -34,6 +34,7 @@ public:
 
 private:
 
+	sf::RenderWindow m_window;
 	SceneHandler m_scenes;
 };
 

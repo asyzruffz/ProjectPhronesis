@@ -37,7 +37,7 @@ public:
 	GameData(GameData const&) = delete;
 	void operator=(GameData const&) = delete;
 
-	sf::RenderWindow window;
+	//sf::RenderWindow window;
 	//ResourceManager rscStorage;
 	//AnimationManager animStorage;
 
