@@ -26,7 +26,7 @@ public:
 
 	void inputHandling();						// The big 3 functions
 	void update(float dt);						// running in a loop
-	void draw(sf::RenderWindow& window);			//
+	void draw(sf::RenderWindow& window) const;		//
 
 	void loadResources();
 
@@ -35,6 +35,7 @@ public:
 private:
 
 	sf::RenderWindow m_window;
+	sf::RenderStates m_renderStates;
 	SceneHandler m_scenes;
 };
 

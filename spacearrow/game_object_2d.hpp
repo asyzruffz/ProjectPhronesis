@@ -7,21 +7,17 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#ifndef GAME_OBJECT_HPP
-#define GAME_OBJECT_HPP
+#ifndef GAME_OBJECT_2D_HPP
+#define GAME_OBJECT_2D_HPP
 
-#include "entity.hpp"
+#include "game_object.hpp"
 
-class GameObject : public Entity
+class GameObject2D : public GameObject
 {
 public:
 
-	GameObject(string name = "GameObject");
-	
-	virtual void start();
-	virtual void update(float dt);
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	GameObject2D(string name = "GameObject2D");
 
 };
 
-#endif // GAME_OBJECT_HPP
+#endif // GAME_OBJECT_2D_HPP

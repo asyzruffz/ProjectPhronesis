@@ -8,7 +8,10 @@ Tutorial Section: TC01
 ********************************************/
 
 #include "game_scene.hpp"
+
 #include "game_data.hpp"
+#include "game_object_2d.hpp"
+#include "sprite.hpp"
 
 GameScene::GameScene(SceneHandler* handler): Scene(handler)
 {
@@ -18,15 +21,17 @@ GameScene::GameScene(SceneHandler* handler): Scene(handler)
 
 void GameScene::hierarchy()
 {
-	
+	GameObject2D* a = new GameObject2D("Alien");
+	a->addComponent<Sprite>("alien");
+	addToRoot(a);
 }
 
-void GameScene::draw(sf::RenderWindow& window)
+void GameScene::draw(sf::RenderTarget& target, sf::RenderStates states)
 {
-	Scene::draw(window);
-	window.clear(sf::Color::Red);
+	target.clear(sf::Color::Red);
+	Scene::draw(target, states);
 
 	//emptyWorld->draw();
 
-	window.setView(guiView);
+	//target.setView(guiView);
 }

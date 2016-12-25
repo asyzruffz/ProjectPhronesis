@@ -13,7 +13,7 @@ Tutorial Section: TC01
 #include <memory>
 using namespace std;
 
-#include "game_object.hpp"
+#include "game_object_2d.hpp"
 
 // Forward declaration to avoid cyclic dependency
 class SceneHandler;
@@ -33,9 +33,9 @@ public:
 	virtual void start();
 	virtual bool handleEvent();
 	virtual bool update(float dt);
-	virtual void draw(sf::RenderWindow& window);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
-	void addToRoot(GameObject& gameObject);
+	void addToRoot(GameObject* gameObject);
 
 protected:
 	
@@ -46,7 +46,7 @@ protected:
 
 private:
 
-	GameObject m_root;
+	GameObject2D m_root;
 
 };
 

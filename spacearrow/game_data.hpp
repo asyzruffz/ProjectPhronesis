@@ -10,9 +10,7 @@ Tutorial Section: TC01
 #ifndef GAME_DATA_HPP
 #define GAME_DATA_HPP
 
-#include <SFML/Graphics.hpp>
-
-//#include "resourceshandling/phro_resource_manager.hpp"
+#include "resource_manager.hpp"
 //#include "resourceshandling/phro_animation_manager.hpp"
 
 // A game data class that is a singleton so that it only has one instance
@@ -38,7 +36,7 @@ public:
 	void operator=(GameData const&) = delete;
 
 	//sf::RenderWindow window;
-	//ResourceManager rscStorage;
+	ResourceManager rscStorage;
 	//AnimationManager animStorage;
 
 };

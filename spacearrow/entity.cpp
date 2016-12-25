@@ -9,9 +9,9 @@ Tutorial Section: TC01
 
 #include "entity.hpp"
 
-Entity::Entity()
+Entity::Entity(string name)
 {
-	m_name = "Default Entity";
+	m_name = name;
 	m_enabled = true;
 }
 
@@ -19,6 +19,11 @@ void Entity::setParent(Entity* parent)
 {
 	mp_parent = Entity::Ptr(parent);
 	parent->getChildren().push_back(Entity::Ptr(this));
+}
+
+Entity::Ptr Entity::getParent()
+{
+	return mp_parent;
 }
 
 vector<Entity::Ptr>& Entity::getChildren()
@@ -31,7 +36,17 @@ void Entity::setEnabled(bool isEnabled)
 	m_enabled = isEnabled;
 }
 
-bool Entity::isEnabled()
+bool Entity::isEnabled() const
 {
 	return m_enabled;
+}
+
+string Entity::getName() const
+{
+	return m_name;
+}
+
+const vector<Entity::Ptr>& Entity::allChildren() const
+{
+	return m_children;
 }

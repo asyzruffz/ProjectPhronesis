@@ -7,21 +7,31 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#ifndef GAME_OBJECT_HPP
-#define GAME_OBJECT_HPP
+#ifndef SPRITE_HPP
+#define SPRITE_HPP
 
-#include "entity.hpp"
+#include <SFML/Graphics.hpp>
 
-class GameObject : public Entity
+#include <string>
+using namespace std;
+
+#include "component.hpp"
+
+class Sprite : public Component
 {
 public:
-
-	GameObject(string name = "GameObject");
 	
-	virtual void start();
+	Sprite(string spriteName) : m_spriteName(spriteName) {}
+
+	virtual void awake();
 	virtual void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+private:
+
+	string m_spriteName;
+	sf::Sprite m_sprite;
+	sf::Transform m_transform;
 };
 
-#endif // GAME_OBJECT_HPP
+#endif // SPRITE_HPP

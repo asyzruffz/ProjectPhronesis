@@ -7,15 +7,11 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#include "entity.hpp"
-#include "component.hpp"
+#include "game_object_2d.hpp"
 
-Component::Component()
-{
-	m_owner = nullptr;
-}
+#include "transform_2d.hpp"
 
-void Component::setOwner(Entity* owner)
+GameObject2D::GameObject2D(string name) : GameObject(name)
 {
-	m_owner = owner;
+	addComponent<Transform2D>();
 }

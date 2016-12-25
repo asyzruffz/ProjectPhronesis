@@ -21,7 +21,7 @@ public:
 	GameScene(SceneHandler* handler);
 
 	void hierarchy();
-	void draw(sf::RenderWindow& window);
+	void draw(sf::RenderTarget& target, sf::RenderStates states);
 	
 private:
 	

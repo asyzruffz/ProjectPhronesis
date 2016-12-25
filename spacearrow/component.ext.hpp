@@ -7,15 +7,24 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
+#ifndef COMPONENT_EXT_HPP
+#define COMPONENT_EXT_HPP
+
 #include "entity.hpp"
 #include "component.hpp"
 
-Component::Component()
+template <typename T>
+bool Component::hasComponent()
 {
-	m_owner = nullptr;
+	assert(m_owner != nullptr);
+	return m_owner->hasComponent<T>();
 }
 
-void Component::setOwner(Entity* owner)
+template <typename T>
+T& Component::getComponent()
 {
-	m_owner = owner;
+	assert(m_owner != nullptr);
+	return m_owner->getComponent<T>();
 }
+
+#endif // COMPONENT_EXT_HPP

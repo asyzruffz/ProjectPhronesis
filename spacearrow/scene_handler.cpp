@@ -31,13 +31,13 @@ void SceneHandler::update(float dt)
 	applyPendingChanges();
 }
 
-void SceneHandler::draw(sf::RenderWindow& window)
+void SceneHandler::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	if (isEmpty())
 		return;
 	
 	// Draw current scene
-	m_storage[m_currentScene]->draw(window);
+	m_storage[m_currentScene]->draw(target, states);
 }
 
 void SceneHandler::handleEvent()
@@ -74,6 +74,7 @@ void SceneHandler::applyPendingChanges()
 		if (m_pendingList[i].action == "change") {
 			assert(m_pendingList[i].sceneIndex >= 0 && m_pendingList[i].sceneIndex < m_storage.size());
 			m_currentScene = m_pendingList[i].sceneIndex;
+			m_storage[m_currentScene]->start();
 		} else if (m_pendingList[i].action == "clear")
 			m_storage.clear();
 	}

@@ -12,7 +12,7 @@ Tutorial Section: TC01
 #include <memory>
 using namespace std;
 
-GameObject::GameObject()
+GameObject::GameObject(string name) : Entity(name)
 {
 }
 
@@ -53,21 +53,21 @@ void GameObject::update(float dt)
 	}
 }
 
-void GameObject::draw(sf::RenderWindow & window)
+void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	// only run when enabled
 	if (isEnabled() && mp_parent->isEnabled())
 	{
 		//Call the draw method for each component in this game object
-		for (map<type_index, Component::Ptr>::iterator it = m_components.begin(); it != m_components.end(); ++it)
+		for (map<type_index, Component::Ptr>::const_iterator it = m_components.begin(); it != m_components.end(); ++it)
 		{
-			it->second->draw(window);
+			it->second->draw(target, states);
 		}
 
 		//Call the draw method for each child of this game object
-		for (vector<Entity::Ptr>::iterator it = getChildren().begin(); it != getChildren().end(); ++it)
+		for (vector<Entity::Ptr>::const_iterator it = m_children.begin(); it != m_children.end(); ++it)
 		{
-			static_pointer_cast<GameObject>(*it)->draw(window);
+			static_pointer_cast<GameObject>(*it)->draw(target, states);
 		}
 	}
 }

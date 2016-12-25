@@ -30,7 +30,7 @@ public:
 	virtual void awake() {}
 	virtual void start() {}
 	virtual void update(float dt) {}
-	virtual void draw(sf::RenderWindow& window) {}
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {}
 
 	void setOwner(Entity* owner);
 
@@ -38,6 +38,8 @@ public:
 	bool hasComponent();
 	template <typename T>
 	T& getComponent();
+
+
 
 protected: 
 	

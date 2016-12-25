@@ -23,10 +23,10 @@ class Entity
 {
 public:
 
-	Entity();
+	Entity(string name = "Default Entity");
 
-	template <typename T>
-	void addComponent();
+	template <typename T, typename... Args>
+	void addComponent(Args... args);
 	template <typename T>
 	bool hasComponent();
 	template <typename T>
@@ -35,30 +35,33 @@ public:
 	typedef shared_ptr<Entity> Ptr;
 
 	void setParent(Entity* parent);
+	Entity::Ptr getParent();
 	vector<Entity::Ptr>& getChildren();
 	void setEnabled(bool isEnabled);
-	bool isEnabled();
+	bool isEnabled() const;
+	string getName() const;
+	const vector<Entity::Ptr>& allChildren() const; // used to iterate without changing the value (eg. for drawing)
 
 protected:
 
 	map<type_index, Component::Ptr> m_components;
 	Entity::Ptr mp_parent;
+	vector<Entity::Ptr> m_children;
 
 private:
 
 	string m_name;
-	vector<Entity::Ptr> m_children;
 	bool m_enabled;
 
 };
 
-template <typename T>
-void Entity::addComponent()
+template <typename T, typename... Args>
+void Entity::addComponent(Args... args)
 {
-	T newComponent;
-	newComponent.setOwner(this);
-	newComponent.awake();
-	m_components[typeid(T)] = Component::Ptr(&newComponent);
+	T* newComponent = new T(args...);
+	newComponent->setOwner(this);
+	newComponent->awake();
+	m_components[typeid(T)] = Component::Ptr(newComponent);
 }
 
 template <typename T>
@@ -70,7 +73,7 @@ bool Entity::hasComponent()
 template <typename T>
 T& Entity::getComponent()
 {
-	return (T)*m_components[typeid(T)];
+	return *((T*)m_components[typeid(T)].get());
 }
 
 #endif // ENTITY_HPP

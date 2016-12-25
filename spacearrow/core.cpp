@@ -8,43 +8,72 @@ Tutorial Section: TC01
 ********************************************/
 
 #include "core.hpp"
-#include "game_data.hpp"
 
-// Scene to be registered
-#include "game_scene.hpp"
+#include <iostream>
+#include <exception>
+using namespace std;
+
+#include "game_data.hpp"
+#include "game_scene.hpp" // Scene to be registered
 
 Core::Core(string gameTitle)
 {
-	//Load everything needed
-	loadResources();
+	try
+	{
+
+		//Load everything needed
+		loadResources();
 	
-	// Create window
-	m_window.create(sf::VideoMode(800, 600), gameTitle);//,
-									//sf::Style::Titlebar | sf::Style::Close);
-	m_window.setFramerateLimit(60);
+		// Create window
+		m_window.create(sf::VideoMode(800, 600), gameTitle);//,
+										//sf::Style::Titlebar | sf::Style::Close);
+		m_window.setFramerateLimit(60);
 	
-	// Register states, then push the first state
-	registerScenes();
-	m_scenes.changeScene(0);
+		// Register states, then push the first state
+		registerScenes();
+		m_scenes.changeScene(0);
+
+	}
+	catch (exception e)
+	{
+		cout << e.what() << endl;
+	}
+	catch (...)
+	{
+		cout << "Error: Unknown exception thrown!" << endl;
+	}
 }
 
 void Core::run()
 {
-	sf::Clock clock;
+	try
+	{
 
-    while(m_window.isOpen())
-    {
-		//(Re)Start a timer at the beginning of each frame
-        //after storing the time elapsed as dt
-        sf::Time elapsed = clock.restart();
-        float dt = elapsed.asSeconds();
+		sf::Clock clock;
+
+		while(m_window.isOpen())
+		{
+			//(Re)Start a timer at the beginning of each frame
+			//after storing the time elapsed as dt
+			sf::Time elapsed = clock.restart();
+			float dt = elapsed.asSeconds();
 		
-		//Poll the window for new events, update actions
-        //data->inputSystem.update(data->window);
+			//Poll the window for new events, update actions
+			//data->inputSystem.update(data->window);
 		
-		inputHandling();
-		update(dt);
-		draw(m_window);
+			inputHandling();
+			update(dt);
+			draw(m_window);
+		}
+
+	}
+	catch (exception e)
+	{
+		cout << e.what() << endl;
+	}
+	catch (...)
+	{
+		cout << "Error: Unknown exception thrown!" << endl;
 	}
 }
 
@@ -84,13 +113,13 @@ void Core::update(float dt)
 	//data->animStorage.updateAll(dt);
 }
 
-void Core::draw(sf::RenderWindow& window)
+void Core::draw(sf::RenderWindow& window) const
 {
-	//Clear the window with black color
-	window.clear(sf::Color::Black);
+	//Clear the window with cornflower blue color
+	window.clear(sf::Color(100, 149, 237));
 	
 	//Draw everything here...
-	m_scenes.draw(window);
+	m_scenes.draw(window, m_renderStates);
 
 	//End the current frame
 	window.display();
@@ -102,6 +131,8 @@ void Core::loadResources()
 	//GameData::instance().rscStorage.loadTexture("background", "assets/image.png");
 	//GameData::instance().rscStorage.loadFont("titleFont", "assets/font.ttf");
 	//GameData::instance().rscStorage.loadSfx("gameOver", "assets/lose.ogg");
+
+	GameData::instance().rscStorage.loadTexture("alien", "resources/alienGreen_square.png");
 }
 
 // Registering scenes with different type of class
