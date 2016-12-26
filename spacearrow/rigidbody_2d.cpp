@@ -21,7 +21,7 @@ Rigidbody2D::Rigidbody2D(bool isDynamic)
 
 void Rigidbody2D::awake()
 {
-	// Create a rectangle (to be drawn in case no sprite attached)
+	// Set a rectangle (to be drawn in case no sprite attached)
 	sf::Vector2f rectSize(Sprite::PIXEL_PER_METER, Sprite::PIXEL_PER_METER);
 	m_rect = sf::RectangleShape(rectSize);
 	m_rect.setOrigin(rectSize / 2.0f);
@@ -49,6 +49,8 @@ void Rigidbody2D::start()
 	m_bodyDef.angle = trans.getGlobalRotation() * b2_pi / 180;
 	m_rect.setPosition(trans.getGlobalPosition());
 	m_rect.setRotation(trans.getGlobalRotation());
+	m_rect.setSize(trans.getGlobalScale() * Sprite::PIXEL_PER_METER);
+	m_rect.setOrigin(trans.getGlobalScale() * Sprite::PIXEL_PER_METER / 2.0f);
 
 	// Set shape as box
 	if (hasComponent<Sprite>())
@@ -87,7 +89,8 @@ void Rigidbody2D::fixedUpdate(float dt)
 	{
 		m_rect.setPosition(trans.getGlobalPosition() * Sprite::PIXEL_PER_METER);
 		m_rect.setRotation(trans.getGlobalRotation());
-		m_rect.setScale(trans.getGlobalScale());
+		m_rect.setSize(trans.getGlobalScale() * Sprite::PIXEL_PER_METER);
+		m_rect.setOrigin(trans.getGlobalScale() * Sprite::PIXEL_PER_METER / 2.0f);
 	}
 }
 

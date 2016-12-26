@@ -7,26 +7,21 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#ifndef GAME_SCENE_HPP
-#define GAME_SCENE_HPP
+#ifndef LEVEL_SCENE_HPP
+#define LEVEL_SCENE_HPP
 
 #include <SFML/Graphics.hpp>
 
 #include "scene.hpp"
 
-class GameScene : public Scene
+class LevelScene : public Scene
 {
 public:
 	
-	GameScene(SceneHandler* handler);
+	LevelScene(SceneHandler* handler) : Scene(handler) {}
 
 	void hierarchy();
-	void draw(sf::RenderTarget& target, sf::RenderStates states);
 	
-private:
-	
-	sf::View guiView;
-
 };
 
-#endif // GAME_SCENE_HPP
+#endif // LEVEL_SCENE_HPP

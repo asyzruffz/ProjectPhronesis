@@ -24,7 +24,6 @@ class Scene
 {
 public:
 	
-	Scene();
 	Scene(SceneHandler* handler);
 	virtual ~Scene() {}
 
@@ -33,7 +32,7 @@ public:
 	virtual void hierarchy() = 0;
 
 	virtual void start();
-	virtual bool handleEvent();
+	virtual void handleEvent();
 	virtual void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	

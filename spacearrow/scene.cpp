@@ -12,13 +12,7 @@ Tutorial Section: TC01
 
 b2World Scene::world(b2Vec2(0.0f, 9.81f));
 
-Scene::Scene() : mp_handler(nullptr)
-{
-	m_fixedTimeStep = 0.02f; // 50 times per second
-	m_timeElapsed = 0;
-}
-
-Scene::Scene(SceneHandler * handler) : mp_handler(handler)
+Scene::Scene(SceneHandler* handler) : mp_handler(handler)
 {
 	m_fixedTimeStep = 0.02f; // 50 times per second
 	m_timeElapsed = 0;
@@ -38,9 +32,9 @@ void Scene::start()
 	}
 }
 
-bool Scene::handleEvent()
+void Scene::handleEvent()
 {
-	return false;
+	return;
 }
 
 void Scene::update(float dt)

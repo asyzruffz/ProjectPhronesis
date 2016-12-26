@@ -14,7 +14,7 @@ Tutorial Section: TC01
 using namespace std;
 
 #include "game_data.hpp"
-#include "game_scene.hpp" // Scene to be registered
+#include "level_scene.hpp" // Scene to be registered
 
 Core::Core(string gameTitle)
 {
@@ -139,5 +139,5 @@ void Core::loadResources()
 // to be stored into the scene storage
 void Core::registerScenes()
 {
-	m_scenes.registerScene<GameScene>();
+	m_scenes.registerScene<LevelScene>();
 }

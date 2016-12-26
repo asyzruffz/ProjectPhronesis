@@ -7,7 +7,7 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#include "game_scene.hpp"
+#include "level_scene.hpp"
 
 #include "game_data.hpp"
 #include "game_object_2d.hpp"
@@ -15,13 +15,7 @@ Tutorial Section: TC01
 #include "sprite.hpp"
 #include "rigidbody_2d.hpp"
 
-GameScene::GameScene(SceneHandler* handler): Scene(handler)
-{
-	//guiView.setSize(sf::Vector2f(GameData::instance().window.getSize()));
-	//guiView.setCenter(sf::Vector2f(GameData::instance().window.getSize()) * 0.5f);
-}
-
-void GameScene::hierarchy()
+void LevelScene::hierarchy()
 {
 	// Creating game objects
 	GameObject2D* a = new GameObject2D("Alien");
@@ -36,8 +30,9 @@ void GameScene::hierarchy()
 	//Rigidbody2D::setGravity(sf::Vector2f(0, 0));
 	a->getComponent<Sprite>().setSpriteAnchor(sf::Vector2f(0.5f, 0.5f));
 	a->getComponent<Transform2D>().setPosition(sf::Vector2f(2, 1));
-	a->getComponent<Transform2D>().setRotation(25);
-	b->getComponent<Transform2D>().setPosition(sf::Vector2f(5, 1));
+	a->getComponent<Transform2D>().setRotation(-30);
+	b->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 1));
+	b->getComponent<Transform2D>().setRotation(30);
 	c->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 8));
 	c->getComponent<Transform2D>().setScale(sf::Vector2f(6, 1));
 
@@ -45,11 +40,4 @@ void GameScene::hierarchy()
 	addToRoot(a);
 	addToRoot(b);
 	addToRoot(c);
-}
-
-void GameScene::draw(sf::RenderTarget& target, sf::RenderStates states)
-{
-	Scene::draw(target, states);
-
-	//target.setView(guiView);
 }
