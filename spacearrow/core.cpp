@@ -80,6 +80,7 @@ void Core::run()
 void Core::inputHandling()
 {
 	sf::Event gameEvent;
+	sf::FloatRect visibleArea;
 
 	// while there are pending events...
 	while (m_window.pollEvent(gameEvent))
@@ -90,6 +91,12 @@ void Core::inputHandling()
 			// window closed
 			case sf::Event::Closed:
 				m_window.close();
+				break;
+
+			// window resized
+			case sf::Event::Resized:
+				visibleArea = sf::FloatRect(0, 0, gameEvent.size.width, gameEvent.size.height);
+				m_window.setView(sf::View(visibleArea));
 				break;
 
 			// key pressed
