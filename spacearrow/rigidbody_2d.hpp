@@ -28,6 +28,8 @@ public:
 
 	static void setGravity(sf::Vector2f gravity);
 
+	void addForce(const sf::Vector2f& force);
+
 private:
 
 	sf::RectangleShape m_rect;

@@ -118,7 +118,7 @@
     <ClInclude Include="game_data.hpp" />
     <ClInclude Include="game_object.hpp" />
     <ClInclude Include="game_object_2d.hpp" />
-    <ClInclude Include="game_scene.hpp" />
+    <ClInclude Include="level_scene.hpp" />
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="rigidbody_2d.hpp" />
     <ClInclude Include="scene.hpp" />
@@ -132,7 +132,7 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game_object.cpp" />
     <ClCompile Include="game_object_2d.cpp" />
-    <ClCompile Include="game_scene.cpp" />
+    <ClCompile Include="level_scene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="rigidbody_2d.cpp" />

@@ -107,3 +107,10 @@ void Rigidbody2D::setGravity(sf::Vector2f gravity)
 {
 	Scene::world.SetGravity(b2Vec2(gravity.x, gravity.y));
 }
+
+void Rigidbody2D::addForce(const sf::Vector2f & force)
+{
+	b2Vec2 forceVector = mp_body->GetWorldVector(b2Vec2(force.x, force.y));
+	b2Vec2 pointToApplyForce = mp_body->GetWorldPoint(b2Vec2(0.0f, 0.0f));
+	mp_body->ApplyForce(forceVector, pointToApplyForce);
+}
