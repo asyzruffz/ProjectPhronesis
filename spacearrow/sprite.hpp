@@ -27,11 +27,15 @@ public:
 	virtual void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+	void setSpriteAnchor(const sf::Vector2f& origin);
+	static float PIXEL_PER_METER;
+
 private:
 
 	string m_spriteName;
 	sf::Sprite m_sprite;
 	sf::Transform m_transform;
+
 };
 
 #endif // SPRITE_HPP

@@ -14,7 +14,7 @@ void ResourceManager::loadTexture(const string& name, const string &filename)
 	sf::Texture tex;
     if(!tex.loadFromFile(filename))
     {
-        cout << "Fail loading [" << filename << "]" << endl;
+        cout << "ResourceManager: Fail loading [" << filename << "]" << endl;
         exit(1);
     }
 
@@ -26,7 +26,7 @@ void ResourceManager::loadFont(const string& name, const string &filename)
 	sf::Font fon;
     if(!fon.loadFromFile(filename))
     {
-        cout << "Fail loading [" << filename << "]" << endl;
+        cout << "ResourceManager: Fail loading [" << filename << "]" << endl;
         exit(1);
     }
 
@@ -38,7 +38,7 @@ void ResourceManager::loadSfx(const string& name, const string &filename)
 	sf::SoundBuffer soun;
     if(!soun.loadFromFile(filename))
     {
-        cout << "Assets Manager: Fail loading [" << filename << "]" << endl;
+        cout << "ResourceManager: Fail loading [" << filename << "]" << endl;
         exit(1);
     }
 
@@ -48,7 +48,7 @@ void ResourceManager::loadSfx(const string& name, const string &filename)
 sf::Texture& ResourceManager::getTextureRef(const string& texture)
 {
 	if(textures.count(texture) != 1)
-		cout << "Assets Manager: Cannot find texture [" << texture << "]" << endl;
+		cout << "ResourceManager: Cannot find texture [" << texture << "]" << endl;
 	else
 		return textures.at(texture);
 }
@@ -56,7 +56,7 @@ sf::Texture& ResourceManager::getTextureRef(const string& texture)
 sf::Font* ResourceManager::getFontRef(const string& font)
 {
 	if(fonts.count(font) != 1)
-		cout << "Assets Manager: Cannot find font [" << font << "]" << endl;
+		cout << "ResourceManager: Cannot find font [" << font << "]" << endl;
 	else
 		return &fonts.at(font);
 }
@@ -64,7 +64,7 @@ sf::Font* ResourceManager::getFontRef(const string& font)
 sf::SoundBuffer& ResourceManager::getSfxRef(const string& sound)
 {
 	if(sfx.count(sound) != 1)
-		cout << "Assets Manager: Cannot find sound [" << sound << "]" << endl;
+		cout << "ResourceManager: Cannot find sound [" << sound << "]" << endl;
 	else
 		return sfx.at(sound);
 }

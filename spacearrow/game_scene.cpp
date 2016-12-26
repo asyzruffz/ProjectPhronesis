@@ -12,6 +12,7 @@ Tutorial Section: TC01
 #include "game_data.hpp"
 #include "game_object_2d.hpp"
 #include "sprite.hpp"
+#include "transform_2d.hpp"
 
 GameScene::GameScene(SceneHandler* handler): Scene(handler)
 {
@@ -21,17 +22,22 @@ GameScene::GameScene(SceneHandler* handler): Scene(handler)
 
 void GameScene::hierarchy()
 {
+	// Creating game objects
 	GameObject2D* a = new GameObject2D("Alien");
 	a->addComponent<Sprite>("alien");
+
+	// Initializing game objects' values
+	//a->getComponent<Sprite>().setSpriteAnchor(sf::Vector2f(0.5f, 0.5f));
+	a->getComponent<Transform2D>().setPosition(sf::Vector2f(2, 1));
+	//a->getComponent<Transform2D>().setRotation(45);
+
+	// Add to hierarchy root
 	addToRoot(a);
 }
 
 void GameScene::draw(sf::RenderTarget& target, sf::RenderStates states)
 {
-	target.clear(sf::Color::Red);
 	Scene::draw(target, states);
-
-	//emptyWorld->draw();
 
 	//target.setView(guiView);
 }

@@ -16,8 +16,7 @@ Tutorial Section: TC01
 #include <memory>
 using namespace std;
 
-// Forward declaration to avoid cyclic dependency
-class Entity;
+class Entity;	// Forward declaration to avoid cyclic dependency
 
 class Component
 {
