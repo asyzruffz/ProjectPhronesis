@@ -20,8 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3F665313-6558-416E-A27A-164253AF7C46}</ProjectGuid>
-    <RootNamespace>spacearrow</RootNamespace>
+    <RootNamespace>SpaceArrow</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>SpaceArrow</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -119,6 +120,7 @@
     <ClInclude Include="game_object_2d.hpp" />
     <ClInclude Include="game_scene.hpp" />
     <ClInclude Include="resource_manager.hpp" />
+    <ClInclude Include="rigidbody_2d.hpp" />
     <ClInclude Include="scene.hpp" />
     <ClInclude Include="scene_handler.hpp" />
     <ClInclude Include="sprite.hpp" />
@@ -133,6 +135,7 @@
     <ClCompile Include="game_scene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="resource_manager.cpp" />
+    <ClCompile Include="rigidbody_2d.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scene_handler.cpp" />
     <ClCompile Include="sprite.cpp" />

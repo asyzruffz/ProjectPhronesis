@@ -53,6 +53,24 @@ void GameObject::update(float dt)
 	}
 }
 
+void GameObject::fixedUpdate(float dt)
+{
+	// only run when enabled
+	if (isEnabled() && mp_parent->isEnabled()) {
+		//Call the fixedUpdate method for each component in this game object
+		for (map<type_index, Component::Ptr>::iterator it = m_components.begin(); it != m_components.end(); ++it)
+		{
+			it->second->fixedUpdate(dt);
+		}
+
+		//Call the fixedUpdate method for each child of this game object
+		for (vector<Entity::Ptr>::iterator it = getChildren().begin(); it != getChildren().end(); ++it)
+		{
+			static_pointer_cast<GameObject>(*it)->fixedUpdate(dt);
+		}
+	}
+}
+
 void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	// only run when enabled

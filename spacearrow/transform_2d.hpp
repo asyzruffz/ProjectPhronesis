@@ -21,14 +21,15 @@ public:
 
 	Transform2D();
 
-	//sf::Vector2f getLocalPosition();
-	//float getLocalRotation();
-	//sf::Vector2f getLocalScale();
-
 	sf::Vector2f getGlobalPosition();
 	float getGlobalRotation();
 	sf::Vector2f getGlobalScale();
 	sf::Transform getGlobalTransform();
+
+	void setGlobalPosition(const sf::Vector2f& position);
+	void setGlobalPosition(const float& posX, const float& posY);
+	void setGlobalRotation(const float& rotation);
+	void setGlobalScale(const sf::Vector2f& scale);
 
 	Entity::Ptr getParent();
 

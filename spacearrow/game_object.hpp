@@ -20,6 +20,7 @@ public:
 	
 	virtual void start();
 	virtual void update(float dt);
+	virtual void fixedUpdate(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 };

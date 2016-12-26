@@ -28,6 +28,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	void setSpriteAnchor(const sf::Vector2f& origin);
+	sf::Vector2f getSpriteSize();
 	static float PIXEL_PER_METER;
 
 private:

@@ -16,24 +16,9 @@ Transform2D::Transform2D()
 	setScale(1, 1);
 }
 
-/*sf::Vector2f Transform2D::getLocalPosition()
-{
-	return m_position;
-}
-
-float Transform2D::getLocalRotation()
-{
-	return m_rotation;
-}
-
-sf::Vector2f Transform2D::getLocalScale()
-{
-	return m_scale;
-}*/
-
 sf::Vector2f Transform2D::getGlobalPosition()
 {
-	if (getParent()->getName() == "Root")
+	if (!(getParent()->hasComponent<Transform2D>()))
 	{
 		return getPosition();
 	}
@@ -46,40 +31,92 @@ sf::Vector2f Transform2D::getGlobalPosition()
 
 float Transform2D::getGlobalRotation()
 {
-	if (getParent()->getName() == "Root")
-	{
-		return getRotation();
-	}
-	else
+	if (getParent()->hasComponent<Transform2D>())
 	{
 		float parentRotation = getParent()->getComponent<Transform2D>().getGlobalRotation();
 		return parentRotation + getRotation();
+	}
+	else
+	{
+		return getRotation();
 	}
 }
 
 sf::Vector2f Transform2D::getGlobalScale()
 {
-	if (getParent()->getName() == "Root")
-	{
-		return getScale();
-	}
-	else
+	if (getParent()->hasComponent<Transform2D>())
 	{
 		sf::Vector2f parentScale = getParent()->getComponent<Transform2D>().getGlobalScale();
 		return sf::Vector2f(parentScale.x * getScale().x, parentScale.y * getScale().y);
+	}
+	else
+	{
+		return getScale();
 	}
 }
 
 sf::Transform Transform2D::getGlobalTransform()
 {
-	if (getParent()->getName() == "Root")
-	{
-		return getTransform();
-	}
-	else
+	if (getParent()->hasComponent<Transform2D>())
 	{
 		sf::Transform parentTransform = getParent()->getComponent<Transform2D>().getGlobalTransform();
 		return parentTransform * getTransform();
+	}
+	else
+	{
+		return getTransform();
+	}
+}
+
+void Transform2D::setGlobalPosition(const sf::Vector2f& position)
+{
+	if (getParent()->hasComponent<Transform2D>())
+	{
+		sf::Vector2f parentPosition = getParent()->getComponent<Transform2D>().getGlobalPosition();
+		setPosition(position - parentPosition);
+	}
+	else
+	{
+		setPosition(position);
+	}
+}
+
+void Transform2D::setGlobalPosition(const float & posX, const float & posY)
+{
+	if (getParent()->hasComponent<Transform2D>())
+	{
+		sf::Vector2f parentPosition = getParent()->getComponent<Transform2D>().getGlobalPosition();
+		setPosition(posX - parentPosition.x, posY - parentPosition.y);
+	}
+	else
+	{
+		setPosition(posX, posY);
+	}
+}
+
+void Transform2D::setGlobalRotation(const float& rotation)
+{
+	if (getParent()->hasComponent<Transform2D>())
+	{
+		float parentRotation = getParent()->getComponent<Transform2D>().getGlobalRotation();
+		setRotation(rotation - parentRotation);
+	}
+	else
+	{
+		setRotation(rotation);
+	}
+}
+
+void Transform2D::setGlobalScale(const sf::Vector2f& scale)
+{
+	if (getParent()->hasComponent<Transform2D>())
+	{
+		sf::Vector2f parentScale = getParent()->getComponent<Transform2D>().getGlobalScale();
+		setScale(scale - parentScale);
+	}
+	else
+	{
+		setScale(scale);
 	}
 }
 

@@ -29,12 +29,13 @@ public:
 	virtual void awake() {}
 	virtual void start() {}
 	virtual void update(float dt) {}
+	virtual void fixedUpdate(float dt) {}
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {}
 
 	void setOwner(Entity* owner);
 
 	template <typename T>
-	bool hasComponent();
+	bool hasComponent() const;
 	template <typename T>
 	T& getComponent();
 

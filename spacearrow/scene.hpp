@@ -10,10 +10,12 @@ Tutorial Section: TC01
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include <Box2D/Box2D.h>
+
 #include <memory>
 using namespace std;
 
-#include "game_object_2d.hpp"
+#include "game_object.hpp"
 
 // Forward declaration to avoid cyclic dependency
 class SceneHandler;
@@ -22,8 +24,8 @@ class Scene
 {
 public:
 	
-	Scene(){}
-	Scene(SceneHandler* handler): mp_handler(handler) {}
+	Scene();
+	Scene(SceneHandler* handler);
 	virtual ~Scene() {}
 
 	typedef unique_ptr<Scene> Ptr;
@@ -32,10 +34,12 @@ public:
 
 	virtual void start();
 	virtual bool handleEvent();
-	virtual bool update(float dt);
+	virtual void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
 	void addToRoot(GameObject* gameObject);
+
+	static b2World world;
 
 protected:
 	
@@ -46,7 +50,9 @@ protected:
 
 private:
 
-	GameObject2D m_root;
+	GameObject m_root;
+	float m_fixedTimeStep;
+	float m_timeElapsed;
 
 };
 

@@ -40,7 +40,7 @@ public:
 	void setEnabled(bool isEnabled);
 	bool isEnabled() const;
 	string getName() const;
-	const vector<Entity::Ptr>& allChildren() const; // used to iterate without changing the value (eg. for drawing)
+	const vector<Entity::Ptr>& allChildren() const; // used to iterate without changing the value (e.g. for drawing)
 
 protected:
 

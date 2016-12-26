@@ -10,9 +10,23 @@ Tutorial Section: TC01
 #include "scene.hpp"
 #include "scene_handler.hpp"
 
+b2World Scene::world(b2Vec2(0.0f, 9.81f));
+
+Scene::Scene() : mp_handler(nullptr)
+{
+	m_fixedTimeStep = 0.02f; // 50 times per second
+	m_timeElapsed = 0;
+}
+
+Scene::Scene(SceneHandler * handler) : mp_handler(handler)
+{
+	m_fixedTimeStep = 0.02f; // 50 times per second
+	m_timeElapsed = 0;
+}
+
 void Scene::start()
 {
-	m_root = GameObject2D("Root");
+	m_root = GameObject("Root");
 
 	//Call hierarchy to add gameobjects to scene
 	hierarchy();
@@ -29,15 +43,32 @@ bool Scene::handleEvent()
 	return false;
 }
 
-bool Scene::update(float dt)
+void Scene::update(float dt)
 {
 	//Call the update method for each child of root
 	for (vector<Entity::Ptr>::iterator it = m_root.getChildren().begin(); it != m_root.getChildren().end(); ++it)
 	{
 		static_pointer_cast<GameObject>(*it)->update(dt);
 	}
-	
-	return false;
+
+	if (m_timeElapsed >= m_fixedTimeStep)
+	{
+		// Step is used to update physics position/rotation
+		world.Step(m_fixedTimeStep,	//update frequency
+					8,				//velocityIterations
+					3				//positionIterations  
+		);
+		
+		//Call fixedUpdate method for each child of root
+		for (vector<Entity::Ptr>::iterator it = m_root.getChildren().begin(); it != m_root.getChildren().end(); ++it)
+		{
+			static_pointer_cast<GameObject>(*it)->fixedUpdate(dt);
+		}
+
+		m_timeElapsed -= m_fixedTimeStep;
+	}
+
+	m_timeElapsed += dt;
 }
 
 void Scene::draw(sf::RenderTarget& target, sf::RenderStates states) const

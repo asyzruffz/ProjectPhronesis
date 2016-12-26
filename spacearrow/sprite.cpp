@@ -23,7 +23,7 @@ void Sprite::awake()
 void Sprite::update(float dt)
 {
 	// Update the transform of the sprite from the Transform2D component
-	Transform2D trans = getComponent<Transform2D>();
+	Transform2D& trans = getComponent<Transform2D>();
 	m_transform = sf::Transform::Identity;
 	m_transform.translate(trans.getGlobalPosition() * PIXEL_PER_METER);
 	m_transform.rotate(trans.getGlobalRotation());
@@ -49,6 +49,12 @@ void Sprite::setSpriteAnchor(const sf::Vector2f& anchor)
 	sf::Vector2f origin = sf::Vector2f(clamp(anchor.x, 0.0f, 1.0f), clamp(anchor.y, 0.0f, 1.0f));
 
 	// Set the anchor to the sprite
-	sf::IntRect spriteSize = m_sprite.getTextureRect();
-	m_sprite.setOrigin(origin.x * spriteSize.width, origin.y * spriteSize.height);
+	sf::Vector2f spriteSize = getSpriteSize();
+	m_sprite.setOrigin(origin.x * spriteSize.x, origin.y * spriteSize.y);
+}
+
+sf::Vector2f Sprite::getSpriteSize()
+{
+	sf::IntRect spriteRect = m_sprite.getTextureRect();
+	return sf::Vector2f(spriteRect.width, spriteRect.height);
 }

@@ -54,6 +54,9 @@
     <ClInclude Include="component.ext.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rigidbody_2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rigidbody_2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

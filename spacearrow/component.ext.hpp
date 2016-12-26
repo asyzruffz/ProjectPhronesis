@@ -14,7 +14,7 @@ Tutorial Section: TC01
 #include "component.hpp"
 
 template <typename T>
-bool Component::hasComponent()
+bool Component::hasComponent() const
 {
 	assert(m_owner != nullptr);
 	return m_owner->hasComponent<T>();
