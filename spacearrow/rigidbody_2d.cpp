@@ -78,7 +78,7 @@ void Rigidbody2D::start()
 
 	mp_body = Scene::world.CreateBody(&m_bodyDef);
 	mp_body->CreateFixture(&m_bodyFixtureDef);
-	mp_body->SetUserData(mp_owner);
+	mp_body->SetUserData(this);
 }
 
 void Rigidbody2D::fixedUpdate(float dt)

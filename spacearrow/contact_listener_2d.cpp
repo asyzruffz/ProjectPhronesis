@@ -15,49 +15,39 @@ Tutorial Section: TC01
 void ContactListener2D::BeginContact(b2Contact* contact)
 {
 	// Getting the entities contacted
-	GameObject *entityA = nullptr, *entityB = nullptr;
+	Rigidbody2D *rigidBodyA = nullptr, *rigidBodyB = nullptr;
 	void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
 	if (bodyUserData)
 	{
-		entityA = static_cast<GameObject*>(bodyUserData);
+		rigidBodyA = static_cast<Rigidbody2D*>(bodyUserData);
 	}
 	bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
 	if (bodyUserData)
 	{
-		entityB = static_cast<GameObject*>(bodyUserData);
+		rigidBodyB = static_cast<Rigidbody2D*>(bodyUserData);
 	}
 
 	// Trigger callback for contact begin
-	if (entityA->hasComponent<Rigidbody2D>() && entityB->hasComponent<Rigidbody2D>())
-	{
-		Rigidbody2D& rigidBodyA = entityA->getComponent<Rigidbody2D>();
-		Rigidbody2D& rigidBodyB = entityB->getComponent<Rigidbody2D>();
-		rigidBodyA.startContact(rigidBodyB);
-		rigidBodyB.startContact(rigidBodyA);
-	}
+	rigidBodyA->startContact(*rigidBodyB);
+	rigidBodyB->startContact(*rigidBodyA);
 }
 
 void ContactListener2D::EndContact(b2Contact* contact)
 {
 	// Getting the entities contacted
-	GameObject *entityA = nullptr, *entityB = nullptr;
+	Rigidbody2D *rigidBodyA = nullptr, *rigidBodyB = nullptr;
 	void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
 	if (bodyUserData)
 	{
-		entityA = static_cast<GameObject*>(bodyUserData);
+		rigidBodyA = static_cast<Rigidbody2D*>(bodyUserData);
 	}
 	bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
 	if (bodyUserData)
 	{
-		entityB = static_cast<GameObject*>(bodyUserData);
+		rigidBodyB = static_cast<Rigidbody2D*>(bodyUserData);
 	}
 
 	// Trigger callback for contact end
-	if (entityA->hasComponent<Rigidbody2D>())
-	{
-		Rigidbody2D& rigidBodyA = entityA->getComponent<Rigidbody2D>();
-		Rigidbody2D& rigidBodyB = entityB->getComponent<Rigidbody2D>();
-		rigidBodyA.endContact(rigidBodyB);
-		rigidBodyB.endContact(rigidBodyA);
-	}
+	rigidBodyA->endContact(*rigidBodyB);
+	rigidBodyB->endContact(*rigidBodyA);
 }
