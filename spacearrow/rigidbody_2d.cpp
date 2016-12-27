@@ -9,6 +9,9 @@ Tutorial Section: TC01
 
 #include "rigidbody_2d.hpp"
 
+#include <iostream>
+using namespace std;
+
 #include "scene.hpp"
 #include "component.ext.hpp"
 #include "transform_2d.hpp"
@@ -17,6 +20,7 @@ Tutorial Section: TC01
 Rigidbody2D::Rigidbody2D(bool isDynamic)
 {
 	m_isDynamic = isDynamic;
+	m_numContacts = 0;
 }
 
 void Rigidbody2D::awake()
@@ -74,6 +78,7 @@ void Rigidbody2D::start()
 
 	mp_body = Scene::world.CreateBody(&m_bodyDef);
 	mp_body->CreateFixture(&m_bodyFixtureDef);
+	mp_body->SetUserData(mp_owner);
 }
 
 void Rigidbody2D::fixedUpdate(float dt)
@@ -113,4 +118,21 @@ void Rigidbody2D::addForce(const sf::Vector2f & force)
 	b2Vec2 forceVector = mp_body->GetWorldVector(b2Vec2(force.x, force.y));
 	b2Vec2 pointToApplyForce = mp_body->GetWorldPoint(b2Vec2(0.0f, 0.0f));
 	mp_body->ApplyForce(forceVector, pointToApplyForce);
+}
+
+bool Rigidbody2D::IsInContact() const
+{
+	return m_numContacts > 0;
+}
+
+void Rigidbody2D::startContact(Rigidbody2D& other)
+{
+	m_numContacts++;
+	cout << "Rigidbody2D: " << mp_owner->getName() << " start colliding with " << other.mp_owner->getName() << endl;
+}
+
+void Rigidbody2D::endContact(Rigidbody2D& other)
+{
+	m_numContacts--;
+	cout << "Rigidbody2D: " << mp_owner->getName() << " stop colliding with " << other.mp_owner->getName() << endl;
 }

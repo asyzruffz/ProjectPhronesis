@@ -29,6 +29,13 @@ public:
 	static void setGravity(sf::Vector2f gravity);
 
 	void addForce(const sf::Vector2f& force);
+	bool IsInContact() const;
+
+	//void onCollisionEnter2D(Contact2D* other);
+	//void onCollisionExit2D(Contact2D* other);
+
+	void startContact(Rigidbody2D& other);
+	void endContact(Rigidbody2D& other);
 
 private:
 
@@ -38,6 +45,7 @@ private:
 	b2PolygonShape m_bodyShape;
 	b2FixtureDef m_bodyFixtureDef;
 	bool m_isDynamic;
+	int m_numContacts;
 
 };
 

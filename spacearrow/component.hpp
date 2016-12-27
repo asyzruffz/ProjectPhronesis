@@ -43,7 +43,7 @@ public:
 
 protected: 
 	
-	Entity* m_owner;
+	Entity* mp_owner;
 
 };
 

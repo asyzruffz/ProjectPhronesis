@@ -16,15 +16,15 @@ Tutorial Section: TC01
 template <typename T>
 bool Component::hasComponent() const
 {
-	assert(m_owner != nullptr);
-	return m_owner->hasComponent<T>();
+	assert(mp_owner != nullptr);
+	return mp_owner->hasComponent<T>();
 }
 
 template <typename T>
 T& Component::getComponent()
 {
-	assert(m_owner != nullptr);
-	return m_owner->getComponent<T>();
+	assert(mp_owner != nullptr);
+	return mp_owner->getComponent<T>();
 }
 
 #endif // COMPONENT_EXT_HPP

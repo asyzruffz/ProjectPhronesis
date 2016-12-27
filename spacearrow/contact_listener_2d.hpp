@@ -7,15 +7,18 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#include "entity.hpp"
-#include "component.hpp"
+#ifndef CONTACT_LISTENER_2D_HPP
+#define CONTACT_LISTENER_2D_HPP
 
-Component::Component()
-{
-	mp_owner = nullptr;
-}
+#include <Box2D/Box2D.h>
 
-void Component::setOwner(Entity* owner)
+class ContactListener2D : public b2ContactListener
 {
-	mp_owner = owner;
-}
+public:
+
+	void BeginContact(b2Contact* contact);
+	void EndContact(b2Contact* contact);
+
+};
+
+#endif // CONTACT_LISTENER_2D_HPP

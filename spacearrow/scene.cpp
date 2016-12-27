@@ -11,17 +11,21 @@ Tutorial Section: TC01
 #include "scene_handler.hpp"
 
 b2World Scene::world(b2Vec2(0.0f, 9.81f));
+ContactListener2D Scene::contactListenerInstance;
 
 Scene::Scene(SceneHandler* handler) : mp_handler(handler)
 {
 	m_fixedTimeStep = 0.02f; // 50 times per second
 	m_timeElapsed = 0;
+
+	m_root = GameObject("Root");
+
+	// Initialize world
+	world.SetContactListener(&contactListenerInstance);
 }
 
 void Scene::start()
 {
-	m_root = GameObject("Root");
-
 	//Call hierarchy to add gameobjects to scene
 	hierarchy();
 	

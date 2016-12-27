@@ -16,6 +16,7 @@ Tutorial Section: TC01
 using namespace std;
 
 #include "game_object.hpp"
+#include "contact_listener_2d.hpp"
 
 // Forward declaration to avoid cyclic dependency
 class SceneHandler;
@@ -53,6 +54,7 @@ private:
 	float m_fixedTimeStep;
 	float m_timeElapsed;
 
+	static ContactListener2D contactListenerInstance;
 };
 
 #endif // SCENE_HPP

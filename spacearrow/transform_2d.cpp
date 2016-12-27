@@ -122,5 +122,5 @@ void Transform2D::setGlobalScale(const sf::Vector2f& scale)
 
 Entity::Ptr Transform2D::getParent()
 {
-	return m_owner->getParent();
+	return mp_owner->getParent();
 }
