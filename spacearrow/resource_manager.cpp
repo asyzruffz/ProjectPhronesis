@@ -51,6 +51,7 @@ sf::Texture& ResourceManager::getTextureRef(const string& texture)
 		cout << "ResourceManager: Cannot find texture [" << texture << "]" << endl;
 	else
 		return textures.at(texture);
+	return textures.at("default");
 }
 
 sf::Font* ResourceManager::getFontRef(const string& font)
@@ -59,6 +60,7 @@ sf::Font* ResourceManager::getFontRef(const string& font)
 		cout << "ResourceManager: Cannot find font [" << font << "]" << endl;
 	else
 		return &fonts.at(font);
+	return nullptr;
 }
 
 sf::SoundBuffer& ResourceManager::getSfxRef(const string& sound)
@@ -67,4 +69,5 @@ sf::SoundBuffer& ResourceManager::getSfxRef(const string& sound)
 		cout << "ResourceManager: Cannot find sound [" << sound << "]" << endl;
 	else
 		return sfx.at(sound);
+	return sfx.at("default");
 }

@@ -95,7 +95,7 @@ void Core::inputHandling()
 
 			// window resized
 			case sf::Event::Resized:
-				visibleArea = sf::FloatRect(0, 0, gameEvent.size.width, gameEvent.size.height);
+				visibleArea = sf::FloatRect(0, 0, (float)gameEvent.size.width, (float)gameEvent.size.height);
 				m_window.setView(sf::View(visibleArea));
 				break;
 

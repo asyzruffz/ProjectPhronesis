@@ -56,5 +56,5 @@ void Sprite::setSpriteAnchor(const sf::Vector2f& anchor)
 sf::Vector2f Sprite::getSpriteSize()
 {
 	sf::IntRect spriteRect = m_sprite.getTextureRect();
-	return sf::Vector2f(spriteRect.width, spriteRect.height);
+	return sf::Vector2f((float)spriteRect.width, (float)spriteRect.height);
 }
