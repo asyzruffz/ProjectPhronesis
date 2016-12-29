@@ -57,6 +57,9 @@
     <ClCompile Include="..\spacearrow\transform_2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\spacearrow\script_component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\spacearrow\component.ext.hpp">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\spacearrow\transform_2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\spacearrow\script_component.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

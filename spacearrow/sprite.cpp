@@ -18,6 +18,7 @@ float Sprite::PIXEL_PER_METER = 32.0f;
 void Sprite::awake()
 {
 	m_sprite.setTexture(GameData::instance().rscStorage.getTextureRef(m_spriteName));
+	setSpriteAnchor(sf::Vector2f(0.5f, 0.5f));
 }
 
 void Sprite::update(float dt)

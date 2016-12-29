@@ -23,18 +23,22 @@ void LevelScene::hierarchy()
 	a->addComponent<Rigidbody2D>(true);
 	GameObject2D* b = new GameObject2D("Box");
 	b->addComponent<Rigidbody2D>(true);
+	GameObject2D* b2 = new GameObject2D("BoxChild");
+	b2->addComponent<Sprite>("alien");
 	GameObject2D* c = new GameObject2D("Platform");
 	c->addComponent<Rigidbody2D>(false);
 
 	// Initializing game objects' values
 	//Rigidbody2D::setGravity(sf::Vector2f(0, 0));
-	a->getComponent<Sprite>().setSpriteAnchor(sf::Vector2f(0.5f, 0.5f));
 	a->getComponent<Transform2D>().setPosition(sf::Vector2f(2, 1));
 	a->getComponent<Transform2D>().setRotation(-30);
 	b->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 1));
 	b->getComponent<Transform2D>().setRotation(30);
+	b2->getComponent<Transform2D>().setPosition(sf::Vector2f(1, 0));
 	c->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 8));
 	c->getComponent<Transform2D>().setScale(sf::Vector2f(6, 1));
+
+	b2->setParent(b);
 
 	// Add to hierarchy root
 	addToRoot(a);

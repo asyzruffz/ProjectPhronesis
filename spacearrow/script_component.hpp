@@ -12,6 +12,8 @@ Tutorial Section: TC01
 
 #include "component.hpp"
 
+class Contact2D;
+
 class ScriptComponent : public Component
 {
 public:

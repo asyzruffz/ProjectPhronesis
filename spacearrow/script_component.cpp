@@ -15,10 +15,10 @@ ScriptComponent::ScriptComponent()
 {
 }
 
-void ScriptComponent::onCollisionEnter2D(Contact2D * other)
+void ScriptComponent::onCollisionEnter2D(Contact2D* other)
 {
 }
 
-void ScriptComponent::onCollisionExit2D(Contact2D * other)
+void ScriptComponent::onCollisionExit2D(Contact2D* other)
 {
 }

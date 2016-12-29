@@ -21,6 +21,12 @@ void Entity::setParent(Entity* parent)
 	parent->getChildren().push_back(Entity::Ptr(this));
 }
 
+void Entity::setParent(Entity::Ptr parent)
+{
+	mp_parent = parent;
+	parent->getChildren().push_back(Entity::Ptr(this));
+}
+
 Entity::Ptr Entity::getParent()
 {
 	return mp_parent;

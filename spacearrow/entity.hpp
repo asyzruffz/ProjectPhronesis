@@ -24,6 +24,7 @@ class Entity
 public:
 
 	Entity(string name = "Default Entity");
+	virtual ~Entity() {}
 
 	template <typename T, typename... Args>
 	void addComponent(Args... args);
@@ -35,6 +36,7 @@ public:
 	typedef shared_ptr<Entity> Ptr;
 
 	void setParent(Entity* parent);
+	void setParent(Entity::Ptr parent);
 	Entity::Ptr getParent();
 	vector<Entity::Ptr>& getChildren();
 	void setEnabled(bool isEnabled);

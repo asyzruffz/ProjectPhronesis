@@ -50,7 +50,7 @@ protected:
 
 private:
 
-	GameObject m_root;
+	Entity::Ptr mp_root;
 	float m_fixedTimeStep;
 	float m_timeElapsed;
 

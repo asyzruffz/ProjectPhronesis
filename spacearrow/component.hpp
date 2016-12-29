@@ -23,8 +23,9 @@ class Component
 public:
 
 	Component();
+	virtual ~Component() {}
 
-	typedef unique_ptr<Component> Ptr;
+	typedef shared_ptr<Component> Ptr;
 
 	virtual void awake() {}
 	virtual void start() {}
