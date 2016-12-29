@@ -60,6 +60,9 @@
     <ClInclude Include="contact_listener_2d.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="script_component.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="contact_listener_2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="script_component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

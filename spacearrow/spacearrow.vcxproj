@@ -124,6 +124,7 @@
     <ClInclude Include="rigidbody_2d.hpp" />
     <ClInclude Include="scene.hpp" />
     <ClInclude Include="scene_handler.hpp" />
+    <ClInclude Include="script_component.hpp" />
     <ClInclude Include="sprite.hpp" />
     <ClInclude Include="transform_2d.hpp" />
   </ItemGroup>
@@ -140,6 +141,7 @@
     <ClCompile Include="rigidbody_2d.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scene_handler.cpp" />
+    <ClCompile Include="script_component.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="transform_2d.cpp" />
   </ItemGroup>

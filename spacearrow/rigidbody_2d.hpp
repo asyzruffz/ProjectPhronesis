@@ -31,9 +31,6 @@ public:
 	void addForce(const sf::Vector2f& force);
 	bool IsInContact() const;
 
-	//void onCollisionEnter2D(Contact2D* other);
-	//void onCollisionExit2D(Contact2D* other);
-
 	void startContact(Rigidbody2D& other);
 	void endContact(Rigidbody2D& other);
 
