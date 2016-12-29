@@ -16,8 +16,15 @@ Tutorial Section: TC01
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
 
+#include <vector>
+#include <functional>
+using namespace std;
+
 #define DEG_TO_RAD 0.0174532925199432957f
 #define RAD_TO_DEG 57.295779513082320876f
+
+// Function pointer to represent the event of collisions
+typedef function<void(GameObject&)> CollisionEvent;
 
 enum class BodyType
 {
@@ -44,6 +51,8 @@ public:
 
 	void startContact(GameObject& other);
 	void endContact(GameObject& other);
+	void addEnterCollisionEvent(CollisionEvent enterEvent);
+	void addExitCollisionEvent(CollisionEvent exitEvent);
 
 private:
 
@@ -54,6 +63,9 @@ private:
 	b2FixtureDef m_bodyFixtureDef;
 	BodyType m_bodyType;
 	int m_numContacts;
+
+	vector<CollisionEvent> enterCollisionEvents;
+	vector<CollisionEvent> exitCollisionEvents;
 
 };
 

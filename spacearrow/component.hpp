@@ -33,16 +33,15 @@ public:
 	virtual void fixedUpdate(float dt) {}
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {}
 
-	void setOwner(Entity* owner);
+	void setGameObject(Entity* owner);
+	Entity& getGameObject();
 
 	template <typename T>
 	bool hasComponent() const;
 	template <typename T>
 	T& getComponent();
 
-
-
-protected: 
+private: 
 	
 	Entity* mp_owner;
 

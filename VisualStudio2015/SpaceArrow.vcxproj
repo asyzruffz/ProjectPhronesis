@@ -33,6 +33,7 @@
     <ClCompile Include="..\spacearrow\scene_handler.cpp" />
     <ClCompile Include="..\spacearrow\script_component.cpp" />
     <ClCompile Include="..\spacearrow\sprite.cpp" />
+    <ClCompile Include="..\spacearrow\test_script.cpp" />
     <ClCompile Include="..\spacearrow\transform_2d.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +52,7 @@
     <ClInclude Include="..\spacearrow\scene_handler.hpp" />
     <ClInclude Include="..\spacearrow\script_component.hpp" />
     <ClInclude Include="..\spacearrow\sprite.hpp" />
+    <ClInclude Include="..\spacearrow\test_script.hpp" />
     <ClInclude Include="..\spacearrow\transform_2d.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

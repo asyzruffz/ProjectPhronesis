@@ -9,9 +9,6 @@ Tutorial Section: TC01
 
 #include "rigidbody_2d.hpp"
 
-#include <iostream>
-using namespace std;
-
 #include "scene.hpp"
 #include "component.ext.hpp"
 #include "transform_2d.hpp"
@@ -83,7 +80,7 @@ void Rigidbody2D::start()
 
 	mp_body = Scene::world.CreateBody(&m_bodyDef);
 	mp_body->CreateFixture(&m_bodyFixtureDef);
-	mp_body->SetUserData(mp_owner);
+	mp_body->SetUserData(&getGameObject());
 }
 
 void Rigidbody2D::fixedUpdate(float dt)
@@ -143,16 +140,31 @@ bool Rigidbody2D::IsInContact() const
 void Rigidbody2D::startContact(GameObject& other)
 {
 	m_numContacts++;
-	cout << "Rigidbody2D: " << mp_owner->getName() << ", ("
-		 << mp_owner->getComponent<Transform2D>().getGlobalPosition().x << ","
-		 << mp_owner->getComponent<Transform2D>().getGlobalPosition().y
-		 << ") start colliding with " << other.getName() << ", ("
-		 << other.getComponent<Transform2D>().getGlobalPosition().x << ","
-		 << other.getComponent<Transform2D>().getGlobalPosition().y << ")" << endl;
+
+	// Call the event callback when starting collision
+	for (int i = 0; i < enterCollisionEvents.size(); i++)
+	{
+		enterCollisionEvents[i](other);
+	}
 }
 
 void Rigidbody2D::endContact(GameObject& other)
 {
 	m_numContacts--;
-	cout << "Rigidbody2D: " << mp_owner->getName() << " stop colliding with " << other.getName() << endl;
+
+	// Call the event callback when ending collision
+	for (int i = 0; i < exitCollisionEvents.size(); i++)
+	{
+		exitCollisionEvents[i](other);
+	}
+}
+
+void Rigidbody2D::addEnterCollisionEvent(CollisionEvent enterEvent)
+{
+	enterCollisionEvents.push_back(enterEvent);
+}
+
+void Rigidbody2D::addExitCollisionEvent(CollisionEvent exitEvent)
+{
+	exitCollisionEvents.push_back(exitEvent);
 }

@@ -11,17 +11,16 @@ Tutorial Section: TC01
 #define SCRIPT_COMPONENT_HPP
 
 #include "component.hpp"
-
-class Contact2D;
+#include "game_object.hpp"
 
 class ScriptComponent : public Component
 {
 public:
 
-	ScriptComponent();
+	virtual void start();
 
-	void onCollisionEnter2D(Contact2D* other);
-	void onCollisionExit2D(Contact2D* other);
+	virtual void onCollisionEnter2D(GameObject& other) {}
+	virtual void onCollisionExit2D(GameObject& other) {}
 
 };
 

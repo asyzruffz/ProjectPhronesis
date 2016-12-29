@@ -60,6 +60,9 @@
     <ClCompile Include="..\spacearrow\script_component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\spacearrow\test_script.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\spacearrow\component.ext.hpp">
@@ -108,6 +111,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\spacearrow\script_component.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\spacearrow\test_script.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

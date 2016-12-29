@@ -9,16 +9,18 @@ Tutorial Section: TC01
 
 #include "script_component.hpp"
 
+#include <functional>
+using namespace std;
+
 #include "component.ext.hpp"
+#include "rigidbody_2d.hpp"
 
-ScriptComponent::ScriptComponent()
+void ScriptComponent::start()
 {
-}
-
-void ScriptComponent::onCollisionEnter2D(Contact2D* other)
-{
-}
-
-void ScriptComponent::onCollisionExit2D(Contact2D* other)
-{
+	if (hasComponent<Rigidbody2D>())
+	{
+		Rigidbody2D& rigidbody = getComponent<Rigidbody2D>();
+		rigidbody.addEnterCollisionEvent(bind(&ScriptComponent::onCollisionEnter2D, this, placeholders::_1));
+		rigidbody.addExitCollisionEvent(bind(&ScriptComponent::onCollisionExit2D, this, placeholders::_1));
+	}
 }

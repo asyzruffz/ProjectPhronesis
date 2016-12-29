@@ -7,20 +7,20 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#include "entity.hpp"
-#include "component.hpp"
+#ifndef TEST_SCRIPT_HPP
+#define TEST_SCRIPT_HPP
 
-Component::Component()
-{
-	mp_owner = nullptr;
-}
+#include "script_component.hpp"
 
-void Component::setGameObject(Entity* owner)
+class TestScript : public ScriptComponent
 {
-	mp_owner = owner;
-}
+public:
 
-Entity& Component::getGameObject()
-{
-	return *mp_owner;
-}
+	void start();
+
+	void onCollisionEnter2D(GameObject& other);
+	void onCollisionExit2D(GameObject& other);
+
+};
+
+#endif // TEST_SCRIPT_HPP

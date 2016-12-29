@@ -61,7 +61,7 @@ template <typename T, typename... Args>
 void Entity::addComponent(Args... args)
 {
 	T* newComponent = new T(args...);
-	newComponent->setOwner(this);
+	newComponent->setGameObject(this);
 	newComponent->awake();
 	m_components[typeid(T)] = Component::Ptr(newComponent);
 }

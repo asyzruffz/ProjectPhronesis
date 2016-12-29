@@ -14,6 +14,7 @@ Tutorial Section: TC01
 #include "transform_2d.hpp"
 #include "sprite.hpp"
 #include "rigidbody_2d.hpp"
+#include "test_script.hpp"
 
 void LevelScene::hierarchy()
 {
@@ -21,6 +22,7 @@ void LevelScene::hierarchy()
 	GameObject2D* a = new GameObject2D("Alien");
 	a->addComponent<Sprite>("alien");
 	a->addComponent<Rigidbody2D>(BodyType::Dynamic);
+	a->addComponent<TestScript>();
 	GameObject2D* b = new GameObject2D("Box");
 	b->addComponent<Rigidbody2D>(BodyType::Dynamic);
 	GameObject2D* b2 = new GameObject2D("BoxChild");
@@ -28,6 +30,7 @@ void LevelScene::hierarchy()
 	b2->addComponent<Sprite>("alien");
 	GameObject2D* c = new GameObject2D("Platform");
 	c->addComponent<Rigidbody2D>(BodyType::Static);
+	c->addComponent<TestScript>();
 
 	// Initializing game objects' values
 	//Rigidbody2D::setGravity(sf::Vector2f(0, 0));
