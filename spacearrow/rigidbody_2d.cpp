@@ -17,9 +17,9 @@ using namespace std;
 #include "transform_2d.hpp"
 #include "sprite.hpp"
 
-Rigidbody2D::Rigidbody2D(bool isDynamic)
+Rigidbody2D::Rigidbody2D(BodyType bodyType)
 {
-	m_isDynamic = isDynamic;
+	m_bodyType = bodyType;
 	m_numContacts = 0;
 }
 
@@ -33,14 +33,19 @@ void Rigidbody2D::awake()
 	m_rect.setOutlineThickness(1);
 	m_rect.setOutlineColor(sf::Color::Black);
 
-	// Set whether dynamic
-	if (m_isDynamic)
+	// Set body type
+	switch(m_bodyType)
 	{
-		m_bodyDef.type = b2_dynamicBody;
-	}
-	else
-	{
-		m_bodyDef.type = b2_staticBody;
+		default:
+		case BodyType::Static:
+			m_bodyDef.type = b2_staticBody;
+			break;
+		case BodyType::Dynamic:
+			m_bodyDef.type = b2_dynamicBody;
+			break;
+		case BodyType::Kinematic:
+			m_bodyDef.type = b2_kinematicBody;
+			break;
 	}
 }
 
@@ -49,8 +54,8 @@ void Rigidbody2D::start()
 	Transform2D& trans = getComponent<Transform2D>();
 
 	// Set starting position
-	m_bodyDef.position = b2Vec2(trans.getPosition().x, trans.getPosition().y);
-	m_bodyDef.angle = trans.getGlobalRotation() * b2_pi / 180;
+	m_bodyDef.position = b2Vec2(trans.getGlobalPosition().x, trans.getGlobalPosition().y);
+	m_bodyDef.angle = trans.getGlobalRotation() * DEG_TO_RAD;
 	m_rect.setPosition(trans.getGlobalPosition());
 	m_rect.setRotation(trans.getGlobalRotation());
 	m_rect.setSize(trans.getGlobalScale() * Sprite::PIXEL_PER_METER);
@@ -78,7 +83,7 @@ void Rigidbody2D::start()
 
 	mp_body = Scene::world.CreateBody(&m_bodyDef);
 	mp_body->CreateFixture(&m_bodyFixtureDef);
-	mp_body->SetUserData(this);
+	mp_body->SetUserData(mp_owner);
 }
 
 void Rigidbody2D::fixedUpdate(float dt)
@@ -86,10 +91,20 @@ void Rigidbody2D::fixedUpdate(float dt)
 	// Update the transform of the body to the Transform2D component
 	Transform2D& trans = getComponent<Transform2D>();
 
-	trans.setGlobalPosition(mp_body->GetPosition().x, mp_body->GetPosition().y);
-	// Box2D uses radians for rotation, SFML uses degree
-	trans.setGlobalRotation(mp_body->GetAngle() * 180 / b2_pi);
+	if (m_bodyType == BodyType::Dynamic)
+	{
+		// Dynamic body updates the transform
+		trans.setGlobalPosition(mp_body->GetPosition().x, mp_body->GetPosition().y);
+		trans.setGlobalRotation(mp_body->GetAngle() * RAD_TO_DEG); // Box2D uses radians for rotation, SFML uses degree
+	}
+	else
+	{
+		// Transform updates the static/kinematic body
+		mp_body->SetTransform(b2Vec2(trans.getGlobalPosition().x, trans.getGlobalPosition().y),
+								trans.getGlobalRotation() * DEG_TO_RAD);
+	}
 
+	// No sprite, update the rectangle
 	if (!hasComponent<Sprite>())
 	{
 		m_rect.setPosition(trans.getGlobalPosition() * Sprite::PIXEL_PER_METER);
@@ -125,14 +140,19 @@ bool Rigidbody2D::IsInContact() const
 	return m_numContacts > 0;
 }
 
-void Rigidbody2D::startContact(Rigidbody2D& other)
+void Rigidbody2D::startContact(GameObject& other)
 {
 	m_numContacts++;
-	cout << "Rigidbody2D: " << mp_owner->getName() << " start colliding with " << other.mp_owner->getName() << endl;
+	cout << "Rigidbody2D: " << mp_owner->getName() << ", ("
+		 << mp_owner->getComponent<Transform2D>().getGlobalPosition().x << ","
+		 << mp_owner->getComponent<Transform2D>().getGlobalPosition().y
+		 << ") start colliding with " << other.getName() << ", ("
+		 << other.getComponent<Transform2D>().getGlobalPosition().x << ","
+		 << other.getComponent<Transform2D>().getGlobalPosition().y << ")" << endl;
 }
 
-void Rigidbody2D::endContact(Rigidbody2D& other)
+void Rigidbody2D::endContact(GameObject& other)
 {
 	m_numContacts--;
-	cout << "Rigidbody2D: " << mp_owner->getName() << " stop colliding with " << other.mp_owner->getName() << endl;
+	cout << "Rigidbody2D: " << mp_owner->getName() << " stop colliding with " << other.getName() << endl;
 }

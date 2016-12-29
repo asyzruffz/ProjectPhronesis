@@ -15,39 +15,49 @@ Tutorial Section: TC01
 void ContactListener2D::BeginContact(b2Contact* contact)
 {
 	// Getting the entities contacted
-	Rigidbody2D *rigidBodyA = nullptr, *rigidBodyB = nullptr;
+	GameObject *p_entityA = nullptr, *p_entityB = nullptr;
 	void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
 	if (bodyUserData)
 	{
-		rigidBodyA = static_cast<Rigidbody2D*>(bodyUserData);
+		p_entityA = static_cast<GameObject*>(bodyUserData);
 	}
 	bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
 	if (bodyUserData)
 	{
-		rigidBodyB = static_cast<Rigidbody2D*>(bodyUserData);
+		p_entityB = static_cast<GameObject*>(bodyUserData);
 	}
 
 	// Trigger callback for contact begin
-	rigidBodyA->startContact(*rigidBodyB);
-	rigidBodyB->startContact(*rigidBodyA);
+	if (p_entityA->hasComponent<Rigidbody2D>() && p_entityB->hasComponent<Rigidbody2D>())
+	{
+		Rigidbody2D& rigidBodyA = p_entityA->getComponent<Rigidbody2D>();
+		Rigidbody2D& rigidBodyB = p_entityB->getComponent<Rigidbody2D>();
+		rigidBodyA.startContact(*p_entityB);
+		rigidBodyB.startContact(*p_entityA);
+	}
 }
 
 void ContactListener2D::EndContact(b2Contact* contact)
 {
 	// Getting the entities contacted
-	Rigidbody2D *rigidBodyA = nullptr, *rigidBodyB = nullptr;
+	GameObject *p_entityA = nullptr, *p_entityB = nullptr;
 	void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
 	if (bodyUserData)
 	{
-		rigidBodyA = static_cast<Rigidbody2D*>(bodyUserData);
+		p_entityA = static_cast<GameObject*>(bodyUserData);
 	}
 	bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
 	if (bodyUserData)
 	{
-		rigidBodyB = static_cast<Rigidbody2D*>(bodyUserData);
+		p_entityB = static_cast<GameObject*>(bodyUserData);
 	}
 
 	// Trigger callback for contact end
-	rigidBodyA->endContact(*rigidBodyB);
-	rigidBodyB->endContact(*rigidBodyA);
+	if (p_entityA->hasComponent<Rigidbody2D>() && p_entityB->hasComponent<Rigidbody2D>())
+	{
+		Rigidbody2D& rigidBodyA = p_entityA->getComponent<Rigidbody2D>();
+		Rigidbody2D& rigidBodyB = p_entityB->getComponent<Rigidbody2D>();
+		rigidBodyA.endContact(*p_entityB);
+		rigidBodyB.endContact(*p_entityA);
+	}
 }

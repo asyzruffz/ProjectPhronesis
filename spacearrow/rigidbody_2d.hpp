@@ -11,15 +11,26 @@ Tutorial Section: TC01
 #define RIGIDBODY_2D_HPP
 
 #include "component.hpp"
+#include "game_object.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
+
+#define DEG_TO_RAD 0.0174532925199432957f
+#define RAD_TO_DEG 57.295779513082320876f
+
+enum class BodyType
+{
+	Static,
+	Dynamic,
+	Kinematic
+};
 
 class Rigidbody2D : public Component
 {
 public:
 
-	Rigidbody2D(bool isDynamic = true);
+	Rigidbody2D(BodyType bodyType = BodyType::Dynamic);
 
 	virtual void awake();
 	virtual void start();
@@ -31,8 +42,8 @@ public:
 	void addForce(const sf::Vector2f& force);
 	bool IsInContact() const;
 
-	void startContact(Rigidbody2D& other);
-	void endContact(Rigidbody2D& other);
+	void startContact(GameObject& other);
+	void endContact(GameObject& other);
 
 private:
 
@@ -41,7 +52,7 @@ private:
 	b2BodyDef m_bodyDef;
 	b2PolygonShape m_bodyShape;
 	b2FixtureDef m_bodyFixtureDef;
-	bool m_isDynamic;
+	BodyType m_bodyType;
 	int m_numContacts;
 
 };
