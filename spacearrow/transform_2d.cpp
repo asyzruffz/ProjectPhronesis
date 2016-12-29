@@ -24,8 +24,16 @@ sf::Vector2f Transform2D::getGlobalPosition()
 	}
 	else
 	{
-		sf::Vector2f parentPosition = getParent()->getComponent<Transform2D>().getGlobalPosition();
-		return parentPosition + getPosition();
+		// Get parent's position & rotation
+		Transform2D& parentTransform2D = getParent()->getComponent<Transform2D>();
+		sf::Vector2f parentPosition = parentTransform2D.getGlobalPosition();
+		float parentRotation = parentTransform2D.getGlobalRotation();
+		
+		// Make a transform to rotate position based on parent's rotation
+		sf::Transform rotateTransform = sf::Transform::Identity;
+		rotateTransform.rotate(parentRotation);
+
+		return parentPosition + rotateTransform.transformPoint(getPosition());
 	}
 }
 
