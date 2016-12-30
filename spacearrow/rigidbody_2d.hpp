@@ -46,13 +46,15 @@ public:
 
 	static void setGravity(sf::Vector2f gravity);
 
-	void addForce(const sf::Vector2f& force);
-	bool IsInContact() const;
-
 	void startContact(GameObject& other);
 	void endContact(GameObject& other);
 	void addEnterCollisionEvent(CollisionEvent enterEvent);
 	void addExitCollisionEvent(CollisionEvent exitEvent);
+
+	bool IsInContact() const;
+	void addForce(const sf::Vector2f& force);
+	void SetLinearVelocity(const sf::Vector2f& velocity);
+	void SetAngularVelocity(const float& omega);
 
 private:
 

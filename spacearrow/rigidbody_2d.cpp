@@ -125,18 +125,6 @@ void Rigidbody2D::setGravity(sf::Vector2f gravity)
 	Scene::world.SetGravity(b2Vec2(gravity.x, gravity.y));
 }
 
-void Rigidbody2D::addForce(const sf::Vector2f & force)
-{
-	b2Vec2 forceVector = mp_body->GetWorldVector(b2Vec2(force.x, force.y));
-	b2Vec2 pointToApplyForce = mp_body->GetWorldPoint(b2Vec2(0.0f, 0.0f));
-	//mp_body->ApplyForce(forceVector, pointToApplyForce);
-}
-
-bool Rigidbody2D::IsInContact() const
-{
-	return m_numContacts > 0;
-}
-
 void Rigidbody2D::startContact(GameObject& other)
 {
 	m_numContacts++;
@@ -167,4 +155,25 @@ void Rigidbody2D::addEnterCollisionEvent(CollisionEvent enterEvent)
 void Rigidbody2D::addExitCollisionEvent(CollisionEvent exitEvent)
 {
 	exitCollisionEvents.push_back(exitEvent);
+}
+
+bool Rigidbody2D::IsInContact() const
+{
+	return m_numContacts > 0;
+}
+
+void Rigidbody2D::addForce(const sf::Vector2f& force)
+{
+	b2Vec2 pointToApplyForce = mp_body->GetWorldPoint(b2Vec2(0.0f, 0.0f));
+	mp_body->ApplyForce(b2Vec2(force.x, force.y), pointToApplyForce, true);
+}
+
+void Rigidbody2D::SetLinearVelocity(const sf::Vector2f& velocity)
+{
+	mp_body->SetLinearVelocity(b2Vec2(velocity.x, velocity.y));
+}
+
+void Rigidbody2D::SetAngularVelocity(const float& omega)
+{
+	mp_body->SetAngularVelocity(omega);
 }

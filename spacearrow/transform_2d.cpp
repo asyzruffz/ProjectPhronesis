@@ -128,6 +128,28 @@ void Transform2D::setGlobalScale(const sf::Vector2f& scale)
 	}
 }
 
+sf::Vector2f Transform2D::up()
+{
+	sf::Vector2f upDirection(0, 1);
+
+	// Make a transform to rotate position based on rotation
+	sf::Transform rotateTransform = sf::Transform::Identity;
+	rotateTransform.rotate(getGlobalRotation());
+
+	return rotateTransform.transformPoint(upDirection);
+}
+
+sf::Vector2f Transform2D::right()
+{
+	sf::Vector2f rightDirection(1, 0);
+
+	// Make a transform to rotate position based on rotation
+	sf::Transform rotateTransform = sf::Transform::Identity;
+	rotateTransform.rotate(getGlobalRotation());
+
+	return rotateTransform.transformPoint(rightDirection);
+}
+
 Entity::Ptr Transform2D::getParent()
 {
 	return getGameObject().getParent();

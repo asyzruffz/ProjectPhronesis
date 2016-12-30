@@ -22,8 +22,8 @@ void TestScript::start()
 void TestScript::onCollisionEnter2D(GameObject& other)
 {
 	cout << "TestScript: " << getGameObject().getName() << " ("
-		<< getGameObject().getComponent<Transform2D>().getGlobalPosition().x << ","
-		<< getGameObject().getComponent<Transform2D>().getGlobalPosition().y
+		<< getComponent<Transform2D>().getGlobalPosition().x << ","
+		<< getComponent<Transform2D>().getGlobalPosition().y
 		<< ") start colliding with " << other.getName() << " ("
 		<< other.getComponent<Transform2D>().getGlobalPosition().x << ","
 		<< other.getComponent<Transform2D>().getGlobalPosition().y << ")" << endl;

@@ -14,38 +14,73 @@ Tutorial Section: TC01
 #include "transform_2d.hpp"
 #include "sprite.hpp"
 #include "rigidbody_2d.hpp"
+#include "player_controller.hpp"
 #include "test_script.hpp"
 
 void LevelScene::hierarchy()
 {
-	// Creating game objects
-	GameObject2D* a = new GameObject2D("Alien");
+	Rigidbody2D::setGravity(sf::Vector2f(0, 0));
+
+	// Creating game objects ----------------------
+
+	// Background
+	GameObject2D* newObject = new GameObject2D("Background");
+	newObject->addComponent<Sprite>("background");
+	newObject->getComponent<Sprite>().setSpriteAnchor(sf::Vector2f(0, 0));
+	addToRoot(newObject);
+
+	// Asteroids
+	for (int i = 1; i <= 4; i++)
+	{
+		newObject = new GameObject2D("Asteroid" + to_string(i));
+		newObject->addComponent<Sprite>("asteroid" + to_string(i));
+		newObject->addComponent<Rigidbody2D>(BodyType::Kinematic);
+		newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(5.0f * i, 15.0f));
+		addToRoot(newObject);
+	}
+
+	// Player
+	newObject = new GameObject2D("Player");
+	newObject->addComponent<Sprite>("player");
+	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic);
+	newObject->addComponent<PlayerController>();
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10, 10));
+	newObject->getComponent<Transform2D>().setRotation(90);
+	addToRoot(newObject);
+
+	// Enemy
+	newObject = new GameObject2D("Enemy");
+	newObject->addComponent<Sprite>("enemy1");
+	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic);
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(18, 20));
+	addToRoot(newObject);
+
+
+	/*GameObject2D* a = new GameObject2D("Alien");
 	a->addComponent<Sprite>("alien");
 	a->addComponent<Rigidbody2D>(BodyType::Dynamic);
 	a->addComponent<TestScript>();
+	a->getComponent<Transform2D>().setPosition(sf::Vector2f(2, 1));
+	a->getComponent<Transform2D>().setRotation(-30);
+	addToRoot(a);
+
 	GameObject2D* b = new GameObject2D("Box");
 	b->addComponent<Rigidbody2D>(BodyType::Dynamic);
+	b->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 1));
+	b->getComponent<Transform2D>().setRotation(30);
+
 	GameObject2D* b2 = new GameObject2D("BoxChild");
 	b2->addComponent<Rigidbody2D>(BodyType::Kinematic);
 	b2->addComponent<Sprite>("alien");
+	b2->getComponent<Transform2D>().setPosition(sf::Vector2f(2, 1));
+	b2->setParent(b);
+
+	addToRoot(b);
+
 	GameObject2D* c = new GameObject2D("Platform");
 	c->addComponent<Rigidbody2D>(BodyType::Static);
 	c->addComponent<TestScript>();
-
-	// Initializing game objects' values
-	//Rigidbody2D::setGravity(sf::Vector2f(0, 0));
-	a->getComponent<Transform2D>().setPosition(sf::Vector2f(2, 1));
-	a->getComponent<Transform2D>().setRotation(-30);
-	b->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 1));
-	b->getComponent<Transform2D>().setRotation(30);
-	b2->getComponent<Transform2D>().setPosition(sf::Vector2f(2, 1));
 	c->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 8));
 	c->getComponent<Transform2D>().setScale(sf::Vector2f(6, 1));
-
-	b2->setParent(b);
-
-	// Add to hierarchy root
-	addToRoot(a);
-	addToRoot(b);
-	addToRoot(c);
+	addToRoot(c);*/
 }

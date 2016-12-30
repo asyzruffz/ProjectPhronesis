@@ -25,7 +25,7 @@ Core::Core(string gameTitle)
 		loadResources();
 	
 		// Create window
-		m_window.create(sf::VideoMode(800, 600), gameTitle);//,
+		m_window.create(sf::VideoMode(1024, 768), gameTitle);//,
 										//sf::Style::Titlebar | sf::Style::Close);
 		m_window.setFramerateLimit(60);
 	
@@ -122,8 +122,9 @@ void Core::update(float dt)
 
 void Core::draw(sf::RenderWindow& window) const
 {
-	//Clear the window with cornflower blue color
-	window.clear(sf::Color(100, 149, 237));
+	//Clear the window with a solid colour
+	window.clear(sf::Color::Black);
+	//window.clear(sf::Color(100, 149, 237)); // cornflower blue
 	
 	//Draw everything here...
 	m_scenes.draw(window, m_renderStates);
@@ -140,6 +141,13 @@ void Core::loadResources()
 	//GameData::instance().rscStorage.loadSfx("gameOver", "assets/lose.ogg");
 
 	GameData::instance().rscStorage.loadTexture("alien", "resources/alienGreen_square.png");
+	GameData::instance().rscStorage.loadTexture("background", "resources/Stars.jpg");
+	GameData::instance().rscStorage.loadTexture("player", "resources/player.png");
+	GameData::instance().rscStorage.loadTexture("asteroid1", "resources/meteorBrown_big1.png");
+	GameData::instance().rscStorage.loadTexture("asteroid2", "resources/meteorBrown_big2.png");
+	GameData::instance().rscStorage.loadTexture("asteroid3", "resources/meteorBrown_big3.png");
+	GameData::instance().rscStorage.loadTexture("asteroid4", "resources/meteorBrown_big4.png");
+	GameData::instance().rscStorage.loadTexture("enemy1", "resources/enemyOrange1.png");
 }
 
 // Registering scenes with different type of class

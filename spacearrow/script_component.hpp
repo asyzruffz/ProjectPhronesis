@@ -10,6 +10,8 @@ Tutorial Section: TC01
 #ifndef SCRIPT_COMPONENT_HPP
 #define SCRIPT_COMPONENT_HPP
 
+#include <SFML/Graphics.hpp>
+
 #include "component.hpp"
 #include "game_object.hpp"
 

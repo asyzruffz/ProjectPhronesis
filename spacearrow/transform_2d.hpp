@@ -31,6 +31,9 @@ public:
 	void setGlobalRotation(const float& rotation);
 	void setGlobalScale(const sf::Vector2f& scale);
 
+	sf::Vector2f up();
+	sf::Vector2f right();
+
 	Entity::Ptr getParent();
 
 };
