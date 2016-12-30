@@ -36,13 +36,21 @@ void LevelScene::hierarchy()
 		newObject->addComponent<Sprite>("asteroid" + to_string(i));
 		newObject->addComponent<Rigidbody2D>(BodyType::Kinematic);
 		newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(5.0f * i, 15.0f));
+
+		GameObject2D* sensor = new GameObject2D("GravityRange");
+		sensor->addComponent<Rigidbody2D>(BodyType::Kinematic, BodyShapeType::Circle);
+		sensor->addComponent<TestScript>();
+		sensor->getComponent<Transform2D>().setScale(sf::Vector2f(7, 7));
+		sensor->getComponent<Rigidbody2D>().setIsTrigger(true);
+		sensor->setParent(newObject);
+
 		addToRoot(newObject);
 	}
 
 	// Player
 	newObject = new GameObject2D("Player");
 	newObject->addComponent<Sprite>("player");
-	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic);
+	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Circle);
 	newObject->addComponent<PlayerController>();
 	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10, 10));
 	newObject->getComponent<Transform2D>().setRotation(90);
@@ -51,7 +59,7 @@ void LevelScene::hierarchy()
 	// Enemy
 	newObject = new GameObject2D("Enemy");
 	newObject->addComponent<Sprite>("enemy1");
-	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic);
+	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Circle);
 	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(18, 20));
 	addToRoot(newObject);
 
@@ -68,6 +76,7 @@ void LevelScene::hierarchy()
 	b->addComponent<Rigidbody2D>(BodyType::Dynamic);
 	b->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 1));
 	b->getComponent<Transform2D>().setRotation(30);
+	b->getComponent<Rigidbody2D>().setDrawBody(true);
 
 	GameObject2D* b2 = new GameObject2D("BoxChild");
 	b2->addComponent<Rigidbody2D>(BodyType::Kinematic);
@@ -82,5 +91,6 @@ void LevelScene::hierarchy()
 	c->addComponent<TestScript>();
 	c->getComponent<Transform2D>().setPosition(sf::Vector2f(4, 8));
 	c->getComponent<Transform2D>().setScale(sf::Vector2f(6, 1));
+	c->getComponent<Rigidbody2D>().setDrawBody(true);
 	addToRoot(c);*/
 }

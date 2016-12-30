@@ -17,6 +17,7 @@ Tutorial Section: TC01
 #include <Box2D/Box2D.h>
 
 #include <vector>
+#include <memory>
 #include <functional>
 using namespace std;
 
@@ -33,11 +34,19 @@ enum class BodyType
 	Kinematic
 };
 
+enum class BodyShapeType
+{
+	Box,
+	Circle,
+	Polygon // unused
+};
+
 class Rigidbody2D : public Component
 {
 public:
 
-	Rigidbody2D(BodyType bodyType = BodyType::Dynamic);
+	Rigidbody2D(const BodyType& bodyType = BodyType::Dynamic,
+				const BodyShapeType& shapeType = BodyShapeType::Box);
 
 	virtual void awake();
 	virtual void start();
@@ -51,6 +60,11 @@ public:
 	void addEnterCollisionEvent(CollisionEvent enterEvent);
 	void addExitCollisionEvent(CollisionEvent exitEvent);
 
+	// Settings that can be called after awake
+	void setIsTrigger(const bool& trigger);
+	void setShape(const BodyShapeType& shapeType);
+
+	void setDrawBody(const bool& enabled);
 	bool IsInContact() const;
 	void addForce(const sf::Vector2f& force);
 	void SetLinearVelocity(const sf::Vector2f& velocity);
@@ -58,13 +72,15 @@ public:
 
 private:
 
-	sf::RectangleShape m_rect;
 	b2Body* mp_body;
 	b2BodyDef m_bodyDef;
-	b2PolygonShape m_bodyShape;
+	unique_ptr<b2Shape> m_bodyShape;
+	unique_ptr<sf::Shape> m_drawShape;
+	BodyShapeType m_shapeType;
 	b2FixtureDef m_bodyFixtureDef;
 	BodyType m_bodyType;
 	int m_numContacts;
+	bool m_drawBody;
 
 	vector<CollisionEvent> enterCollisionEvents;
 	vector<CollisionEvent> exitCollisionEvents;

@@ -14,22 +14,16 @@ Tutorial Section: TC01
 #include "transform_2d.hpp"
 #include "sprite.hpp"
 
-Rigidbody2D::Rigidbody2D(BodyType bodyType)
+Rigidbody2D::Rigidbody2D(const BodyType& bodyType, const BodyShapeType& shapeType)
 {
 	m_bodyType = bodyType;
+	m_shapeType = shapeType;
 	m_numContacts = 0;
+	m_drawBody = false;
 }
 
 void Rigidbody2D::awake()
 {
-	// Set a rectangle (to be drawn in case no sprite attached)
-	sf::Vector2f rectSize(Sprite::PIXEL_PER_METER, Sprite::PIXEL_PER_METER);
-	m_rect = sf::RectangleShape(rectSize);
-	m_rect.setOrigin(rectSize / 2.0f);
-	m_rect.setFillColor(sf::Color::White);
-	m_rect.setOutlineThickness(1);
-	m_rect.setOutlineColor(sf::Color::Black);
-
 	// Set body type
 	switch(m_bodyType)
 	{
@@ -49,32 +43,80 @@ void Rigidbody2D::awake()
 void Rigidbody2D::start()
 {
 	Transform2D& trans = getComponent<Transform2D>();
+	float radius;
 
-	// Set starting position
-	m_bodyDef.position = b2Vec2(trans.getGlobalPosition().x, trans.getGlobalPosition().y);
-	m_bodyDef.angle = trans.getGlobalRotation() * DEG_TO_RAD;
-	m_rect.setPosition(trans.getGlobalPosition());
-	m_rect.setRotation(trans.getGlobalRotation());
-	m_rect.setSize(trans.getGlobalScale() * Sprite::PIXEL_PER_METER);
-	m_rect.setOrigin(trans.getGlobalScale() * Sprite::PIXEL_PER_METER / 2.0f);
-
-	// Set shape as box
+	// Set shape
 	if (hasComponent<Sprite>())
 	{
 		Sprite& sprite = getComponent<Sprite>();
 		sf::Vector2f spriteSize = sprite.getSpriteSize();
 
-		// The body size is of sprite size multiplied with the scale
-		m_bodyShape.SetAsBox(spriteSize.x * trans.getGlobalScale().x / Sprite::PIXEL_PER_METER * 0.5f, // param need half
-							spriteSize.y * trans.getGlobalScale().y / Sprite::PIXEL_PER_METER * 0.5f); // width/height
+		switch (m_shapeType)
+		{
+			default:
+			case BodyShapeType::Box:
+				m_bodyShape = unique_ptr<b2PolygonShape>(new b2PolygonShape());
+
+				// The body size is of sprite size multiplied with the scale
+				static_cast<b2PolygonShape*>(m_bodyShape.get())->SetAsBox(
+					spriteSize.x * trans.getGlobalScale().x / Sprite::PIXEL_PER_METER * 0.5f,	// param need half
+					spriteSize.y * trans.getGlobalScale().y / Sprite::PIXEL_PER_METER * 0.5f	// width/height
+					);
+				break;
+
+			case BodyShapeType::Circle:
+				m_bodyShape = unique_ptr<b2CircleShape>(new b2CircleShape());
+
+				// The body size is of max sprite size multiplied with the scale
+				radius = (spriteSize.x * trans.getGlobalScale().x) > (spriteSize.y * trans.getGlobalScale().y)
+					? spriteSize.x * trans.getGlobalScale().x / Sprite::PIXEL_PER_METER * 0.5f
+					: spriteSize.y * trans.getGlobalScale().y / Sprite::PIXEL_PER_METER * 0.5f;
+				static_cast<b2CircleShape*>(m_bodyShape.get())->m_radius = radius;
+				break;
+		}
 	}
 	else
 	{
-		// The body size of rectangle is (1, 1) multiplied with the scale
-		m_bodyShape.SetAsBox(trans.getGlobalScale().x * 0.5f, trans.getGlobalScale().y * 0.5f); // param need half width/height
+		// (in case no sprite attached)
+		switch (m_shapeType)
+		{
+			default:
+			case BodyShapeType::Box:
+				// Set a rectangle to be drawn
+				m_drawShape = unique_ptr<sf::RectangleShape>(new sf::RectangleShape(trans.getGlobalScale() * Sprite::PIXEL_PER_METER));
+
+				m_bodyShape = unique_ptr<b2PolygonShape>(new b2PolygonShape());
+				// The body size of rectangle is (1, 1) multiplied with the scale
+				static_cast<b2PolygonShape*>(m_bodyShape.get())->SetAsBox(trans.getGlobalScale().x * 0.5f, trans.getGlobalScale().y * 0.5f); // param need half width/height
+				break;
+			case BodyShapeType::Circle:
+				// The body size of circle with diameter 1 multiplied with the scale
+				radius = trans.getGlobalScale().x > trans.getGlobalScale().y ? trans.getGlobalScale().x * 0.5f : trans.getGlobalScale().y * 0.5f;
+
+				// Set a circle to be drawn
+				m_drawShape = unique_ptr<sf::CircleShape>(new sf::CircleShape(radius * Sprite::PIXEL_PER_METER));
+
+				m_bodyShape = unique_ptr<b2CircleShape>(new b2CircleShape());
+				static_cast<b2CircleShape*>(m_bodyShape.get())->m_radius = radius;
+				break;
+		}
+
+		m_drawShape->setFillColor(sf::Color::White);
+		m_drawShape->setOutlineThickness(1);
+		m_drawShape->setOutlineColor(sf::Color::Black);
 	}
 
-	m_bodyFixtureDef.shape = &m_bodyShape;
+	// Set starting position
+	m_bodyDef.position = b2Vec2(trans.getGlobalPosition().x, trans.getGlobalPosition().y);
+	m_bodyDef.angle = trans.getGlobalRotation() * DEG_TO_RAD;
+	if (!hasComponent<Sprite>())
+	{
+		m_drawShape->setOrigin(trans.getGlobalScale() * Sprite::PIXEL_PER_METER / 2.0f);
+		m_drawShape->setPosition(trans.getGlobalPosition());
+		m_drawShape->setRotation(trans.getGlobalRotation());
+	}
+
+	m_bodyFixtureDef.shape = m_bodyShape.get();
 	m_bodyFixtureDef.density = 0.3f;
 	m_bodyFixtureDef.friction = 0.5f;
 
@@ -104,19 +146,29 @@ void Rigidbody2D::fixedUpdate(float dt)
 	// No sprite, update the rectangle
 	if (!hasComponent<Sprite>())
 	{
-		m_rect.setPosition(trans.getGlobalPosition() * Sprite::PIXEL_PER_METER);
-		m_rect.setRotation(trans.getGlobalRotation());
-		m_rect.setSize(trans.getGlobalScale() * Sprite::PIXEL_PER_METER);
-		m_rect.setOrigin(trans.getGlobalScale() * Sprite::PIXEL_PER_METER / 2.0f);
+		m_drawShape->setPosition(trans.getGlobalPosition() * Sprite::PIXEL_PER_METER);
+		m_drawShape->setRotation(trans.getGlobalRotation());
+		float radius;
+		switch (m_shapeType)
+		{
+			default:
+			case BodyShapeType::Box:
+				static_cast<sf::RectangleShape*>(m_drawShape.get())->setSize(trans.getGlobalScale() * Sprite::PIXEL_PER_METER);
+				break;
+			case BodyShapeType::Circle:
+				radius = trans.getGlobalScale().x > trans.getGlobalScale().y ? trans.getGlobalScale().x * 0.5f : trans.getGlobalScale().y * 0.5f;
+				static_cast<sf::CircleShape*>(m_drawShape.get())->setRadius(radius * Sprite::PIXEL_PER_METER);
+				break;
+		}
 	}
 }
 
 void Rigidbody2D::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	// Draw rect if no sprite attached
-	if (!hasComponent<Sprite>())
+	if (!hasComponent<Sprite>() && m_drawBody)
 	{
-		target.draw(m_rect, states);
+		target.draw(*m_drawShape, states);
 	}
 }
 
@@ -155,6 +207,21 @@ void Rigidbody2D::addEnterCollisionEvent(CollisionEvent enterEvent)
 void Rigidbody2D::addExitCollisionEvent(CollisionEvent exitEvent)
 {
 	exitCollisionEvents.push_back(exitEvent);
+}
+
+void Rigidbody2D::setIsTrigger(const bool& trigger)
+{
+	m_bodyFixtureDef.isSensor = trigger;
+}
+
+void Rigidbody2D::setShape(const BodyShapeType& shapeType)
+{
+	m_shapeType = shapeType;
+}
+
+void Rigidbody2D::setDrawBody(const bool& enabled)
+{
+	m_drawBody = enabled;
 }
 
 bool Rigidbody2D::IsInContact() const
