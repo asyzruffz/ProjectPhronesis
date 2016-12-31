@@ -17,6 +17,7 @@ Tutorial Section: TC01
 #include "player_controller.hpp"
 #include "object_spawner.hpp"
 #include "gravitational_attraction.hpp"
+#include "portal.hpp"
 #include "test_script.hpp"
 
 void LevelScene::hierarchy()
@@ -49,6 +50,41 @@ void LevelScene::hierarchy()
 
 		addToRoot(newObject);
 	}
+
+	// Wormhole
+
+	GameObject2D* hole = new GameObject2D("Hole");
+	hole->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
+	hole->getComponent<Transform2D>().setScale(sf::Vector2f(2, 2));
+	hole->getComponent<Rigidbody2D>().setIsTrigger(true);
+	//hole->getComponent<Rigidbody2D>().setDrawBody(true);
+
+	GameObject2D* hole2 = new GameObject2D("Hole");
+	hole2->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
+	hole2->getComponent<Transform2D>().setScale(sf::Vector2f(2, 2));
+	hole2->getComponent<Rigidbody2D>().setIsTrigger(true);
+	//hole2->getComponent<Rigidbody2D>().setDrawBody(true);
+
+	hole->addComponent<Portal>(hole2);
+	hole2->addComponent<Portal>(hole);
+
+	newObject = new GameObject2D("Wormhole 1");
+	newObject->addComponent<Sprite>("wormhole");
+	newObject->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10.0f, 5.0f));
+	newObject->getComponent<Rigidbody2D>().setIsTrigger(true);
+
+	hole->setParent(newObject);
+	addToRoot(newObject);
+
+	newObject = new GameObject2D("Wormhole 2");
+	newObject->addComponent<Sprite>("wormhole");
+	newObject->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(20.0f, 10.0f));
+	newObject->getComponent<Rigidbody2D>().setIsTrigger(true);
+
+	hole2->setParent(newObject);
+	addToRoot(newObject);
 
 	// Bullet
 	GameObject2D bullet("Bullet");

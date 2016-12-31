@@ -9,7 +9,6 @@ Tutorial Section: TC01
 
 #include "gravitational_attraction.hpp"
 
-#include <iostream>
 #include <cmath>
 using namespace std;
 
@@ -40,19 +39,20 @@ void GravitationalAttraction::fixedUpdate(float dt)
 
 void GravitationalAttraction::onCollisionEnter2D(GameObject& other)
 {
-	cout << "GravitationalAttraction: " << getGameObject().getName() << " ("
-		<< getComponent<Transform2D>().getGlobalPosition().x << ","
-		<< getComponent<Transform2D>().getGlobalPosition().y
-		<< ") is attracting " << other.getName() << " ("
-		<< other.getComponent<Transform2D>().getGlobalPosition().x << ","
-		<< other.getComponent<Transform2D>().getGlobalPosition().y << ")" << endl;
-
 	m_attractedObjects[other.getId()] = &other;
 }
 
 void GravitationalAttraction::onCollisionExit2D(GameObject& other)
 {
 	m_attractedObjects.erase(other.getId());
+}
+
+void GravitationalAttraction::stopAttracting(int entityId)
+{
+	if (m_attractedObjects.count(entityId) > 0)
+	{
+		m_attractedObjects.erase(entityId);
+	}
 }
 
 GravitationalAttraction* GravitationalAttraction::doClone()

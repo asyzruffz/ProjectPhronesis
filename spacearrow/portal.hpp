@@ -7,19 +7,16 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#ifndef GRAVITATIONAL_ATTRACTION_HPP
-#define GRAVITATIONAL_ATTRACTION_HPP
-
-#include <map>
-using namespace std;
+#ifndef PORTAL_HPP
+#define PORTAL_HPP
 
 #include "script_component.hpp"
 
-class GravitationalAttraction : public ScriptComponent
+class Portal : public ScriptComponent
 {
 public:
 
-	GravitationalAttraction(const float& gravity = 0.0f);
+	Portal(GameObject* otherSide);
 
 	void start();
 	void fixedUpdate(float dt);
@@ -27,14 +24,16 @@ public:
 	void onCollisionEnter2D(GameObject& other);
 	void onCollisionExit2D(GameObject& other);
 
-	void stopAttracting(int entityId);
-
-	virtual GravitationalAttraction* doClone();
+	virtual Portal* doClone();
 
 private:
 
-	float m_gravity;
-	map<int, GameObject*> m_attractedObjects;
+	GameObject* m_otherSide;
+	sf::Vector2f m_exitPoint;
+	float m_exitAngleShift;
+	bool m_sending;
+	GameObject* m_transferBody;
+
 };
 
-#endif // GRAVITATIONAL_ATTRACTION_HPP
+#endif // PORTAL_HPP

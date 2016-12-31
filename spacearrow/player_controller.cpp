@@ -29,7 +29,7 @@ void PlayerController::update(float dt)
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !m_lastClicked)
 	{
 		Entity::Ptr bullet = getComponent<ObjectSpawner>().spawn(transform.getGlobalPosition() + transform.up() * 2.0f, transform.getGlobalRotation());
-		bullet->getComponent<Rigidbody2D>().SetLinearVelocity(transform.up() * 30.0f);
+		bullet->getComponent<Rigidbody2D>().setLinearVelocity(transform.up() * 30.0f);
 	}
 
 	m_lastClicked = sf::Mouse::isButtonPressed(sf::Mouse::Left);
@@ -42,15 +42,15 @@ void PlayerController::fixedUpdate(float dt)
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		rigidbody.SetAngularVelocity(m_turningSpeed);
+		rigidbody.setAngularVelocity(m_turningSpeed);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		rigidbody.SetAngularVelocity(-m_turningSpeed);
+		rigidbody.setAngularVelocity(-m_turningSpeed);
 	}
 	else
 	{
-		rigidbody.SetAngularVelocity(0.0f);
+		rigidbody.setAngularVelocity(0.0f);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))

@@ -237,7 +237,7 @@ void Rigidbody2D::setDrawBody(const bool& enabled)
 	m_drawBody = enabled;
 }
 
-bool Rigidbody2D::IsInContact() const
+bool Rigidbody2D::isInContact() const
 {
 	return m_numContacts > 0;
 }
@@ -248,14 +248,29 @@ void Rigidbody2D::addForce(const sf::Vector2f& force)
 	mp_body->ApplyForce(b2Vec2(force.x, force.y), pointToApplyForce, true);
 }
 
-void Rigidbody2D::SetLinearVelocity(const sf::Vector2f& velocity)
+void Rigidbody2D::setLinearVelocity(const sf::Vector2f& velocity)
 {
 	mp_body->SetLinearVelocity(b2Vec2(velocity.x, velocity.y));
 }
 
-void Rigidbody2D::SetAngularVelocity(const float& omega)
+void Rigidbody2D::setAngularVelocity(const float& omega)
 {
 	mp_body->SetAngularVelocity(omega);
+}
+
+sf::Vector2f Rigidbody2D::getLinearVelocity()
+{
+	return sf::Vector2f(mp_body->GetLinearVelocity().x, mp_body->GetLinearVelocity().y);
+}
+
+float Rigidbody2D::getAngularVelocity()
+{
+	return mp_body->GetAngularVelocity();
+}
+
+void Rigidbody2D::setBodyTransform(const sf::Vector2f& position, const float& angle)
+{
+	mp_body->SetTransform(b2Vec2(position.x, position.y), angle * DEG_TO_RAD);
 }
 
 Rigidbody2D* Rigidbody2D::doClone()

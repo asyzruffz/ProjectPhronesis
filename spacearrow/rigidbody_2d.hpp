@@ -61,15 +61,18 @@ public:
 	void addEnterCollisionEvent(CollisionEvent enterEvent);
 	void addExitCollisionEvent(CollisionEvent exitEvent);
 
-	// Settings that can be called after awake
+	// Settings that can be called before start
 	void setIsTrigger(const bool& trigger);
 	void setShape(const BodyShapeType& shapeType);
 
 	void setDrawBody(const bool& enabled);
-	bool IsInContact() const;
+	bool isInContact() const;
 	void addForce(const sf::Vector2f& force);
-	void SetLinearVelocity(const sf::Vector2f& velocity);
-	void SetAngularVelocity(const float& omega);
+	void setLinearVelocity(const sf::Vector2f& velocity);
+	void setAngularVelocity(const float& omega);
+	sf::Vector2f getLinearVelocity();
+	float getAngularVelocity();
+	void setBodyTransform(const sf::Vector2f& position, const float& angle);
 
 private:
 
