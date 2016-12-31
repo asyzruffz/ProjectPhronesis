@@ -22,11 +22,12 @@ void ObjectSpawner::start()
 	
 }
 
-void ObjectSpawner::spawn(const sf::Vector2f& position, const float& rotation)
+Entity::Ptr ObjectSpawner::spawn(const sf::Vector2f& position, const float& rotation)
 {
 	GameObject* newSpawn = new GameObject(*mp_objectTemplate);
 	newSpawn->getComponent<Transform2D>().setGlobalPosition(position);
 	newSpawn->getComponent<Transform2D>().setGlobalRotation(rotation);
-	SceneHandler::currentScene().addToRoot(newSpawn);
+	Entity::Ptr spawnedObject = SceneHandler::currentScene().addToRoot(newSpawn);
 	newSpawn->start();
+	return spawnedObject;
 }

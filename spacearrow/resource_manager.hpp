@@ -28,7 +28,7 @@ public:
     void loadFont(const string& name, const string &filename);
     void loadSfx(const string& name, const string &filename);
 	
-	//Translate an id into a reference or pointer
+	//Translate an m_id into a reference or pointer
     sf::Texture& getTextureRef(const string& texture);
 	sf::Font* getFontRef(const string& font);
 	sf::SoundBuffer& getSfxRef(const string& sound);

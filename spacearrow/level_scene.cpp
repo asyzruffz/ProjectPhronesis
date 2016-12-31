@@ -16,6 +16,7 @@ Tutorial Section: TC01
 #include "rigidbody_2d.hpp"
 #include "player_controller.hpp"
 #include "object_spawner.hpp"
+#include "gravitational_attraction.hpp"
 #include "test_script.hpp"
 
 void LevelScene::hierarchy()
@@ -31,17 +32,18 @@ void LevelScene::hierarchy()
 	addToRoot(newObject);
 
 	// Asteroids
-	for (int i = 1; i <= 4; i++)
+	for (int i = 1; i <= 2; i++)
 	{
 		newObject = new GameObject2D("Asteroid" + to_string(i));
 		newObject->addComponent<Sprite>("asteroid" + to_string(i));
-		newObject->addComponent<Rigidbody2D>(BodyType::Kinematic);
-		newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(5.0f * i, 15.0f));
+		newObject->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
+		newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10.0f * i, 15.0f));
 
 		GameObject2D* sensor = new GameObject2D("GravityRange");
-		sensor->addComponent<Rigidbody2D>(BodyType::Kinematic, BodyShapeType::Circle);
-		sensor->addComponent<TestScript>();
-		sensor->getComponent<Transform2D>().setScale(sf::Vector2f(7, 7));
+		sensor->addComponent<Sprite>("ring");
+		sensor->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
+		sensor->addComponent<GravitationalAttraction>(2.0f);
+		//sensor->getComponent<Transform2D>().setScale(sf::Vector2f(7, 7));
 		sensor->getComponent<Rigidbody2D>().setIsTrigger(true);
 		sensor->setParent(newObject);
 
@@ -50,8 +52,8 @@ void LevelScene::hierarchy()
 
 	// Bullet
 	GameObject2D bullet("Bullet");
-	bullet.addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Circle);
-	bullet.addComponent<TestScript>();
+	bullet.addComponent<Rigidbody2D>(BodyType::Dynamic);
+	bullet.getComponent<Transform2D>().setScale(sf::Vector2f(0.2f, 0.5f));
 	bullet.getComponent<Rigidbody2D>().setDrawBody(true);
 
 	// Player

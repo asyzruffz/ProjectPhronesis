@@ -28,7 +28,8 @@ void PlayerController::update(float dt)
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !m_lastClicked)
 	{
-		getComponent<ObjectSpawner>().spawn(transform.getGlobalPosition() + transform.up() * 5.0f, transform.getGlobalRotation());
+		Entity::Ptr bullet = getComponent<ObjectSpawner>().spawn(transform.getGlobalPosition() + transform.up() * 2.0f, transform.getGlobalRotation());
+		bullet->getComponent<Rigidbody2D>().SetLinearVelocity(transform.up() * 30.0f);
 	}
 
 	m_lastClicked = sf::Mouse::isButtonPressed(sf::Mouse::Left);

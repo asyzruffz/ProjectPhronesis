@@ -35,13 +35,14 @@ public:
 
 	typedef shared_ptr<Entity> Ptr;
 
-	void setParent(Entity* parent);
-	void setParent(Entity::Ptr parent);
+	Entity::Ptr setParent(Entity* parent);
+	Entity::Ptr setParent(Entity::Ptr parent);
 	Entity::Ptr getParent();
 	vector<Entity::Ptr>& getChildren();
 	void setEnabled(bool isEnabled);
 	bool isEnabled() const;
 	string getName() const;
+	int getId() const;
 	const vector<Entity::Ptr>& allChildren() const; // used to iterate without changing the value (e.g. for drawing)
 
 protected:
@@ -52,6 +53,8 @@ protected:
 
 private:
 
+	static int s_entityCounter;
+	int m_id;
 	string m_name;
 	bool m_enabled;
 

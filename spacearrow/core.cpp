@@ -148,6 +148,7 @@ void Core::loadResources()
 	GameData::instance().rscStorage.loadTexture("asteroid3", "resources/meteorBrown_big3.png");
 	GameData::instance().rscStorage.loadTexture("asteroid4", "resources/meteorBrown_big4.png");
 	GameData::instance().rscStorage.loadTexture("enemy1", "resources/enemyOrange1.png");
+	GameData::instance().rscStorage.loadTexture("ring", "resources/gravityRing500.png");
 }
 
 // Registering scenes with different type of class

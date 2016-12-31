@@ -9,22 +9,30 @@ Tutorial Section: TC01
 
 #include "entity.hpp"
 
+int Entity::s_entityCounter = 0;
+
 Entity::Entity(string name)
 {
+	m_id = s_entityCounter;
+	s_entityCounter++;
 	m_name = name;
 	m_enabled = true;
 }
 
-void Entity::setParent(Entity* parent)
+Entity::Ptr Entity::setParent(Entity* parent)
 {
 	mp_parent = Entity::Ptr(parent);
-	parent->getChildren().push_back(Entity::Ptr(this));
+	Entity::Ptr self(this);
+	parent->getChildren().push_back(self);
+	return self;
 }
 
-void Entity::setParent(Entity::Ptr parent)
+Entity::Ptr Entity::setParent(Entity::Ptr parent)
 {
 	mp_parent = parent;
-	parent->getChildren().push_back(Entity::Ptr(this));
+	Entity::Ptr self(this);
+	parent->getChildren().push_back(self);
+	return self;
 }
 
 Entity::Ptr Entity::getParent()
@@ -50,6 +58,11 @@ bool Entity::isEnabled() const
 string Entity::getName() const
 {
 	return m_name;
+}
+
+int Entity::getId() const
+{
+	return m_id;
 }
 
 const vector<Entity::Ptr>& Entity::allChildren() const

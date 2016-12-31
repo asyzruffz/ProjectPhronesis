@@ -75,6 +75,9 @@
     <ClCompile Include="..\spacearrow\object_spawner.cpp">
       <Filter>SpaceArrowGame</Filter>
     </ClCompile>
+    <ClCompile Include="..\spacearrow\gravitational_attraction.cpp">
+      <Filter>SpaceArrowGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\spacearrow\contact_listener_2d.hpp">
@@ -132,6 +135,9 @@
       <Filter>SpaceArrowGame</Filter>
     </ClInclude>
     <ClInclude Include="..\spacearrow\object_spawner.hpp">
+      <Filter>SpaceArrowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\spacearrow\gravitational_attraction.hpp">
       <Filter>SpaceArrowGame</Filter>
     </ClInclude>
   </ItemGroup>

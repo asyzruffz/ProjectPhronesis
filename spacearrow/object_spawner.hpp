@@ -19,7 +19,7 @@ public:
 	ObjectSpawner(GameObject* objectToSpawn);
 
 	void start();
-	void spawn(const sf::Vector2f& position, const float& rotation);
+	Entity::Ptr spawn(const sf::Vector2f& position, const float& rotation);
 
 private:
 

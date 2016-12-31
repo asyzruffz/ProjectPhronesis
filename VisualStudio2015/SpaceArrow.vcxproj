@@ -25,6 +25,7 @@
     <ClCompile Include="..\spacearrow\entity.cpp" />
     <ClCompile Include="..\spacearrow\game_object.cpp" />
     <ClCompile Include="..\spacearrow\game_object_2d.cpp" />
+    <ClCompile Include="..\spacearrow\gravitational_attraction.cpp" />
     <ClCompile Include="..\spacearrow\level_scene.cpp" />
     <ClCompile Include="..\spacearrow\main.cpp" />
     <ClCompile Include="..\spacearrow\object_spawner.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="..\spacearrow\game_data.hpp" />
     <ClInclude Include="..\spacearrow\game_object.hpp" />
     <ClInclude Include="..\spacearrow\game_object_2d.hpp" />
+    <ClInclude Include="..\spacearrow\gravitational_attraction.hpp" />
     <ClInclude Include="..\spacearrow\level_scene.hpp" />
     <ClInclude Include="..\spacearrow\object_spawner.hpp" />
     <ClInclude Include="..\spacearrow\player_controller.hpp" />

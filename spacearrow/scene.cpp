@@ -80,9 +80,9 @@ void Scene::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
-void Scene::addToRoot(GameObject* gameObject)
+Entity::Ptr Scene::addToRoot(GameObject* gameObject)
 {
-	gameObject->setParent(mp_root);
+	return gameObject->setParent(mp_root);
 }
 
 void Scene::requestSceneChange(const int& sceneIndex)

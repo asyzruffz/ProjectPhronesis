@@ -37,7 +37,7 @@ public:
 	virtual void update(float dt);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
-	void addToRoot(GameObject* gameObject);
+	Entity::Ptr addToRoot(GameObject* gameObject);
 
 	static b2World world;
 
