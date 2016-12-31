@@ -27,6 +27,7 @@ private:
 
 	float m_movementSpeed;
 	float m_turningSpeed;
+	bool m_lastClicked;
 };
 
 #endif // PLAYER_CONTROLLER_HPP

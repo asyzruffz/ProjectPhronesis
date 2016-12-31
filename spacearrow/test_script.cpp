@@ -33,3 +33,8 @@ void TestScript::onCollisionExit2D(GameObject& other)
 {
 	cout << "TestScript: " << getGameObject().getName() << " stop colliding with " << other.getName() << endl;
 }
+
+TestScript* TestScript::doClone()
+{
+	return new TestScript(*this);
+}

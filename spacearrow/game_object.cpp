@@ -16,6 +16,28 @@ GameObject::GameObject(string name) : Entity(name)
 {
 }
 
+GameObject::GameObject(const GameObject& original) : Entity(original.getName())
+{
+	mp_parent = nullptr;
+
+	// Clone the components
+	m_components.clear();
+	for (map<type_index, Component::Ptr>::const_iterator it = original.m_components.begin(); it != original.m_components.end(); ++it)
+	{
+		m_components[it->first] = it->second->clone();
+		m_components[it->first]->setGameObject(this);
+		m_components[it->first]->awake();
+	}
+
+	// Clone the children
+	m_children.clear();
+	for (vector<Entity::Ptr>::const_iterator it = original.allChildren().begin(); it != original.allChildren().end(); ++it)
+	{
+		Entity::Ptr child = static_pointer_cast<GameObject>(*it)->clone();
+		child->setParent(this);
+	}
+}
+
 void GameObject::start()
 {
 	// only run when enabled
@@ -83,9 +105,14 @@ void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		}
 
 		//Call the draw method for each child of this game object
-		for (vector<Entity::Ptr>::const_iterator it = m_children.begin(); it != m_children.end(); ++it)
+		for (vector<Entity::Ptr>::const_iterator it = allChildren().begin(); it != allChildren().end(); ++it)
 		{
 			static_pointer_cast<GameObject>(*it)->draw(target, states);
 		}
 	}
+}
+
+Entity::Ptr GameObject::clone()
+{
+	return Entity::Ptr(new GameObject(*this));
 }

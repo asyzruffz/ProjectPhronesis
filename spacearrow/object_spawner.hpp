@@ -7,22 +7,23 @@ Lecture Section : TC01
 Tutorial Section: TC01
 ********************************************/
 
-#ifndef TEST_SCRIPT_HPP
-#define TEST_SCRIPT_HPP
+#ifndef OBJECT_SPAWNER_HPP
+#define OBJECT_SPAWNER_HPP
 
 #include "script_component.hpp"
 
-class TestScript : public ScriptComponent
+class ObjectSpawner : public ScriptComponent
 {
 public:
 
+	ObjectSpawner(GameObject* objectToSpawn);
+
 	void start();
+	void spawn(const sf::Vector2f& position, const float& rotation);
 
-	void onCollisionEnter2D(GameObject& other);
-	void onCollisionExit2D(GameObject& other);
+private:
 
-	virtual TestScript* doClone();
-
+	unique_ptr<GameObject> mp_objectTemplate;
 };
 
-#endif // TEST_SCRIPT_HPP
+#endif // OBJECT_SPAWNER_HPP

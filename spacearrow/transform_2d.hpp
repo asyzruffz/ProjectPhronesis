@@ -36,6 +36,8 @@ public:
 
 	Entity::Ptr getParent();
 
+	virtual Transform2D* doClone();
+
 };
 
 #endif // TRANSFORM_2D_HPP

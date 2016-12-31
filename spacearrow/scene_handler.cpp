@@ -13,9 +13,11 @@ Tutorial Section: TC01
 #include <cassert>
 using namespace std;
 
+Scene* SceneHandler::s_currentScene = nullptr;
+
 SceneHandler::SceneHandler()
 {
-	m_currentScene = 0;
+	m_currentSceneIndex = 0;
 }
 
 void SceneHandler::update(float dt)
@@ -26,7 +28,7 @@ void SceneHandler::update(float dt)
 		return;
 	}
 
-	m_storage[m_currentScene]->update(dt);
+	m_storage[m_currentSceneIndex]->update(dt);
 
 	applyPendingChanges();
 }
@@ -37,7 +39,7 @@ void SceneHandler::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		return;
 	
 	// Draw current scene
-	m_storage[m_currentScene]->draw(target, states);
+	m_storage[m_currentSceneIndex]->draw(target, states);
 }
 
 void SceneHandler::handleEvent()
@@ -45,7 +47,7 @@ void SceneHandler::handleEvent()
 	if (isEmpty())
 		return;
 
-	m_storage[m_currentScene]->handleEvent();
+	m_storage[m_currentSceneIndex]->handleEvent();
 
 	applyPendingChanges();
 }
@@ -67,14 +69,20 @@ bool SceneHandler::isEmpty() const
 	return m_storage.empty();
 }
 
+Scene& SceneHandler::currentScene()
+{
+	return *s_currentScene;
+}
+
 void SceneHandler::applyPendingChanges()
 {
-	for(int i = 0; i < m_pendingList.size(); i++)
+	for(vector<Pending>::size_type i = 0; i < m_pendingList.size(); i++)
 	{
 		if (m_pendingList[i].action == "change") {
-			assert(m_pendingList[i].sceneIndex >= 0 && m_pendingList[i].sceneIndex < m_storage.size());
-			m_currentScene = m_pendingList[i].sceneIndex;
-			m_storage[m_currentScene]->start();
+			assert(m_pendingList[i].sceneIndex >= 0 && m_pendingList[i].sceneIndex < (int)m_storage.size());
+			m_currentSceneIndex = m_pendingList[i].sceneIndex;
+			m_storage[m_currentSceneIndex]->start();
+			s_currentScene = m_storage[m_currentSceneIndex].get();
 		} else if (m_pendingList[i].action == "clear")
 			m_storage.clear();
 	}

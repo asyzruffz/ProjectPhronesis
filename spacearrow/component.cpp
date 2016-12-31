@@ -15,6 +15,11 @@ Component::Component()
 	mp_owner = nullptr;
 }
 
+Component::Ptr Component::clone()
+{
+	return Component::Ptr(doClone());
+}
+
 void Component::setGameObject(Entity* owner)
 {
 	mp_owner = owner;
@@ -23,4 +28,9 @@ void Component::setGameObject(Entity* owner)
 Entity& Component::getGameObject()
 {
 	return *mp_owner;
+}
+
+Component* Component::doClone()
+{
+	return new Component(*this);
 }

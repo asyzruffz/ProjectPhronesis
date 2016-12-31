@@ -59,3 +59,8 @@ sf::Vector2f Sprite::getSpriteSize()
 	sf::IntRect spriteRect = m_sprite.getTextureRect();
 	return sf::Vector2f((float)spriteRect.width, (float)spriteRect.height);
 }
+
+Sprite* Sprite::doClone()
+{
+	return new Sprite(*this);
+}

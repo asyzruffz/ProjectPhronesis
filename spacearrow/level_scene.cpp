@@ -15,6 +15,7 @@ Tutorial Section: TC01
 #include "sprite.hpp"
 #include "rigidbody_2d.hpp"
 #include "player_controller.hpp"
+#include "object_spawner.hpp"
 #include "test_script.hpp"
 
 void LevelScene::hierarchy()
@@ -47,11 +48,18 @@ void LevelScene::hierarchy()
 		addToRoot(newObject);
 	}
 
+	// Bullet
+	GameObject2D bullet("Bullet");
+	bullet.addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Circle);
+	bullet.addComponent<TestScript>();
+	bullet.getComponent<Rigidbody2D>().setDrawBody(true);
+
 	// Player
 	newObject = new GameObject2D("Player");
 	newObject->addComponent<Sprite>("player");
 	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Circle);
 	newObject->addComponent<PlayerController>();
+	newObject->addComponent<ObjectSpawner>(&bullet);
 	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10, 10));
 	newObject->getComponent<Transform2D>().setRotation(90);
 	addToRoot(newObject);

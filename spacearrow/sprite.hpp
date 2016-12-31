@@ -37,6 +37,8 @@ private:
 	sf::Sprite m_sprite;
 	sf::Transform m_transform;
 
+	virtual Sprite* doClone();
+
 };
 
 #endif // SPRITE_HPP

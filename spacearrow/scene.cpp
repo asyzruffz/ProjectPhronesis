@@ -32,9 +32,9 @@ void Scene::start()
 	hierarchy();
 	
 	//Call the start method for each child of root
-	for (vector<Entity::Ptr>::iterator it = mp_root->getChildren().begin(); it != mp_root->getChildren().end(); ++it)
+	for (vector<Entity::Ptr>::size_type i = 0; i < mp_root->getChildren().size(); i++)
 	{
-		static_pointer_cast<GameObject>(*it)->start();
+		static_pointer_cast<GameObject>(mp_root->getChildren()[i])->start();
 	}
 }
 
@@ -46,9 +46,9 @@ void Scene::handleEvent()
 void Scene::update(float dt)
 {
 	//Call the update method for each child of root
-	for (vector<Entity::Ptr>::iterator it = mp_root->getChildren().begin(); it != mp_root->getChildren().end(); ++it)
+	for (vector<Entity::Ptr>::size_type i = 0; i < mp_root->getChildren().size(); i++)
 	{
-		static_pointer_cast<GameObject>(*it)->update(dt);
+		static_pointer_cast<GameObject>(mp_root->getChildren()[i])->update(dt);
 	}
 
 	if (m_timeElapsed >= m_fixedTimeStep)
@@ -60,9 +60,9 @@ void Scene::update(float dt)
 		);
 		
 		//Call fixedUpdate method for each child of root
-		for (vector<Entity::Ptr>::iterator it = mp_root->getChildren().begin(); it != mp_root->getChildren().end(); ++it)
+		for (vector<Entity::Ptr>::size_type i = 0; i < mp_root->getChildren().size(); i++)
 		{
-			static_pointer_cast<GameObject>(*it)->fixedUpdate(dt);
+			static_pointer_cast<GameObject>(mp_root->getChildren()[i])->fixedUpdate(dt);
 		}
 
 		m_timeElapsed -= m_fixedTimeStep;
@@ -74,9 +74,9 @@ void Scene::update(float dt)
 void Scene::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	//Call the draw method for each child of root
-	for (vector<Entity::Ptr>::const_iterator it = mp_root->allChildren().begin(); it != mp_root->allChildren().end(); ++it)
+	for (vector<Entity::Ptr>::size_type i = 0; i < mp_root->allChildren().size(); i++)
 	{
-		static_pointer_cast<GameObject>(*it)->draw(target, states);
+		static_pointer_cast<GameObject>(mp_root->allChildren()[i])->draw(target, states);
 	}
 }
 

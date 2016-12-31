@@ -12,7 +12,6 @@ Tutorial Section: TC01
 #include <functional>
 using namespace std;
 
-#include "component.ext.hpp"
 #include "rigidbody_2d.hpp"
 
 void ScriptComponent::start()
@@ -23,4 +22,9 @@ void ScriptComponent::start()
 		rigidbody.addEnterCollisionEvent(bind(&ScriptComponent::onCollisionEnter2D, this, placeholders::_1));
 		rigidbody.addExitCollisionEvent(bind(&ScriptComponent::onCollisionExit2D, this, placeholders::_1));
 	}
+}
+
+ScriptComponent* ScriptComponent::doClone()
+{
+	return new ScriptComponent(*this);
 }

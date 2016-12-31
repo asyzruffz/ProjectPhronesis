@@ -47,6 +47,8 @@ public:
 	void clearScenes();
 	
 	bool isEmpty() const;
+
+	static Scene& currentScene();
 	
 private:
 	
@@ -58,7 +60,8 @@ private:
 	//Pending lists of (action and state type) pair (e.g: "Change", "Clear")
 	vector<Pending> m_pendingList;
 	//Index of the scene currently updated
-	int m_currentScene;
+	int m_currentSceneIndex;
+	static Scene* s_currentScene;
 };
 
 // Since all scenes are different datatypes (class),

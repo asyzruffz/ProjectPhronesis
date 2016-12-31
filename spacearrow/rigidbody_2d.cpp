@@ -22,6 +22,19 @@ Rigidbody2D::Rigidbody2D(const BodyType& bodyType, const BodyShapeType& shapeTyp
 	m_drawBody = false;
 }
 
+Rigidbody2D::Rigidbody2D(const Rigidbody2D& original)
+{
+	m_bodyDef = original.m_bodyDef;
+	m_shapeType = original.m_shapeType;
+	m_bodyFixtureDef = original.m_bodyFixtureDef;
+	m_bodyType = original.m_bodyType;
+	m_numContacts = 0;
+	m_drawBody = original.m_drawBody;
+
+	enterCollisionEvents.clear();
+	exitCollisionEvents.clear();
+}
+
 void Rigidbody2D::awake()
 {
 	// Set body type
@@ -182,7 +195,7 @@ void Rigidbody2D::startContact(GameObject& other)
 	m_numContacts++;
 
 	// Call the event callback when starting collision
-	for (int i = 0; i < enterCollisionEvents.size(); i++)
+	for (vector<CollisionEvent>::size_type i = 0; i < enterCollisionEvents.size(); i++)
 	{
 		enterCollisionEvents[i](other);
 	}
@@ -193,7 +206,7 @@ void Rigidbody2D::endContact(GameObject& other)
 	m_numContacts--;
 
 	// Call the event callback when ending collision
-	for (int i = 0; i < exitCollisionEvents.size(); i++)
+	for (vector<CollisionEvent>::size_type i = 0; i < exitCollisionEvents.size(); i++)
 	{
 		exitCollisionEvents[i](other);
 	}
@@ -243,4 +256,9 @@ void Rigidbody2D::SetLinearVelocity(const sf::Vector2f& velocity)
 void Rigidbody2D::SetAngularVelocity(const float& omega)
 {
 	mp_body->SetAngularVelocity(omega);
+}
+
+Rigidbody2D* Rigidbody2D::doClone()
+{
+	return new Rigidbody2D(*this);
 }

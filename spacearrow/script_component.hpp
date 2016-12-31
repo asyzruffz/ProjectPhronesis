@@ -12,7 +12,7 @@ Tutorial Section: TC01
 
 #include <SFML/Graphics.hpp>
 
-#include "component.hpp"
+#include "component.ext.hpp"
 #include "game_object.hpp"
 
 class ScriptComponent : public Component
@@ -23,6 +23,8 @@ public:
 
 	virtual void onCollisionEnter2D(GameObject& other) {}
 	virtual void onCollisionExit2D(GameObject& other) {}
+
+	virtual ScriptComponent* doClone();
 
 };
 

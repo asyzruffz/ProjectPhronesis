@@ -72,6 +72,9 @@
     <ClCompile Include="..\spacearrow\level_scene.cpp">
       <Filter>SpaceArrowGame</Filter>
     </ClCompile>
+    <ClCompile Include="..\spacearrow\object_spawner.cpp">
+      <Filter>SpaceArrowGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\spacearrow\contact_listener_2d.hpp">
@@ -126,6 +129,9 @@
       <Filter>SpaceArrowGame</Filter>
     </ClInclude>
     <ClInclude Include="..\spacearrow\level_scene.hpp">
+      <Filter>SpaceArrowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\spacearrow\object_spawner.hpp">
       <Filter>SpaceArrowGame</Filter>
     </ClInclude>
   </ItemGroup>

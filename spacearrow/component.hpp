@@ -26,6 +26,7 @@ public:
 	virtual ~Component() {}
 
 	typedef shared_ptr<Component> Ptr;
+	Component::Ptr clone();
 
 	virtual void awake() {}
 	virtual void start() {}
@@ -44,6 +45,8 @@ public:
 private: 
 	
 	Entity* mp_owner;
+
+	virtual Component* doClone();
 
 };
 

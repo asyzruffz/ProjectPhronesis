@@ -47,6 +47,7 @@ public:
 
 	Rigidbody2D(const BodyType& bodyType = BodyType::Dynamic,
 				const BodyShapeType& shapeType = BodyShapeType::Box);
+	Rigidbody2D(const Rigidbody2D& original);
 
 	virtual void awake();
 	virtual void start();
@@ -84,6 +85,8 @@ private:
 
 	vector<CollisionEvent> enterCollisionEvents;
 	vector<CollisionEvent> exitCollisionEvents;
+
+	virtual Rigidbody2D* doClone();
 
 };
 

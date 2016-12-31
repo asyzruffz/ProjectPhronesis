@@ -11,6 +11,7 @@ Tutorial Section: TC01
 
 #include "transform_2d.hpp"
 #include "rigidbody_2d.hpp"
+#include "object_spawner.hpp"
 
 void PlayerController::start()
 {
@@ -18,11 +19,19 @@ void PlayerController::start()
 
 	m_movementSpeed = 10;
 	m_turningSpeed = 3;
+	m_lastClicked = false;
 }
 
 void PlayerController::update(float dt)
 {
-	
+	Transform2D& transform = getComponent<Transform2D>();
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !m_lastClicked)
+	{
+		getComponent<ObjectSpawner>().spawn(transform.getGlobalPosition() + transform.up() * 5.0f, transform.getGlobalRotation());
+	}
+
+	m_lastClicked = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 }
 
 void PlayerController::fixedUpdate(float dt)
@@ -45,16 +54,11 @@ void PlayerController::fixedUpdate(float dt)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		rigidbody.addForce(transform.up() * m_movementSpeed * -1.0f);
+		rigidbody.addForce(transform.up() * m_movementSpeed);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		rigidbody.addForce(transform.up() * m_movementSpeed);
-	}
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		//rigidbody.addForce(transform.up() * m_movementSpeed * -1.0f);
+		rigidbody.addForce(transform.up() * m_movementSpeed * -1.0f);
 	}
 }
 
