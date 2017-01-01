@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\spacearrow\camera_2d.cpp" />
     <ClCompile Include="..\spacearrow\component.cpp" />
     <ClCompile Include="..\spacearrow\contact_listener_2d.cpp" />
     <ClCompile Include="..\spacearrow\core.cpp" />
@@ -41,6 +42,7 @@
     <ClCompile Include="..\spacearrow\transform_2d.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\spacearrow\camera_2d.hpp" />
     <ClInclude Include="..\spacearrow\component.ext.hpp" />
     <ClInclude Include="..\spacearrow\component.hpp" />
     <ClInclude Include="..\spacearrow\contact_listener_2d.hpp" />

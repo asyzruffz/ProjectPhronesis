@@ -81,6 +81,9 @@
     <ClCompile Include="..\spacearrow\portal.cpp">
       <Filter>SpaceArrowGame</Filter>
     </ClCompile>
+    <ClCompile Include="..\spacearrow\camera_2d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\spacearrow\contact_listener_2d.hpp">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="..\spacearrow\portal.hpp">
       <Filter>SpaceArrowGame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\spacearrow\camera_2d.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

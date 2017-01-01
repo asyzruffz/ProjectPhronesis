@@ -28,6 +28,7 @@ Core::Core(string gameTitle)
 		m_window.create(sf::VideoMode(1024, 768), gameTitle);//,
 										//sf::Style::Titlebar | sf::Style::Close);
 		m_window.setFramerateLimit(60);
+		GameData::instance().window = &m_window;
 	
 		// Register states, then push the first state
 		registerScenes();
@@ -36,7 +37,7 @@ Core::Core(string gameTitle)
 	}
 	catch (exception e)
 	{
-		cout << e.what() << endl;
+		cout << "Error: " << e.what() << endl;
 	}
 	catch (...)
 	{
@@ -69,7 +70,7 @@ void Core::run()
 	}
 	catch (exception e)
 	{
-		cout << e.what() << endl;
+		cout << "Error: " << e.what() << endl;
 	}
 	catch (...)
 	{
@@ -81,6 +82,7 @@ void Core::inputHandling()
 {
 	sf::Event gameEvent;
 	sf::FloatRect visibleArea;
+	sf::View currentView;
 
 	// while there are pending events...
 	while (m_window.pollEvent(gameEvent))
@@ -96,7 +98,9 @@ void Core::inputHandling()
 			// window resized
 			case sf::Event::Resized:
 				visibleArea = sf::FloatRect(0, 0, (float)gameEvent.size.width, (float)gameEvent.size.height);
-				m_window.setView(sf::View(visibleArea));
+				currentView = m_window.getView();
+				currentView.reset(visibleArea);
+				m_window.setView(currentView);
 				break;
 
 			// key pressed

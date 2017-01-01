@@ -9,9 +9,9 @@ Tutorial Section: TC01
 
 #include "level_scene.hpp"
 
-#include "game_data.hpp"
 #include "game_object_2d.hpp"
 #include "transform_2d.hpp"
+#include "camera_2d.hpp"
 #include "sprite.hpp"
 #include "rigidbody_2d.hpp"
 #include "player_controller.hpp"
@@ -26,10 +26,15 @@ void LevelScene::hierarchy()
 
 	// Creating game objects ----------------------
 
+	// Camera
+	GameObject2D* cam = new GameObject2D("Camera");
+	cam->addComponent<Camera2D>();
+	cam->getComponent<Transform2D>().setScale(sf::Vector2f(2, 2));
+	addToRoot(cam);
+
 	// Background
 	GameObject2D* newObject = new GameObject2D("Background");
 	newObject->addComponent<Sprite>("background");
-	newObject->getComponent<Sprite>().setSpriteAnchor(sf::Vector2f(0, 0));
 	addToRoot(newObject);
 
 	// Planet
@@ -118,6 +123,8 @@ void LevelScene::hierarchy()
 	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10, 10));
 	newObject->getComponent<Transform2D>().setRotation(90);
 	addToRoot(newObject);
+
+	cam->getComponent<Camera2D>().setTarget(newObject);
 
 	// Enemy
 	newObject = new GameObject2D("Enemy");
