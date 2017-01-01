@@ -73,6 +73,7 @@ public:
 	sf::Vector2f getLinearVelocity();
 	float getAngularVelocity();
 	void setBodyTransform(const sf::Vector2f& position, const float& angle);
+	void setRestitution(const float& value);
 
 private:
 

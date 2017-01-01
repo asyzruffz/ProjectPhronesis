@@ -273,6 +273,11 @@ void Rigidbody2D::setBodyTransform(const sf::Vector2f& position, const float& an
 	mp_body->SetTransform(b2Vec2(position.x, position.y), angle * DEG_TO_RAD);
 }
 
+void Rigidbody2D::setRestitution(const float& value)
+{
+	m_bodyFixtureDef.restitution = value;
+}
+
 Rigidbody2D* Rigidbody2D::doClone()
 {
 	return new Rigidbody2D(*this);
