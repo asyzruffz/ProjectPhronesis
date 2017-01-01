@@ -37,7 +37,8 @@ void Camera2D::update(float dt)
 	// Camera follows a target (if any)
 	if (m_target)
 	{
-		trans.setPosition(m_target->getComponent<Transform2D>().getGlobalPosition());
+		sf::Vector2f targetPosition = m_target->getComponent<Transform2D>().getGlobalPosition();
+		trans.setPosition(trans.getPosition() + (targetPosition - trans.getPosition()) * dt);
 	}
 
 	m_view = GameData::instance().window->getView();

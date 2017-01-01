@@ -100,6 +100,7 @@ void Core::inputHandling()
 				visibleArea = sf::FloatRect(0, 0, (float)gameEvent.size.width, (float)gameEvent.size.height);
 				currentView = m_window.getView();
 				currentView.reset(visibleArea);
+				currentView.zoom(2.0f);
 				m_window.setView(currentView);
 				break;
 

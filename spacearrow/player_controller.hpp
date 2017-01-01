@@ -20,14 +20,19 @@ public:
 	void update(float dt);
 	void fixedUpdate(float dt);
 
-	void onCollisionEnter2D(GameObject& other);
-	void onCollisionExit2D(GameObject& other);
-
 private:
 
 	float m_movementSpeed;
 	float m_turningSpeed;
+	bool m_lastPressed;
 	bool m_lastClicked;
+	bool m_mouseDraggedUp;
+	sf::Vector2i m_mouseStartPos;
+	float m_dragDistance;
+
+	void dragMouse();
+	void shoot(float speed);
+
 };
 
 #endif // PLAYER_CONTROLLER_HPP

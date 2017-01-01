@@ -35,13 +35,14 @@ void LevelScene::hierarchy()
 	// Background
 	GameObject2D* newObject = new GameObject2D("Background");
 	newObject->addComponent<Sprite>("background");
+	newObject->getComponent<Transform2D>().setScale(sf::Vector2f(2, 2));
 	addToRoot(newObject);
 
 	// Planet
 	newObject = new GameObject2D("Planet");
 	newObject->addComponent<Sprite>("venus");
 	newObject->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
-	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(30, 20));
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(15.0f, 10.0f));
 
 	GameObject2D* sensor = new GameObject2D("GravityRange");
 	sensor->addComponent<Sprite>("ring");
@@ -59,7 +60,7 @@ void LevelScene::hierarchy()
 		newObject = new GameObject2D("Asteroid" + to_string(i));
 		newObject->addComponent<Sprite>("asteroid" + to_string(i));
 		newObject->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
-		newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10.0f * i, 15.0f));
+		newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(-10.0f * i, 15.0f));
 		newObject->getComponent<Rigidbody2D>().setRestitution(1.0f);
 
 		/*GameObject2D* sensor = new GameObject2D("GravityRange");
@@ -93,7 +94,7 @@ void LevelScene::hierarchy()
 	newObject = new GameObject2D("Wormhole 1");
 	newObject->addComponent<Sprite>("wormhole");
 	newObject->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
-	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10.0f, 5.0f));
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(-10.0f, -5.0f));
 	newObject->getComponent<Rigidbody2D>().setIsTrigger(true);
 
 	hole->setParent(newObject);
@@ -102,7 +103,7 @@ void LevelScene::hierarchy()
 	newObject = new GameObject2D("Wormhole 2");
 	newObject->addComponent<Sprite>("wormhole");
 	newObject->addComponent<Rigidbody2D>(BodyType::Static, BodyShapeType::Circle);
-	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(20.0f, 10.0f));
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(15.0f, -10.0f));
 	newObject->getComponent<Rigidbody2D>().setIsTrigger(true);
 
 	hole2->setParent(newObject);
@@ -120,7 +121,7 @@ void LevelScene::hierarchy()
 	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Circle);
 	newObject->addComponent<PlayerController>();
 	newObject->addComponent<ObjectSpawner>(&bullet);
-	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10, 10));
+	//newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10, 10));
 	newObject->getComponent<Transform2D>().setRotation(90);
 	addToRoot(newObject);
 
@@ -130,7 +131,7 @@ void LevelScene::hierarchy()
 	newObject = new GameObject2D("Enemy");
 	newObject->addComponent<Sprite>("enemy1");
 	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Circle);
-	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(18, 20));
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(-5.0f, 10.0f));
 	addToRoot(newObject);
 
 
