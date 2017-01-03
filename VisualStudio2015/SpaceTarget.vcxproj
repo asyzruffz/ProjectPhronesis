@@ -19,57 +19,57 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\spacearrow\camera_2d.cpp" />
-    <ClCompile Include="..\spacearrow\component.cpp" />
-    <ClCompile Include="..\spacearrow\contact_listener_2d.cpp" />
-    <ClCompile Include="..\spacearrow\core.cpp" />
-    <ClCompile Include="..\spacearrow\entity.cpp" />
-    <ClCompile Include="..\spacearrow\game_object.cpp" />
-    <ClCompile Include="..\spacearrow\game_object_2d.cpp" />
-    <ClCompile Include="..\spacearrow\gravitational_attraction.cpp" />
-    <ClCompile Include="..\spacearrow\level_scene.cpp" />
-    <ClCompile Include="..\spacearrow\main.cpp" />
-    <ClCompile Include="..\spacearrow\object_spawner.cpp" />
-    <ClCompile Include="..\spacearrow\player_controller.cpp" />
-    <ClCompile Include="..\spacearrow\portal.cpp" />
-    <ClCompile Include="..\spacearrow\resource_manager.cpp" />
-    <ClCompile Include="..\spacearrow\rigidbody_2d.cpp" />
-    <ClCompile Include="..\spacearrow\scene.cpp" />
-    <ClCompile Include="..\spacearrow\scene_handler.cpp" />
-    <ClCompile Include="..\spacearrow\script_component.cpp" />
-    <ClCompile Include="..\spacearrow\sprite.cpp" />
-    <ClCompile Include="..\spacearrow\test_script.cpp" />
-    <ClCompile Include="..\spacearrow\transform_2d.cpp" />
+    <ClCompile Include="..\SpaceTarget\camera_2d.cpp" />
+    <ClCompile Include="..\SpaceTarget\component.cpp" />
+    <ClCompile Include="..\SpaceTarget\contact_listener_2d.cpp" />
+    <ClCompile Include="..\SpaceTarget\core.cpp" />
+    <ClCompile Include="..\SpaceTarget\entity.cpp" />
+    <ClCompile Include="..\SpaceTarget\game_object.cpp" />
+    <ClCompile Include="..\SpaceTarget\game_object_2d.cpp" />
+    <ClCompile Include="..\SpaceTarget\gravitational_attraction.cpp" />
+    <ClCompile Include="..\SpaceTarget\level_scene.cpp" />
+    <ClCompile Include="..\SpaceTarget\main.cpp" />
+    <ClCompile Include="..\SpaceTarget\object_spawner.cpp" />
+    <ClCompile Include="..\SpaceTarget\player_controller.cpp" />
+    <ClCompile Include="..\SpaceTarget\portal.cpp" />
+    <ClCompile Include="..\SpaceTarget\resource_manager.cpp" />
+    <ClCompile Include="..\SpaceTarget\rigidbody_2d.cpp" />
+    <ClCompile Include="..\SpaceTarget\scene.cpp" />
+    <ClCompile Include="..\SpaceTarget\scene_handler.cpp" />
+    <ClCompile Include="..\SpaceTarget\script_component.cpp" />
+    <ClCompile Include="..\SpaceTarget\sprite.cpp" />
+    <ClCompile Include="..\SpaceTarget\test_script.cpp" />
+    <ClCompile Include="..\SpaceTarget\transform_2d.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\spacearrow\camera_2d.hpp" />
-    <ClInclude Include="..\spacearrow\component.ext.hpp" />
-    <ClInclude Include="..\spacearrow\component.hpp" />
-    <ClInclude Include="..\spacearrow\contact_listener_2d.hpp" />
-    <ClInclude Include="..\spacearrow\core.hpp" />
-    <ClInclude Include="..\spacearrow\entity.hpp" />
-    <ClInclude Include="..\spacearrow\game_data.hpp" />
-    <ClInclude Include="..\spacearrow\game_object.hpp" />
-    <ClInclude Include="..\spacearrow\game_object_2d.hpp" />
-    <ClInclude Include="..\spacearrow\gravitational_attraction.hpp" />
-    <ClInclude Include="..\spacearrow\level_scene.hpp" />
-    <ClInclude Include="..\spacearrow\object_spawner.hpp" />
-    <ClInclude Include="..\spacearrow\player_controller.hpp" />
-    <ClInclude Include="..\spacearrow\portal.hpp" />
-    <ClInclude Include="..\spacearrow\resource_manager.hpp" />
-    <ClInclude Include="..\spacearrow\rigidbody_2d.hpp" />
-    <ClInclude Include="..\spacearrow\scene.hpp" />
-    <ClInclude Include="..\spacearrow\scene_handler.hpp" />
-    <ClInclude Include="..\spacearrow\script_component.hpp" />
-    <ClInclude Include="..\spacearrow\sprite.hpp" />
-    <ClInclude Include="..\spacearrow\test_script.hpp" />
-    <ClInclude Include="..\spacearrow\transform_2d.hpp" />
+    <ClInclude Include="..\SpaceTarget\camera_2d.hpp" />
+    <ClInclude Include="..\SpaceTarget\component.ext.hpp" />
+    <ClInclude Include="..\SpaceTarget\component.hpp" />
+    <ClInclude Include="..\SpaceTarget\contact_listener_2d.hpp" />
+    <ClInclude Include="..\SpaceTarget\core.hpp" />
+    <ClInclude Include="..\SpaceTarget\entity.hpp" />
+    <ClInclude Include="..\SpaceTarget\game_data.hpp" />
+    <ClInclude Include="..\SpaceTarget\game_object.hpp" />
+    <ClInclude Include="..\SpaceTarget\game_object_2d.hpp" />
+    <ClInclude Include="..\SpaceTarget\gravitational_attraction.hpp" />
+    <ClInclude Include="..\SpaceTarget\level_scene.hpp" />
+    <ClInclude Include="..\SpaceTarget\object_spawner.hpp" />
+    <ClInclude Include="..\SpaceTarget\player_controller.hpp" />
+    <ClInclude Include="..\SpaceTarget\portal.hpp" />
+    <ClInclude Include="..\SpaceTarget\resource_manager.hpp" />
+    <ClInclude Include="..\SpaceTarget\rigidbody_2d.hpp" />
+    <ClInclude Include="..\SpaceTarget\scene.hpp" />
+    <ClInclude Include="..\SpaceTarget\scene_handler.hpp" />
+    <ClInclude Include="..\SpaceTarget\script_component.hpp" />
+    <ClInclude Include="..\SpaceTarget\sprite.hpp" />
+    <ClInclude Include="..\SpaceTarget\test_script.hpp" />
+    <ClInclude Include="..\SpaceTarget\transform_2d.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3F665313-6558-416E-A27A-164253AF7C46}</ProjectGuid>
-    <RootNamespace>SpaceArrow</RootNamespace>
+    <RootNamespace>SpaceTarget</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>SpaceArrow</ProjectName>
+    <ProjectName>SpaceTarget</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

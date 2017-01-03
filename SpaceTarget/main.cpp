@@ -11,7 +11,7 @@ Tutorial Section: TC01
 
 int main()
 {
-	Core game("Space Arrow");
+	Core game("Space Target");
 	game.run();
 
     return EXIT_SUCCESS;

@@ -16,140 +16,140 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{8dcbe59b-c1c2-4067-a27c-d8e1ac6883cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SpaceArrowGame">
+    <Filter Include="SpaceTargetGame">
       <UniqueIdentifier>{60b613ff-9faf-4eb7-bceb-78512e458433}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\spacearrow\component.cpp">
+    <ClCompile Include="..\SpaceTarget\component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\contact_listener_2d.cpp">
+    <ClCompile Include="..\SpaceTarget\contact_listener_2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\core.cpp">
+    <ClCompile Include="..\SpaceTarget\core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\entity.cpp">
+    <ClCompile Include="..\SpaceTarget\entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\game_object.cpp">
+    <ClCompile Include="..\SpaceTarget\game_object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\game_object_2d.cpp">
+    <ClCompile Include="..\SpaceTarget\game_object_2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\main.cpp">
+    <ClCompile Include="..\SpaceTarget\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\resource_manager.cpp">
+    <ClCompile Include="..\SpaceTarget\resource_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\rigidbody_2d.cpp">
+    <ClCompile Include="..\SpaceTarget\rigidbody_2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\scene.cpp">
+    <ClCompile Include="..\SpaceTarget\scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\scene_handler.cpp">
+    <ClCompile Include="..\SpaceTarget\scene_handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\sprite.cpp">
+    <ClCompile Include="..\SpaceTarget\sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\transform_2d.cpp">
+    <ClCompile Include="..\SpaceTarget\transform_2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\script_component.cpp">
+    <ClCompile Include="..\SpaceTarget\script_component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\test_script.cpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClCompile Include="..\SpaceTarget\test_script.cpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\player_controller.cpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClCompile Include="..\SpaceTarget\player_controller.cpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\level_scene.cpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClCompile Include="..\SpaceTarget\level_scene.cpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\object_spawner.cpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClCompile Include="..\SpaceTarget\object_spawner.cpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\gravitational_attraction.cpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClCompile Include="..\SpaceTarget\gravitational_attraction.cpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\portal.cpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClCompile Include="..\SpaceTarget\portal.cpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClCompile>
-    <ClCompile Include="..\spacearrow\camera_2d.cpp">
+    <ClCompile Include="..\SpaceTarget\camera_2d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\spacearrow\contact_listener_2d.hpp">
+    <ClInclude Include="..\SpaceTarget\contact_listener_2d.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\core.hpp">
+    <ClInclude Include="..\SpaceTarget\core.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\entity.hpp">
+    <ClInclude Include="..\SpaceTarget\entity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\game_data.hpp">
+    <ClInclude Include="..\SpaceTarget\game_data.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\game_object.hpp">
+    <ClInclude Include="..\SpaceTarget\game_object.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\game_object_2d.hpp">
+    <ClInclude Include="..\SpaceTarget\game_object_2d.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\resource_manager.hpp">
+    <ClInclude Include="..\SpaceTarget\resource_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\scene.hpp">
+    <ClInclude Include="..\SpaceTarget\scene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\scene_handler.hpp">
+    <ClInclude Include="..\SpaceTarget\scene_handler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\component.ext.hpp">
+    <ClInclude Include="..\SpaceTarget\component.ext.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\component.hpp">
+    <ClInclude Include="..\SpaceTarget\component.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\rigidbody_2d.hpp">
+    <ClInclude Include="..\SpaceTarget\rigidbody_2d.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\script_component.hpp">
+    <ClInclude Include="..\SpaceTarget\script_component.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\sprite.hpp">
+    <ClInclude Include="..\SpaceTarget\sprite.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\transform_2d.hpp">
+    <ClInclude Include="..\SpaceTarget\transform_2d.hpp">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\test_script.hpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClInclude Include="..\SpaceTarget\test_script.hpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\player_controller.hpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClInclude Include="..\SpaceTarget\player_controller.hpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\level_scene.hpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClInclude Include="..\SpaceTarget\level_scene.hpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\object_spawner.hpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClInclude Include="..\SpaceTarget\object_spawner.hpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\gravitational_attraction.hpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClInclude Include="..\SpaceTarget\gravitational_attraction.hpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\portal.hpp">
-      <Filter>SpaceArrowGame</Filter>
+    <ClInclude Include="..\SpaceTarget\portal.hpp">
+      <Filter>SpaceTargetGame</Filter>
     </ClInclude>
-    <ClInclude Include="..\spacearrow\camera_2d.hpp">
+    <ClInclude Include="..\SpaceTarget\camera_2d.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
