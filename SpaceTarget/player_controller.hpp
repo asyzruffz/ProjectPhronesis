@@ -27,6 +27,7 @@ private:
 	bool m_lastPressed;
 	bool m_lastClicked;
 	bool m_mouseDraggedUp;
+	sf::Vector2f m_mousePos;
 	sf::Vector2i m_mouseStartPos;
 	float m_dragDistance;
 

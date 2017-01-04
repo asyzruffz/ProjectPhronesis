@@ -72,6 +72,7 @@ public:
 	void setAngularVelocity(const float& omega);
 	sf::Vector2f getLinearVelocity();
 	float getAngularVelocity();
+	void setBullet(const bool& enabled);
 	void setBodyTransform(const sf::Vector2f& position, const float& angle);
 	void setRestitution(const float& value);
 

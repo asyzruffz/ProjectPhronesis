@@ -12,8 +12,10 @@ Tutorial Section: TC01
 #include <cmath>
 using namespace std;
 
+#include "game_data.hpp"
 #include "transform_2d.hpp"
 #include "rigidbody_2d.hpp"
+#include "sprite.hpp"
 #include "object_spawner.hpp"
 
 void PlayerController::start()
@@ -27,6 +29,16 @@ void PlayerController::start()
 
 void PlayerController::update(float dt)
 {
+	// Get mouse position relative to world
+	m_mousePos = GameData::instance().window->mapPixelToCoords(sf::Mouse::getPosition(*GameData::instance().window)) / Sprite::PIXEL_PER_METER;
+
+	Transform2D& transform = getComponent<Transform2D>();
+	sf::Vector2f deltaPos = m_mousePos - transform.getGlobalPosition();
+	float angle = atan2f(deltaPos.x, -deltaPos.y) * RAD_TO_DEG;
+
+	// Rotate player based on mouse position
+	transform.setRotation(angle);
+
 	dragMouse();
 	if (m_mouseDraggedUp)
 	{
@@ -44,30 +56,7 @@ void PlayerController::update(float dt)
 
 void PlayerController::fixedUpdate(float dt)
 {
-	Transform2D& transform = getComponent<Transform2D>();
-	Rigidbody2D& rigidbody = getComponent<Rigidbody2D>();
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		rigidbody.setAngularVelocity(m_turningSpeed * dt);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		rigidbody.setAngularVelocity(-m_turningSpeed * dt);
-	}
-	else
-	{
-		rigidbody.setAngularVelocity(0.0f);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		rigidbody.addForce(transform.up() * m_movementSpeed * dt);
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		rigidbody.addForce(transform.up() * m_movementSpeed * -1.0f * dt);
-	}
 }
 
 void PlayerController::dragMouse()
@@ -94,4 +83,5 @@ void PlayerController::shoot(float speed)
 
 	Entity::Ptr bullet = getComponent<ObjectSpawner>().spawn(transform.getGlobalPosition() + transform.up() * 2.0f, transform.getGlobalRotation());
 	bullet->getComponent<Rigidbody2D>().setLinearVelocity(transform.up() * speed);
+	bullet->getComponent<Rigidbody2D>().setBullet(true);
 }

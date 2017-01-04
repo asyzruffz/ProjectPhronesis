@@ -268,6 +268,11 @@ float Rigidbody2D::getAngularVelocity()
 	return mp_body->GetAngularVelocity();
 }
 
+void Rigidbody2D::setBullet(const bool& enabled)
+{
+	mp_body->SetBullet(enabled);
+}
+
 void Rigidbody2D::setBodyTransform(const sf::Vector2f& position, const float& angle)
 {
 	mp_body->SetTransform(b2Vec2(position.x, position.y), angle * DEG_TO_RAD);
