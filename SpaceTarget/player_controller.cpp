@@ -42,8 +42,9 @@ void PlayerController::update(float dt)
 	dragMouse();
 	if (m_mouseDraggedUp)
 	{
+		// Shoot with bullet speed from drag distance (min speed 2)
+		shoot(max(m_dragDistance, 2.0f));
 		m_mouseDraggedUp = false;
-		shoot(m_dragDistance);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !m_lastPressed)

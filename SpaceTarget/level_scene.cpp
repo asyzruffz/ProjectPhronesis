@@ -140,7 +140,39 @@ void LevelScene::hierarchy()
 	newObject = new GameObject2D("Enemy");
 	newObject->addComponent<Sprite>("enemy1");
 	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Circle);
-	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(-5.0f, 10.0f));
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(5.0f, 20.0f));
+	addToRoot(newObject);
+
+	newObject = new GameObject2D("Building1");
+	newObject->addComponent<Sprite>("building");
+	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Box);
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(11.0f, 0.0f));
+	newObject->getComponent<Transform2D>().setRotation(90.0f);
+	newObject->getComponent<Transform2D>().setScale(sf::Vector2f(0.2f, 0.2f));
+	addToRoot(newObject);
+
+	newObject = new GameObject2D("Building2");
+	newObject->addComponent<Sprite>("building");
+	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Box);
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(0.0f, 11.0f));
+	newObject->getComponent<Transform2D>().setRotation(180.0f);
+	newObject->getComponent<Transform2D>().setScale(sf::Vector2f(0.2f, 0.2f));
+	addToRoot(newObject);
+
+	newObject = new GameObject2D("Building3");
+	newObject->addComponent<Sprite>("building");
+	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Box);
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(8.0f, 8.0f));
+	newObject->getComponent<Transform2D>().setRotation(135.0f);
+	newObject->getComponent<Transform2D>().setScale(sf::Vector2f(0.2f, 0.2f));
+	addToRoot(newObject);
+
+	newObject = new GameObject2D("Building4");
+	newObject->addComponent<Sprite>("building");
+	newObject->addComponent<Rigidbody2D>(BodyType::Dynamic, BodyShapeType::Box);
+	newObject->getComponent<Transform2D>().setPosition(sf::Vector2f(10.0f, -5.0f));
+	newObject->getComponent<Transform2D>().setRotation(60.0f);
+	newObject->getComponent<Transform2D>().setScale(sf::Vector2f(0.2f, 0.2f));
 	addToRoot(newObject);
 
 	// Invisible Walls
