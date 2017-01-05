@@ -1,1 +1,1 @@
-autocompile.bat && SpaceArrow
+autocompile.bat && SpaceTarget
