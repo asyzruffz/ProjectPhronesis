@@ -6,6 +6,8 @@
 
 int main(int argc, char **argv)
 {
+	Engine engine;
+	engine.test();
 	return 0;
 }
 
