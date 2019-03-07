@@ -4,6 +4,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{365a65e4-0412-4e1d-8162-899bc78a8079}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{1f9a31db-873b-443f-bd6a-1f3242c62cbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Phronesis.hpp" />
@@ -16,6 +19,15 @@
     <ClInclude Include="Sources\Phronesis\Core.hpp">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\RenderInstance.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -23,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

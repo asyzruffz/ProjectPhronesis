@@ -4,6 +4,8 @@ struct GLFWwindow;
 
 namespace Phronesis
 {
+	struct RenderInstance;
+
 	class Game
 	{
 	public:
@@ -16,9 +18,12 @@ namespace Phronesis
 		void initWindow();
 		void initVulkan();
 		void mainLoop();
-		void cleanup();
+		void dispose();
 
 	private:
 		GLFWwindow* window;
+		RenderInstance* instance;
+
+		void createInstance();
 	};
 }
