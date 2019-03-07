@@ -9,3 +9,4 @@ A project to develop a video game engine.
 * Engine:
   * C++14
   * Vulkan
+  * GLFW
