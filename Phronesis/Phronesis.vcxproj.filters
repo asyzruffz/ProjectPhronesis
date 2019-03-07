@@ -6,17 +6,23 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Core\Engine.cpp">
+    <ClInclude Include="Sources\Phronesis.hpp" />
+    <ClInclude Include="Sources\Phronesis\Core\Engine.hpp">
       <Filter>Core</Filter>
-    </ClCompile>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Core\Game.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Core.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Phronesis.hpp" />
-    <ClInclude Include="Sources\Core.hpp">
+    <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Core\Engine.hpp">
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Core\Game.cpp">
       <Filter>Core</Filter>
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
 </Project>

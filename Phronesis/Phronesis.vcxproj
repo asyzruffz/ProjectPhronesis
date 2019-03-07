@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Core\Engine.cpp" />
+    <ClInclude Include="Sources\Phronesis.hpp" />
+    <ClInclude Include="Sources\Phronesis\Core.hpp" />
+    <ClInclude Include="Sources\Phronesis\Core\Engine.hpp" />
+    <ClInclude Include="Sources\Phronesis\Core\Game.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Core.hpp" />
-    <ClInclude Include="Sources\Core\Engine.hpp" />
-    <ClInclude Include="Sources\Phronesis.hpp" />
+    <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
+    <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A4805C6-DDF5-4B14-B84B-F44B19714D11}</ProjectGuid>
@@ -107,12 +109,23 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Lib32;D:\VStudioExtLib\glfw-3.2.1\$(Platform)\lib-vc2015</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -121,12 +134,23 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Lib;D:\VStudioExtLib\glfw-3.2.1\$(Platform)\lib-vc2015</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -137,7 +161,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,6 +169,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Lib32;D:\VStudioExtLib\glfw-3.2.1\$(Platform)\lib-vc2015</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -155,7 +188,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,6 +196,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Lib;D:\VStudioExtLib\glfw-3.2.1\$(Platform)\lib-vc2015</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+    </Lib>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
