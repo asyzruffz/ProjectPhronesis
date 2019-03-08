@@ -150,5 +150,43 @@ VKAPI_ATTR VkBool32 VKAPI_CALL RenderUtils::debugCallback(VkDebugUtilsMessageSev
 bool RenderUtils::isDeviceSuitable(VkPhysicalDevice device)
 {
 	// check for required features if neccessary
-	return true;
+
+	// check which queue families are supported by the device
+	// right now only look for a queue that supports graphics commands
+	QueueFamilyIndices indices = findQueueFamilies(device);
+	return indices.isComplete();
+}
+
+QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice device)
+{
+	QueueFamilyIndices indices;
+
+	// retrieving the list of queue families
+	uint32_t queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0; // find at least one queue family that supports VK_QUEUE_GRAPHICS_BIT
+	for(const auto& queueFamily : queueFamilies)
+	{
+		if(queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+		{
+			indices.graphicsFamily = i;
+		}
+
+		if(indices.isComplete())
+		{
+			break;
+		}
+
+		i++;
+	}
+
+	return indices;
+}
+
+bool QueueFamilyIndices::isComplete()
+{
+	return graphicsFamily.has_value();
 }

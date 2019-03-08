@@ -2,11 +2,18 @@
 
 #include <string>
 #include <vector>
+#include <optional>
 
 #include <vulkan/vulkan.h>
 
 namespace Phronesis
 {
+	struct QueueFamilyIndices 
+	{
+		std::optional<uint32_t> graphicsFamily;
+		bool isComplete();
+	};
+
 	class RenderUtils
 	{
 	public:
@@ -22,5 +29,6 @@ namespace Phronesis
 		static const std::vector<const char*> validationLayers;
 
 		static bool isDeviceSuitable(VkPhysicalDevice device);
+		static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 	};
 }
