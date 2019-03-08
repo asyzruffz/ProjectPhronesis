@@ -24,12 +24,13 @@
     <ClInclude Include="Sources\Phronesis\Core\Engine.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\Game.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\RenderUtils.hpp" />
-    <ClInclude Include="Sources\Phronesis\Graphics\RenderInstance.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\RenderUtils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

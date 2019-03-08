@@ -22,10 +22,10 @@
     <ClInclude Include="Sources\Phronesis\Graphics.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Phronesis\Graphics\RenderInstance.hpp">
+    <ClInclude Include="Sources\Phronesis\Graphics\RenderUtils.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Phronesis\Graphics\RenderUtils.hpp">
+    <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -37,6 +37,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\RenderUtils.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

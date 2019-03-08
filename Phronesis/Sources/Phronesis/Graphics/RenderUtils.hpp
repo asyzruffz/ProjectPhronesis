@@ -11,5 +11,6 @@ namespace Phronesis
 	public:
 		static void checkVk(const VkResult &result);
 		static std::string stringifyResultVk(const VkResult &result);
+		static bool checkValidationLayerSupport();
 	};
 }

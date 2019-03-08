@@ -1,9 +1,16 @@
 
 #include "RenderUtils.hpp"
 
+#include <cstring> // for strcmp
+#include <vector>
 #include <stdexcept>
 
 using namespace Phronesis;
+
+// request standard diagnostics layers provided by the Vulkan SDK
+const std::vector<const char*> validationLayers = {
+	"VK_LAYER_LUNARG_standard_validation"
+};
 
 void RenderUtils::checkVk(const VkResult &result)
 {
@@ -71,4 +78,32 @@ std::string RenderUtils::stringifyResultVk(const VkResult &result)
 	default:
 		return "Unknown Vulkan error";
 	}
+}
+
+bool RenderUtils::checkValidationLayerSupport()
+{
+	uint32_t layerCount;
+	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+	// list all of the available layers
+	std::vector<VkLayerProperties> availableLayers(layerCount);
+	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+	// check if all of the layers in validationLayers exist in the availableLayers list
+	for (const char* layerName : validationLayers) {
+		bool layerFound = false;
+
+		for (const auto& layerProperties : availableLayers) {
+			if (strcmp(layerName, layerProperties.layerName) == 0) {
+				layerFound = true;
+				break;
+			}
+		}
+
+		if (!layerFound) {
+			return false;
+		}
+	}
+
+	return true;
 }

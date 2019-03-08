@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <cstdlib> // provide EXIT_SUCCESS
 
-#include "Phronesis.hpp"
+#include "Phronesis/Core/Game.hpp"
 
 
 int main(int argc, char **argv)
