@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 struct GLFWwindow;
 
 namespace Phronesis
@@ -25,5 +27,7 @@ namespace Phronesis
 		RenderInstance* instance;
 
 		void createInstance();
+		std::vector<const char*> getRequiredExtensions();
+		bool checkValidationLayerSupport();
 	};
 }

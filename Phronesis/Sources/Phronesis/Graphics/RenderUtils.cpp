@@ -1,19 +1,11 @@
 
-#include "Renderer.hpp"
+#include "RenderUtils.hpp"
 
 #include <stdexcept>
 
 using namespace Phronesis;
 
-Renderer::Renderer()
-{
-}
-
-Renderer::~Renderer()
-{
-}
-
-void Renderer::checkVk(const VkResult &result)
+void RenderUtils::checkVk(const VkResult &result)
 {
 	if (result >= 0)
 	{
@@ -24,7 +16,7 @@ void Renderer::checkVk(const VkResult &result)
 	throw std::runtime_error("Vulkan error: " + failure);
 }
 
-std::string Renderer::stringifyResultVk(const VkResult &result)
+std::string RenderUtils::stringifyResultVk(const VkResult &result)
 {
 	switch (result)
 	{

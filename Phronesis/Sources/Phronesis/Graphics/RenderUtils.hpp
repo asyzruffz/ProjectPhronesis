@@ -6,12 +6,9 @@
 
 namespace Phronesis
 {
-	class Renderer
+	class RenderUtils
 	{
 	public:
-		Renderer();
-		~Renderer();
-
 		static void checkVk(const VkResult &result);
 		static std::string stringifyResultVk(const VkResult &result);
 	};
