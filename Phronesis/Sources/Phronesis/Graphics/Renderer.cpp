@@ -32,6 +32,7 @@ void Renderer::initVulkan()
 {
 	createInstance();
 	setupDebugMessenger();
+	pickPhysicalDevice();
 }
 
 void Renderer::update()
@@ -44,10 +45,10 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
-	if (enableValidationLayers) {
+	if (enableValidationLayers) { // destroy debug messenger resposible for validation
 		RenderUtils::destroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 	}
-	vkDestroyInstance(instance, nullptr);
+	vkDestroyInstance(instance, nullptr); // destroy Vulkan instance
 }
 
 void Renderer::disposeWindow()
@@ -75,18 +76,19 @@ void Renderer::createInstance()
 
 	// log the extensions
 #ifndef NDEBUG
+	// get a list of available extensions
+	uint32_t extensionCount = 0;
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+	std::vector<VkExtensionProperties> extensionsAvailable(extensionCount);
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensionsAvailable.data());
+
 	std::cout << "Vulkan info: Required extensions:" << std::endl;
 	for (const auto& extension : extensions) {
 		std::cout << "\t" << extension << std::endl;
 	}
 
-	uint32_t extensionCount = 0;
-	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-	std::vector<VkExtensionProperties> extensionsA(extensionCount);
-	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensionsA.data());
-
 	std::cout << "Vulkan info: Available extensions:" << std::endl;
-	for (const auto& extension : extensionsA) {
+	for (const auto& extension : extensionsAvailable) {
 		std::cout << "\t" << extension.extensionName << std::endl;
 	}
 #endif
@@ -111,6 +113,50 @@ void Renderer::createInstance()
 	RenderUtils::checkVk(result);
 }
 
+void Renderer::setupDebugMessenger()
+{
+	if (!enableValidationLayers) return;
+
+	// function parameters for creating debug messenger,
+	// detailing the messages type and severity that will run callback 
+	VkDebugUtilsMessengerCreateInfoEXT createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+	createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+	createInfo.pfnUserCallback = RenderUtils::debugCallback;
+	createInfo.pUserData = nullptr; // Optional
+
+	VkResult result = RenderUtils::createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger);
+	if (result != VK_SUCCESS) {
+		std::cerr << "Vulkan error: Failed to set up debug messenger" << std::endl;
+		RenderUtils::checkVk(result);
+	}
+}
+
+void Renderer::pickPhysicalDevice()
+{
+	uint32_t deviceCount = 0;
+	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+
+	if (deviceCount == 0) {
+		throw std::runtime_error("Vulkan error: Failed to find GPUs with Vulkan support");
+	}
+
+	std::vector<VkPhysicalDevice> devices(deviceCount);
+	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+
+	for (const auto& device : devices) {
+		if (RenderUtils::isDeviceSuitable(device)) {
+			physicalDevice = device;
+			break;
+		}
+	}
+
+	if (physicalDevice == VK_NULL_HANDLE) {
+		throw std::runtime_error("Vulkan error: Failed to find a suitable GPU");
+	}
+}
+
 std::vector<const char*> Renderer::getRequiredExtensions()
 {
 	uint32_t glfwExtensionCount = 0;
@@ -128,22 +174,4 @@ std::vector<const char*> Renderer::getRequiredExtensions()
 	}
 
 	return extensions;
-}
-
-void Renderer::setupDebugMessenger()
-{
-	if (!enableValidationLayers) return;
-
-	VkDebugUtilsMessengerCreateInfoEXT createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-	createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-	createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-	createInfo.pfnUserCallback = RenderUtils::debugCallback;
-	createInfo.pUserData = nullptr; // Optional
-
-	VkResult result = RenderUtils::createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger);
-	if (result != VK_SUCCESS) {
-		std::cerr << "Vulkan error: Failed to set up debug messenger" << std::endl;
-		RenderUtils::checkVk(result);
-	}
 }

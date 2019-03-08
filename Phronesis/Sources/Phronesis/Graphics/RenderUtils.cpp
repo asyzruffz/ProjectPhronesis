@@ -14,6 +14,7 @@ const std::vector<const char*> RenderUtils::validationLayers = {
 
 void RenderUtils::checkVk(const VkResult &result)
 {
+	// check the result and throw exceptions if unsuccessful
 	if (result >= 0)
 	{
 		return; // no error
@@ -121,7 +122,7 @@ bool RenderUtils::checkValidationLayerSupport()
 	return true;
 }
 
-VkResult RenderUtils::createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkDebugUtilsMessengerEXT * pDebugMessenger)
+VkResult RenderUtils::createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
 {
 	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
 	if (func != nullptr) {
@@ -132,7 +133,7 @@ VkResult RenderUtils::createDebugUtilsMessengerEXT(VkInstance instance, const Vk
 	}
 }
 
-void RenderUtils::destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks * pAllocator)
+void RenderUtils::destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
 {
 	auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
 	if (func != nullptr) {
@@ -144,4 +145,10 @@ VKAPI_ATTR VkBool32 VKAPI_CALL RenderUtils::debugCallback(VkDebugUtilsMessageSev
 {
 	std::cerr << "Vulkan validation: " << pCallbackData->pMessage << std::endl;
 	return VK_FALSE;
+}
+
+bool RenderUtils::isDeviceSuitable(VkPhysicalDevice device)
+{
+	// check for required features if neccessary
+	return true;
 }
