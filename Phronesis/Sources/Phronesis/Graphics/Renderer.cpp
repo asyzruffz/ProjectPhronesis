@@ -31,6 +31,7 @@ void Renderer::initWindow(int width, int height, const char* title)
 void Renderer::initVulkan()
 {
 	createInstance();
+	setupDebugMessenger();
 }
 
 void Renderer::update()
@@ -41,8 +42,11 @@ void Renderer::update()
 	}
 }
 
-void Renderer::disposeInstance()
+void Renderer::disposeVulkan()
 {
+	if (enableValidationLayers) {
+		RenderUtils::destroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+	}
 	vkDestroyInstance(instance, nullptr);
 }
 
@@ -61,7 +65,7 @@ void Renderer::createInstance()
 	// some information about our application
 	VkApplicationInfo appInfo = {};
 	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	appInfo.pApplicationName = "Test Game";
+	appInfo.pApplicationName = "Game";
 	appInfo.applicationVersion = VK_MAKE_VERSION(0, 1, 0);
 	appInfo.pEngineName = "Phronesis";
 	appInfo.engineVersion = VK_MAKE_VERSION(0, 1, 0);
@@ -95,7 +99,13 @@ void Renderer::createInstance()
 	createInfo.pApplicationInfo = &appInfo;
 	createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 	createInfo.ppEnabledExtensionNames = extensions.data();
-	createInfo.enabledLayerCount = 0; // the global validation layers to enable
+	if (enableValidationLayers) {
+		createInfo.enabledLayerCount = static_cast<uint32_t>(RenderUtils::validationLayers.size());
+		createInfo.ppEnabledLayerNames = RenderUtils::validationLayers.data();
+	}
+	else {
+		createInfo.enabledLayerCount = 0;
+	}
 
 	VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
 	RenderUtils::checkVk(result);
@@ -118,4 +128,22 @@ std::vector<const char*> Renderer::getRequiredExtensions()
 	}
 
 	return extensions;
+}
+
+void Renderer::setupDebugMessenger()
+{
+	if (!enableValidationLayers) return;
+
+	VkDebugUtilsMessengerCreateInfoEXT createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+	createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+	createInfo.pfnUserCallback = RenderUtils::debugCallback;
+	createInfo.pUserData = nullptr; // Optional
+
+	VkResult result = RenderUtils::createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger);
+	if (result != VK_SUCCESS) {
+		std::cerr << "Vulkan error: Failed to set up debug messenger" << std::endl;
+		RenderUtils::checkVk(result);
+	}
 }

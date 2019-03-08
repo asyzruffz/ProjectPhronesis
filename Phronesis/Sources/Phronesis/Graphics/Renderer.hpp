@@ -14,14 +14,16 @@ namespace Phronesis
 		void initWindow(int width, int height, const char* title);
 		void initVulkan();
 		void update();
-		void disposeInstance();
+		void disposeVulkan();
 		void disposeWindow();
 
 	private:
 		GLFWwindow* window;
 		VkInstance instance;
+		VkDebugUtilsMessengerEXT debugMessenger;
 
 		void createInstance();
 		std::vector<const char*> getRequiredExtensions();
+		void setupDebugMessenger();
 	};
 }

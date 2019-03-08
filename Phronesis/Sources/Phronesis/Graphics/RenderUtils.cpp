@@ -1,14 +1,14 @@
 
 #include "RenderUtils.hpp"
 
+#include <iostream>
 #include <cstring> // for strcmp
-#include <vector>
 #include <stdexcept>
 
 using namespace Phronesis;
 
 // request standard diagnostics layers provided by the Vulkan SDK
-const std::vector<const char*> validationLayers = {
+const std::vector<const char*> RenderUtils::validationLayers = {
 	"VK_LAYER_LUNARG_standard_validation"
 };
 
@@ -89,6 +89,19 @@ bool RenderUtils::checkValidationLayerSupport()
 	std::vector<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
+	// log the validation layers
+#ifndef NDEBUG
+	std::cout << "Vulkan info: Required validation layers:" << std::endl;
+	for (const char* layerName : validationLayers) {
+		std::cout << "\t" << layerName << std::endl;
+	}
+
+	std::cout << "Vulkan info: Available validation layers:" << std::endl;
+	for (const auto& layerProperties : availableLayers) {
+		std::cout << "\t" << layerProperties.layerName << std::endl;
+	}
+#endif
+
 	// check if all of the layers in validationLayers exist in the availableLayers list
 	for (const char* layerName : validationLayers) {
 		bool layerFound = false;
@@ -106,4 +119,29 @@ bool RenderUtils::checkValidationLayerSupport()
 	}
 
 	return true;
+}
+
+VkResult RenderUtils::createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT * pCreateInfo, const VkAllocationCallbacks * pAllocator, VkDebugUtilsMessengerEXT * pDebugMessenger)
+{
+	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+	if (func != nullptr) {
+		return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+	}
+	else {
+		return VK_ERROR_EXTENSION_NOT_PRESENT;
+	}
+}
+
+void RenderUtils::destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks * pAllocator)
+{
+	auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+	if (func != nullptr) {
+		func(instance, debugMessenger, pAllocator);
+	}
+}
+
+VKAPI_ATTR VkBool32 VKAPI_CALL RenderUtils::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT * pCallbackData, void * pUserData)
+{
+	std::cerr << "Vulkan validation: " << pCallbackData->pMessage << std::endl;
+	return VK_FALSE;
 }

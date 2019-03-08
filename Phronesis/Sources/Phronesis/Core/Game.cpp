@@ -30,7 +30,7 @@ void Game::mainLoop()
 
 void Game::dispose()
 {
-	renderer->disposeInstance();
+	renderer->disposeVulkan();
 	renderer->disposeWindow();
 	delete renderer;
 }
