@@ -33,6 +33,7 @@ void Renderer::initVulkan()
 	createInstance();
 	setupDebugMessenger();
 	pickPhysicalDevice();
+	createLogicalDevice();
 }
 
 void Renderer::update()
@@ -45,7 +46,9 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
-	if (enableValidationLayers) { // destroy debug messenger resposible for validation
+	vkDestroyDevice(device, nullptr);
+	if (enableValidationLayers) 
+	{	// destroy debug messenger resposible for validation
 		RenderUtils::destroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 	}
 	vkDestroyInstance(instance, nullptr); // destroy Vulkan instance
@@ -55,6 +58,7 @@ void Renderer::disposeWindow()
 {
 	glfwDestroyWindow(window);
 	glfwTerminate();
+	//system("pause");
 }
 
 void Renderer::createInstance()
@@ -155,6 +159,59 @@ void Renderer::pickPhysicalDevice()
 	if (physicalDevice == VK_NULL_HANDLE) {
 		throw std::runtime_error("Vulkan error: Failed to find a suitable GPU");
 	}
+}
+
+void Renderer::createLogicalDevice()
+{
+	QueueFamilyIndices indices = RenderUtils::findQueueFamilies(physicalDevice);
+
+	// The currently available drivers will only allow you to create
+	// a small number of queues for each queue family and you don't really
+	// need more than one. That's because you can create all of the command buffers 
+	// on multiple threads and then submit them all at once on the main thread 
+	// with a single low-overhead call.
+
+	// specifying details for logical device creation
+	VkDeviceQueueCreateInfo queueCreateInfo = {};
+	queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+	queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
+	queueCreateInfo.queueCount = 1; // the number of queues we want for a single queue family
+
+	float queuePriority = 1.0f; // between 0.0 and 1.0
+	queueCreateInfo.pQueuePriorities = &queuePriority;
+
+	// specify is the set of device features that we'll be using.
+	// features that needed to be queried support for with vkGetPhysicalDeviceFeatures 
+	// in RenderUtils::isDeviceSuitable()
+	VkPhysicalDeviceFeatures deviceFeatures = {};
+
+	// creating the logical device
+	VkDeviceCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	createInfo.pQueueCreateInfos = &queueCreateInfo;
+	createInfo.queueCreateInfoCount = 1;
+	createInfo.pEnabledFeatures = &deviceFeatures;
+	createInfo.enabledExtensionCount = 0; // TODO: enable some extensions
+	if(enableValidationLayers)
+	{
+		createInfo.enabledLayerCount = static_cast<uint32_t>(RenderUtils::validationLayers.size());
+		createInfo.ppEnabledLayerNames = RenderUtils::validationLayers.data();
+	}
+	else
+	{
+		createInfo.enabledLayerCount = 0;
+	}
+
+	VkResult result = vkCreateDevice(physicalDevice, &createInfo, nullptr, &device);
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to create logical device" << std::endl;
+		RenderUtils::checkVk(result);
+	}
+
+	// the queues are automatically created along with the logical device,
+	// but we need to have a handle to interface with the graphics queue
+	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 }
 
 std::vector<const char*> Renderer::getRequiredExtensions()

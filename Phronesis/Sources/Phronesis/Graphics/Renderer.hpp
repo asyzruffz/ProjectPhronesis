@@ -22,10 +22,13 @@ namespace Phronesis
 		VkInstance instance;
 		VkDebugUtilsMessengerEXT debugMessenger;
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+		VkDevice device;
+		VkQueue graphicsQueue;
 
 		void createInstance();
 		void setupDebugMessenger();
 		void pickPhysicalDevice();
+		void createLogicalDevice();
 		std::vector<const char*> getRequiredExtensions();
 	};
 }

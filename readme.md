@@ -7,6 +7,6 @@ A project to develop a video game engine.
 
 ### Library dependencies
 * Engine:
-  * C++14
+  * C++17
   * Vulkan
   * GLFW

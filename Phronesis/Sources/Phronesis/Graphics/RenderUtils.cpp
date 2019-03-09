@@ -122,6 +122,23 @@ bool RenderUtils::checkValidationLayerSupport()
 	return true;
 }
 
+std::string RenderUtils::stringifyMessageSeverity(const VkDebugUtilsMessageSeverityFlagBitsEXT &severity)
+{
+	switch(severity)
+	{
+		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
+			return "verbose";
+		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
+			return "info";
+		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
+			return "warning";
+		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
+			return "error";
+		default:
+			return "?";
+	}
+}
+
 VkResult RenderUtils::createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
 {
 	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
@@ -143,7 +160,7 @@ void RenderUtils::destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtil
 
 VKAPI_ATTR VkBool32 VKAPI_CALL RenderUtils::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT * pCallbackData, void * pUserData)
 {
-	std::cerr << "Vulkan validation: " << pCallbackData->pMessage << std::endl;
+	std::cerr << "Vulkan validation (" << stringifyMessageSeverity(messageSeverity) << "): " << pCallbackData->pMessage << std::endl;
 	return VK_FALSE;
 }
 
