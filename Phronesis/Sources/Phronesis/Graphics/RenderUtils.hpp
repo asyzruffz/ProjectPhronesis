@@ -11,6 +11,7 @@ namespace Phronesis
 	struct QueueFamilyIndices 
 	{
 		std::optional<uint32_t> graphicsFamily;
+		std::optional<uint32_t> presentationFamily;
 		bool isComplete();
 	};
 
@@ -29,7 +30,7 @@ namespace Phronesis
 
 		static const std::vector<const char*> validationLayers;
 
-		static bool isDeviceSuitable(VkPhysicalDevice device);
-		static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+		static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface);
+		static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface);
 	};
 }

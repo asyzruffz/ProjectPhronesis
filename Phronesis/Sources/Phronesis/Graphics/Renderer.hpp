@@ -21,12 +21,15 @@ namespace Phronesis
 		GLFWwindow* window;
 		VkInstance instance;
 		VkDebugUtilsMessengerEXT debugMessenger;
+		VkSurfaceKHR surface;
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 		VkDevice device;
 		VkQueue graphicsQueue;
+		VkQueue presentationQueue;
 
 		void createInstance();
 		void setupDebugMessenger();
+		void createSurface();
 		void pickPhysicalDevice();
 		void createLogicalDevice();
 		std::vector<const char*> getRequiredExtensions();

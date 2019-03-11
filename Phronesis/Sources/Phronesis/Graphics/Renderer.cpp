@@ -2,6 +2,7 @@
 #include "Renderer.hpp"
 
 #include <iostream>
+#include <set>
 #include <stdexcept>
 
 #include "Phronesis/Graphics/RenderUtils.hpp"
@@ -32,6 +33,7 @@ void Renderer::initVulkan()
 {
 	createInstance();
 	setupDebugMessenger();
+	createSurface();
 	pickPhysicalDevice();
 	createLogicalDevice();
 }
@@ -46,11 +48,12 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
-	vkDestroyDevice(device, nullptr);
+	vkDestroyDevice(device, nullptr); // destroy logical device (and queues)
 	if (enableValidationLayers) 
 	{	// destroy debug messenger resposible for validation
 		RenderUtils::destroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 	}
+	vkDestroySurfaceKHR(instance, surface, nullptr); // destroy window surface
 	vkDestroyInstance(instance, nullptr); // destroy Vulkan instance
 }
 
@@ -114,7 +117,11 @@ void Renderer::createInstance()
 	}
 
 	VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
-	RenderUtils::checkVk(result);
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to create instance" << std::endl;
+		RenderUtils::checkVk(result);
+	}
 }
 
 void Renderer::setupDebugMessenger()
@@ -131,8 +138,19 @@ void Renderer::setupDebugMessenger()
 	createInfo.pUserData = nullptr; // Optional
 
 	VkResult result = RenderUtils::createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger);
-	if (result != VK_SUCCESS) {
+	if (result != VK_SUCCESS) 
+	{
 		std::cerr << "Vulkan error: Failed to set up debug messenger" << std::endl;
+		RenderUtils::checkVk(result);
+	}
+}
+
+void Renderer::createSurface()
+{
+	VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to create window surface" << std::endl;
 		RenderUtils::checkVk(result);
 	}
 }
@@ -150,7 +168,7 @@ void Renderer::pickPhysicalDevice()
 	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
 	for (const auto& device : devices) {
-		if (RenderUtils::isDeviceSuitable(device)) {
+		if (RenderUtils::isDeviceSuitable(device, surface)) {
 			physicalDevice = device;
 			break;
 		}
@@ -163,22 +181,30 @@ void Renderer::pickPhysicalDevice()
 
 void Renderer::createLogicalDevice()
 {
-	QueueFamilyIndices indices = RenderUtils::findQueueFamilies(physicalDevice);
+	QueueFamilyIndices indices = RenderUtils::findQueueFamilies(physicalDevice, surface);
 
-	// The currently available drivers will only allow you to create
-	// a small number of queues for each queue family and you don't really
-	// need more than one. That's because you can create all of the command buffers 
-	// on multiple threads and then submit them all at once on the main thread 
-	// with a single low-overhead call.
+	// make sure the queue families are not redundant while making different queues
+	std::set<uint32_t> uniqueQueueFamilies = { 
+		indices.graphicsFamily.value(), 
+		indices.presentationFamily.value() 
+	};
 
-	// specifying details for logical device creation
-	VkDeviceQueueCreateInfo queueCreateInfo = {};
-	queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-	queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
-	queueCreateInfo.queueCount = 1; // the number of queues we want for a single queue family
+	// vector to store the createinfos for each queue
+	std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 
 	float queuePriority = 1.0f; // between 0.0 and 1.0
-	queueCreateInfo.pQueuePriorities = &queuePriority;
+	for(uint32_t queueFamily : uniqueQueueFamilies)
+	{
+		// specifying details for logical device creation
+		VkDeviceQueueCreateInfo queueCreateInfo = {};
+		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		queueCreateInfo.queueFamilyIndex = queueFamily;
+		queueCreateInfo.queueCount = 1; // the number of queues we want for a single queue family
+		queueCreateInfo.pQueuePriorities = &queuePriority;
+
+		queueCreateInfos.push_back(queueCreateInfo);
+
+	}
 
 	// specify is the set of device features that we'll be using.
 	// features that needed to be queried support for with vkGetPhysicalDeviceFeatures 
@@ -188,8 +214,8 @@ void Renderer::createLogicalDevice()
 	// creating the logical device
 	VkDeviceCreateInfo createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	createInfo.pQueueCreateInfos = &queueCreateInfo;
-	createInfo.queueCreateInfoCount = 1;
+	createInfo.pQueueCreateInfos = queueCreateInfos.data();
+	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 	createInfo.pEnabledFeatures = &deviceFeatures;
 	createInfo.enabledExtensionCount = 0; // TODO: enable some extensions
 	if(enableValidationLayers)
@@ -210,8 +236,9 @@ void Renderer::createLogicalDevice()
 	}
 
 	// the queues are automatically created along with the logical device,
-	// but we need to have a handle to interface with the graphics queue
+	// but we need to have a handle to interface with the graphics and presentation queue
 	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
+	vkGetDeviceQueue(device, indices.presentationFamily.value(), 0, &presentationQueue);
 }
 
 std::vector<const char*> Renderer::getRequiredExtensions()

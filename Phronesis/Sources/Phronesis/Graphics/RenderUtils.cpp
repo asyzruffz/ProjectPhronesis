@@ -77,7 +77,7 @@ std::string RenderUtils::stringifyResultVk(const VkResult &result)
 	case VK_ERROR_VALIDATION_FAILED_EXT:
 		return "A validation layer found an error";
 	default:
-		return "Unknown Vulkan error";
+		return "Unknown Vulkan error " + std::to_string(result);
 	}
 }
 
@@ -164,17 +164,17 @@ VKAPI_ATTR VkBool32 VKAPI_CALL RenderUtils::debugCallback(VkDebugUtilsMessageSev
 	return VK_FALSE;
 }
 
-bool RenderUtils::isDeviceSuitable(VkPhysicalDevice device)
+bool RenderUtils::isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface)
 {
 	// check for required features if neccessary
 
 	// check which queue families are supported by the device
 	// right now only look for a queue that supports graphics commands
-	QueueFamilyIndices indices = findQueueFamilies(device);
+	QueueFamilyIndices indices = findQueueFamilies(device, surface);
 	return indices.isComplete();
 }
 
-QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice device)
+QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface)
 {
 	QueueFamilyIndices indices;
 
@@ -192,6 +192,15 @@ QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice de
 			indices.graphicsFamily = i;
 		}
 
+		// also look for a queue family that has the capability of presenting to our window surface
+		VkBool32 presentationSupport = false;
+		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentationSupport);
+
+		if(queueFamily.queueCount > 0 && presentationSupport)
+		{
+			indices.presentationFamily = i;
+		}
+
 		if(indices.isComplete())
 		{
 			break;
@@ -205,5 +214,5 @@ QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice de
 
 bool QueueFamilyIndices::isComplete()
 {
-	return graphicsFamily.has_value();
+	return graphicsFamily.has_value() && presentationFamily.has_value();
 }
