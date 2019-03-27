@@ -35,6 +35,7 @@ namespace Phronesis
 		std::vector<VkImage> swapChainImages;
 		VkFormat swapChainImageFormat;
 		VkExtent2D swapChainExtent;
+		std::vector<VkImageView> swapChainImageViews;
 
 		void createInstance();
 		void setupDebugMessenger();
@@ -42,6 +43,7 @@ namespace Phronesis
 		void pickPhysicalDevice();
 		void createLogicalDevice();
 		void createSwapChain();
+		void createImageViews();
 
 		std::vector<const char*> getRequiredExtensions();
 	};

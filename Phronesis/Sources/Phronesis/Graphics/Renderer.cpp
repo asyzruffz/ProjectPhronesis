@@ -37,6 +37,7 @@ void Renderer::initVulkan()
 	pickPhysicalDevice();
 	createLogicalDevice();
 	createSwapChain();
+	createImageViews();
 }
 
 void Renderer::update()
@@ -49,6 +50,10 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
+	for(auto imageView : swapChainImageViews)
+	{	// destroy image views
+		vkDestroyImageView(device, imageView, nullptr);
+	}
 	vkDestroySwapchainKHR(device, swapChain, nullptr); // destroy swap chain
 	vkDestroyDevice(device, nullptr); // destroy logical device (and queues)
 	if (enableValidationLayers) 
@@ -302,6 +307,37 @@ void Renderer::createSwapChain()
 
 	swapChainImageFormat = surfaceFormat.format;
 	swapChainExtent = extent;
+}
+
+void Renderer::createImageViews()
+{
+	swapChainImageViews.resize(swapChainImages.size());
+
+	for(size_t i = 0; i < swapChainImages.size(); i++)
+	{
+		// create image view
+		VkImageViewCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		createInfo.image = swapChainImages[i];
+		createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D; // allows us to treat images as 1D, 2D, 3D textures or cube maps
+		createInfo.format = swapChainImageFormat;
+		createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT; // used as color targets
+		createInfo.subresourceRange.baseMipLevel = 0; // without any mipmapping levels
+		createInfo.subresourceRange.levelCount = 1;
+		createInfo.subresourceRange.baseArrayLayer = 0;
+		createInfo.subresourceRange.layerCount = 1; // no multiple layers
+
+		VkResult result = vkCreateImageView(device, &createInfo, nullptr, &swapChainImageViews[i]);
+		if(result != VK_SUCCESS)
+		{
+			std::cerr << "Vulkan error: Failed to create image view" << std::endl;
+			RenderUtils::checkVk(result);
+		}
+	}
 }
 
 std::vector<const char*> Renderer::getRequiredExtensions()
