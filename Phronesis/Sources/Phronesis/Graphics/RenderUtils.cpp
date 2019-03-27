@@ -2,14 +2,23 @@
 #include "RenderUtils.hpp"
 
 #include <iostream>
-#include <cstring> // for strcmp
+#include <string>
+#include <set>
+#include <algorithm> // std::clamp
 #include <stdexcept>
+
+#include "Phronesis/Core/Game.hpp"
 
 using namespace Phronesis;
 
 // request standard diagnostics layers provided by the Vulkan SDK
 const std::vector<const char*> RenderUtils::validationLayers = {
 	"VK_LAYER_LUNARG_standard_validation"
+};
+
+// request device extension for image presentation to surface
+const std::vector<const char*> RenderUtils::deviceExtensions = {
+	VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
 void RenderUtils::checkVk(const VkResult &result)
@@ -169,9 +178,19 @@ bool RenderUtils::isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface
 	// check for required features if neccessary
 
 	// check which queue families are supported by the device
-	// right now only look for a queue that supports graphics commands
 	QueueFamilyIndices indices = findQueueFamilies(device, surface);
-	return indices.isComplete();
+	// check if the device extension(s) is supported
+	bool extensionsSupported = checkDeviceExtensionSupport(device);
+
+	// verify that swap chain support is adequate
+	bool swapChainAdequate = false;
+	if(extensionsSupported)
+	{
+		SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device, surface);
+		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentationModes.empty();
+	}
+
+	return indices.isComplete() && extensionsSupported && swapChainAdequate;
 }
 
 QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface)
@@ -184,9 +203,10 @@ QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice de
 	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
 	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
-	int i = 0; // find at least one queue family that supports VK_QUEUE_GRAPHICS_BIT
+	int i = 0;
 	for(const auto& queueFamily : queueFamilies)
 	{
+		// find at least one queue family that supports VK_QUEUE_GRAPHICS_BIT
 		if(queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 		{
 			indices.graphicsFamily = i;
@@ -212,7 +232,123 @@ QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice de
 	return indices;
 }
 
-bool QueueFamilyIndices::isComplete()
+SwapChainSupportDetails RenderUtils::querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface)
 {
-	return graphicsFamily.has_value() && presentationFamily.has_value();
+	SwapChainSupportDetails details;
+
+	// query the basic surface capabilities
+	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
+
+	// query the supported surface formats
+	uint32_t formatCount;
+	vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
+	if(formatCount != 0)
+	{
+		details.formats.resize(formatCount);
+		vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
+	}
+
+	// query the supported presentation modes
+	uint32_t presentationModeCount;
+	vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentationModeCount, nullptr);
+	if(presentationModeCount != 0)
+	{
+		details.presentationModes.resize(presentationModeCount);
+		vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentationModeCount, details.presentationModes.data());
+	}
+
+	return details;
+}
+
+VkSurfaceFormatKHR RenderUtils::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
+{
+	// VkSurfaceFormatKHR struct contains a format and a colorSpace member
+
+	// VK_FORMAT_B8G8R8A8_UNORM means that we store the B, G, R and alpha channels in that order 
+	// with an 8 bit unsigned integer for a total of 32 bits per pixel
+	// VK_COLOR_SPACE_SRGB_NONLINEAR_KHR flag indicates if the SRGB color space is supported or not
+
+	// best case scenario is that the surface has no preferred format
+	if(availableFormats.size() == 1 && availableFormats[0].format == VK_FORMAT_UNDEFINED)
+	{
+		return { VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR };
+	}
+
+	// if we're not free to choose any format, then we'll go through the list 
+	// and see if the preferred combination is available
+	for(const auto& availableFormat : availableFormats)
+	{
+		if(availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+		{
+			return availableFormat;
+		}
+	}
+
+	// settle with the first format that is specified
+	return availableFormats[0];
+}
+
+VkPresentModeKHR RenderUtils::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
+{
+	// see the links to read about each presentation mode 
+	// https://vulkan-tutorial.com/Drawing_a_triangle/Presentation/Swap_chain#page_Presentation_mode
+	
+	VkPresentModeKHR bestMode = VK_PRESENT_MODE_FIFO_KHR;
+
+	for(const auto& availablePresentMode : availablePresentModes)
+	{
+		if(availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
+		{
+			return availablePresentMode;
+		}
+		else if(availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
+		{
+			bestMode = availablePresentMode;
+		}
+	}
+
+	return bestMode;
+}
+
+VkExtent2D RenderUtils::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
+{
+	// swap extent is the resolution of the swap chain images and 
+	// it's almost always exactly equal to the resolution of the window that we're drawing to.
+	// however, some window managers do allow us to differ by setting the width/height value 
+	// to the maximum value of uint32_t
+
+	if(capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
+	{
+		return capabilities.currentExtent;
+	}
+	else
+	{
+		// pick the resolution that best matches the window
+		VkExtent2D actualExtent = { static_cast<uint32_t>(Game::WIDTH), static_cast<uint32_t>(Game::HEIGHT) };
+
+		// clamp the value between the allowed minimum and maximum extents
+		actualExtent.width = std::clamp(actualExtent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+		actualExtent.height = std::clamp(actualExtent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+
+		return actualExtent;
+	}
+}
+
+bool RenderUtils::checkDeviceExtensionSupport(VkPhysicalDevice device)
+{
+	// enumerate the available extensions
+	uint32_t extensionCount;
+	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
+	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
+
+	// check if all of the required extensions are amongst them
+	std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+
+	for(const auto& extension : availableExtensions)
+	{
+		requiredExtensions.erase(extension.extensionName);
+	}
+
+	return requiredExtensions.empty();
 }

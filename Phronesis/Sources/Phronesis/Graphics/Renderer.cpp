@@ -36,6 +36,7 @@ void Renderer::initVulkan()
 	createSurface();
 	pickPhysicalDevice();
 	createLogicalDevice();
+	createSwapChain();
 }
 
 void Renderer::update()
@@ -48,6 +49,7 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
+	vkDestroySwapchainKHR(device, swapChain, nullptr); // destroy swap chain
 	vkDestroyDevice(device, nullptr); // destroy logical device (and queues)
 	if (enableValidationLayers) 
 	{	// destroy debug messenger resposible for validation
@@ -217,7 +219,8 @@ void Renderer::createLogicalDevice()
 	createInfo.pQueueCreateInfos = queueCreateInfos.data();
 	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
 	createInfo.pEnabledFeatures = &deviceFeatures;
-	createInfo.enabledExtensionCount = 0; // TODO: enable some extensions
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(RenderUtils::deviceExtensions.size());
+	createInfo.ppEnabledExtensionNames = RenderUtils::deviceExtensions.data();
 	if(enableValidationLayers)
 	{
 		createInfo.enabledLayerCount = static_cast<uint32_t>(RenderUtils::validationLayers.size());
@@ -239,6 +242,66 @@ void Renderer::createLogicalDevice()
 	// but we need to have a handle to interface with the graphics and presentation queue
 	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 	vkGetDeviceQueue(device, indices.presentationFamily.value(), 0, &presentationQueue);
+}
+
+void Renderer::createSwapChain()
+{
+	SwapChainSupportDetails swapChainSupport = RenderUtils::querySwapChainSupport(physicalDevice, surface);
+
+	VkSurfaceFormatKHR surfaceFormat = RenderUtils::chooseSwapSurfaceFormat(swapChainSupport.formats);
+	VkPresentModeKHR presentationMode = RenderUtils::chooseSwapPresentMode(swapChainSupport.presentationModes);
+	VkExtent2D extent = RenderUtils::chooseSwapExtent(swapChainSupport.capabilities);
+
+	// request at least one more image because we may sometimes have to wait on the driver 
+	// to complete internal operations before we can acquire another image to render to
+	uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+	// make sure to not exceed the maximum number of images
+	if(swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
+	{ // 0  means that there is no maximum
+		imageCount = swapChainSupport.capabilities.maxImageCount;
+	}
+
+	QueueFamilyIndices indices = RenderUtils::findQueueFamilies(physicalDevice, surface);
+	uint32_t queueFamilyIndices[] = { indices.graphicsFamily.value(), indices.presentationFamily.value() };
+
+	// create the swap chain
+	VkSwapchainCreateInfoKHR createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+	createInfo.surface = surface;
+	createInfo.minImageCount = imageCount;
+	createInfo.imageFormat = surfaceFormat.format;
+	createInfo.imageColorSpace = surfaceFormat.colorSpace;
+	createInfo.imageExtent = extent;
+	createInfo.imageArrayLayers = 1; // always 1 unless we are developing a stereoscopic 3D application
+	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // render directly to image without post-processing
+	if(indices.graphicsFamily != indices.presentationFamily) {
+		createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+		createInfo.queueFamilyIndexCount = 2;
+		createInfo.pQueueFamilyIndices = queueFamilyIndices;
+	} else {
+		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+		createInfo.queueFamilyIndexCount = 0; // Optional
+		createInfo.pQueueFamilyIndices = nullptr; // Optional
+	}
+	createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
+	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // blending with other windows in the window system? no, so opaque
+	createInfo.presentMode = presentationMode;
+	createInfo.clipped = VK_TRUE;
+	createInfo.oldSwapchain = VK_NULL_HANDLE;
+
+	VkResult result = vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain);
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to create swap chain" << std::endl;
+		RenderUtils::checkVk(result);
+	}
+
+	vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
+	swapChainImages.resize(imageCount);
+	vkGetSwapchainImagesKHR(device, swapChain, &imageCount, swapChainImages.data());
+
+	swapChainImageFormat = surfaceFormat.format;
+	swapChainExtent = extent;
 }
 
 std::vector<const char*> Renderer::getRequiredExtensions()

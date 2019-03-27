@@ -5,8 +5,8 @@
 
 using namespace Phronesis;
 
-const int WIDTH = 800;
-const int HEIGHT = 600;
+const int Game::WIDTH = 800;
+const int Game::HEIGHT = 600;
 
 void Game::run()
 {

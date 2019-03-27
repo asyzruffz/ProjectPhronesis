@@ -28,6 +28,12 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\QueueFamilyIndices.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -40,6 +46,9 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\QueueFamilyIndices.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

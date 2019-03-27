@@ -12,6 +12,9 @@ namespace Phronesis
 
 		void run();
 
+		static const int WIDTH;
+		static const int HEIGHT;
+
 	protected:
 		void init();
 		void mainLoop();
