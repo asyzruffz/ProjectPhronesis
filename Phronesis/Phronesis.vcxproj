@@ -23,6 +23,8 @@
     <ClInclude Include="Sources\Phronesis\Core.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\Engine.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\Game.hpp" />
+    <ClInclude Include="Sources\Phronesis\FileIO.hpp" />
+    <ClInclude Include="Sources\Phronesis\FileIO\BinaryFile.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\QueueFamilyIndices.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp" />
@@ -32,6 +34,7 @@
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
+    <ClCompile Include="Sources\Phronesis\FileIO\BinaryFile.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\QueueFamilyIndices.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\RenderUtils.cpp" />

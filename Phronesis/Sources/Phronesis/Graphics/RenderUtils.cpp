@@ -193,7 +193,7 @@ bool RenderUtils::isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface
 	return indices.isComplete() && extensionsSupported && swapChainAdequate;
 }
 
-QueueFamilyIndices Phronesis::RenderUtils::findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface)
+QueueFamilyIndices RenderUtils::findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface)
 {
 	QueueFamilyIndices indices;
 
@@ -332,6 +332,25 @@ VkExtent2D RenderUtils::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabil
 
 		return actualExtent;
 	}
+}
+
+VkShaderModule RenderUtils::createShaderModule(VkDevice device, const std::vector<char>& code)
+{
+	// create shader module
+	VkShaderModuleCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+	createInfo.codeSize = code.size();
+	createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
+
+	VkShaderModule shaderModule;
+	VkResult result = vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule);
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to create shader module" << std::endl;
+		checkVk(result);
+	}
+
+	return shaderModule;
 }
 
 bool RenderUtils::checkDeviceExtensionSupport(VkPhysicalDevice device)

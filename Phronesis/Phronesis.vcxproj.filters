@@ -7,6 +7,9 @@
     <Filter Include="Graphics">
       <UniqueIdentifier>{1f9a31db-873b-443f-bd6a-1f3242c62cbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileIO">
+      <UniqueIdentifier>{6762210b-9ddb-4187-83d1-ebc6d09ab957}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Phronesis.hpp" />
@@ -34,6 +37,12 @@
     <ClInclude Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\FileIO.hpp">
+      <Filter>FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\FileIO\BinaryFile.hpp">
+      <Filter>FileIO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -50,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\QueueFamilyIndices.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\FileIO\BinaryFile.cpp">
+      <Filter>FileIO</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

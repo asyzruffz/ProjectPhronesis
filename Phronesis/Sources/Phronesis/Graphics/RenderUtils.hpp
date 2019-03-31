@@ -32,6 +32,9 @@ namespace Phronesis
 		static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
+		// Shader related
+		static VkShaderModule createShaderModule(VkDevice device, const std::vector<char>& code);
+
 		// Lists to configure
 		static const std::vector<const char*> validationLayers;
 		static const std::vector<const char*> deviceExtensions;
