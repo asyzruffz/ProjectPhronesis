@@ -10,10 +10,28 @@
     <Filter Include="Core">
       <UniqueIdentifier>{40322add-ab77-4394-bd9e-a0e6fcf92fab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{587aeaaa-6653-4235-8462-1b28765ca36c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{82243cf2-8834-4921-be9d-a29d4d563a9f}</UniqueIdentifier>
+      <Extensions>glsl;comp;frag;geom;tesc;tese;vert</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Core\Game.hpp">
       <Filter>Core</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\shader_base.frag">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\shader_base.vert">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\compileshader.bat">
+      <Filter>Resources\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
