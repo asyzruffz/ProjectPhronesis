@@ -37,6 +37,8 @@ namespace Phronesis
 		VkExtent2D swapChainExtent;
 		std::vector<VkImageView> swapChainImageViews;
 
+		VkPipelineLayout pipelineLayout;
+
 		void createInstance();
 		void setupDebugMessenger();
 		void createSurface();
