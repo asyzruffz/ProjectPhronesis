@@ -3,12 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.438
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phronesis", "Phronesis\Phronesis.vcxproj", "{1A4805C6-DDF5-4B14-B84B-F44B19714D11}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame", "TestGame\TestGame.vcxproj", "{722FB912-85D1-4377-B2E8-45083D59B617}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1A4805C6-DDF5-4B14-B84B-F44B19714D11} = {1A4805C6-DDF5-4B14-B84B-F44B19714D11}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Phronesis", "Phronesis\Phronesis.vcxproj", "{1A4805C6-DDF5-4B14-B84B-F44B19714D11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
