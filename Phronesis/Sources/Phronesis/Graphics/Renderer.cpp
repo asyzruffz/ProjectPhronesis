@@ -43,6 +43,7 @@ void Renderer::initVulkan()
 	createGraphicsPipeline();
 	createFramebuffers();
 	createCommandPool();
+	createCommandBuffers();
 }
 
 void Renderer::update()
@@ -572,6 +573,64 @@ void Renderer::createCommandPool()
 	{
 		std::cerr << "Vulkan error: Failed to create command pool" << std::endl;
 		RenderUtils::checkVk(result);
+	}
+}
+
+void Renderer::createCommandBuffers()
+{
+	commandBuffers.resize(swapChainFramebuffers.size());
+
+	VkCommandBufferAllocateInfo allocInfo = {};
+	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	allocInfo.commandPool = commandPool;
+	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+	allocInfo.commandBufferCount = (uint32_t)commandBuffers.size();
+
+	VkResult result = vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data());
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to allocate command buffers" << std::endl;
+		RenderUtils::checkVk(result);
+	}
+
+	for(size_t i = 0; i < commandBuffers.size(); i++)
+	{
+		VkCommandBufferBeginInfo beginInfo = {};
+		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+
+		result = vkBeginCommandBuffer(commandBuffers[i], &beginInfo);
+		if(result != VK_SUCCESS)
+		{
+			std::cerr << "Vulkan error: Failed to begin recording command buffer" << std::endl;
+			RenderUtils::checkVk(result);
+		}
+
+		VkRenderPassBeginInfo renderPassInfo = {};
+		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassInfo.renderPass = renderPass;
+		renderPassInfo.framebuffer = swapChainFramebuffers[i];
+		renderPassInfo.renderArea.offset = { 0, 0 };
+		renderPassInfo.renderArea.extent = swapChainExtent;
+
+		VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
+		renderPassInfo.clearValueCount = 1;
+		renderPassInfo.pClearValues = &clearColor;
+
+		vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+			vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+
+			vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
+
+		vkCmdEndRenderPass(commandBuffers[i]);
+
+		result = vkEndCommandBuffer(commandBuffers[i]);
+		if(result != VK_SUCCESS)
+		{
+			std::cerr << "Vulkan error: Failed to record command buffer" << std::endl;
+			RenderUtils::checkVk(result);
+		}
 	}
 }
 

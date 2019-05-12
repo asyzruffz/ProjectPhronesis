@@ -43,6 +43,7 @@ namespace Phronesis
 		VkPipeline graphicsPipeline;
 
 		VkCommandPool commandPool;
+		std::vector<VkCommandBuffer> commandBuffers;
 
 		void createInstance();
 		void setupDebugMessenger();
@@ -55,6 +56,7 @@ namespace Phronesis
 		void createGraphicsPipeline();
 		void createFramebuffers();
 		void createCommandPool();
+		void createCommandBuffers();
 
 		std::vector<const char*> getRequiredExtensions();
 	};
