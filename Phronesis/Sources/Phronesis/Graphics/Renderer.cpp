@@ -53,6 +53,9 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
+	// destroy graphics pipeline
+	vkDestroyPipeline(device, graphicsPipeline, nullptr);
+
 	// destroy pipeline layout
 	vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 
@@ -482,6 +485,30 @@ void Renderer::createGraphicsPipeline()
 	if(result != VK_SUCCESS)
 	{
 		std::cerr << "Vulkan error: Failed to create pipeline layout" << std::endl;
+		RenderUtils::checkVk(result);
+	}
+
+	VkGraphicsPipelineCreateInfo pipelineInfo = {};
+	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	pipelineInfo.stageCount = 2;
+	pipelineInfo.pStages = shaderStages;
+	pipelineInfo.pVertexInputState = &vertexInputInfo;
+	pipelineInfo.pInputAssemblyState = &inputAssembly;
+	pipelineInfo.pViewportState = &viewportState;
+	pipelineInfo.pRasterizationState = &rasterizer;
+	pipelineInfo.pMultisampleState = &multisampling;
+	pipelineInfo.pDepthStencilState = nullptr; // Optional
+	pipelineInfo.pColorBlendState = &colorBlending;
+	pipelineInfo.pDynamicState = nullptr; // Optional
+	pipelineInfo.layout = pipelineLayout;
+	pipelineInfo.renderPass = renderPass;
+	pipelineInfo.subpass = 0;
+	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
+
+	result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline);
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to create graphics pipeline" << std::endl;
 		RenderUtils::checkVk(result);
 	}
 

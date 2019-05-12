@@ -39,6 +39,7 @@ namespace Phronesis
 
 		VkRenderPass renderPass;
 		VkPipelineLayout pipelineLayout;
+		VkPipeline graphicsPipeline;
 
 		void createInstance();
 		void setupDebugMessenger();
