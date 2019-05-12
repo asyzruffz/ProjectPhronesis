@@ -19,7 +19,7 @@ void Game::init()
 {
 	renderer = new Renderer;
 
-	renderer->initWindow(WIDTH, HEIGHT, "Phronesis - Test Game (Vulkan)");
+	renderer->initWindow(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
 	renderer->initVulkan();
 }
 

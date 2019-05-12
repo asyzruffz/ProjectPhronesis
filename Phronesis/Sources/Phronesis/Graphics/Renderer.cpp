@@ -54,6 +54,8 @@ void Renderer::update()
 		glfwPollEvents();
 		drawFrame();
 	}
+
+	vkDeviceWaitIdle(device);
 }
 
 void Renderer::disposeVulkan()
@@ -98,7 +100,7 @@ void Renderer::disposeWindow()
 {
 	glfwDestroyWindow(window);
 	glfwTerminate();
-	//system("pause");
+	system("pause");
 }
 
 void Renderer::createInstance()
@@ -391,12 +393,22 @@ void Renderer::createRenderPass()
 	subpass.colorAttachmentCount = 1;
 	subpass.pColorAttachments = &colorAttachmentRef;
 
+	VkSubpassDependency dependency = {};
+	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+	dependency.dstSubpass = 0;
+	dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.srcAccessMask = 0;
+	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
 	VkRenderPassCreateInfo renderPassInfo = {};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 	renderPassInfo.attachmentCount = 1;
 	renderPassInfo.pAttachments = &colorAttachment;
 	renderPassInfo.subpassCount = 1;
-	renderPassInfo.pSubpasses = &subpass;
+	renderPassInfo.pSubpasses = &subpass; 
+	renderPassInfo.dependencyCount = 1;
+	renderPassInfo.pDependencies = &dependency;
 
 	VkResult result = vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderPass);
 	if(result != VK_SUCCESS)
@@ -657,6 +669,41 @@ void Renderer::createSemaphores()
 
 void Renderer::drawFrame()
 {
+	uint32_t imageIndex;
+	vkAcquireNextImageKHR(device, swapChain, std::numeric_limits<uint64_t>::max(), 
+						  imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+
+	VkSemaphore waitSemaphores[] = { imageAvailableSemaphore };
+	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	VkSemaphore signalSemaphores[] = { renderFinishedSemaphore };
+
+	VkSubmitInfo submitInfo = {};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	submitInfo.waitSemaphoreCount = 1;
+	submitInfo.pWaitSemaphores = waitSemaphores;
+	submitInfo.pWaitDstStageMask = waitStages;
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &commandBuffers[imageIndex];
+	submitInfo.signalSemaphoreCount = 1;
+	submitInfo.pSignalSemaphores = signalSemaphores;
+
+	VkResult result = vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to submit draw command buffer" << std::endl;
+	}
+
+	VkSwapchainKHR swapChains[] = { swapChain };
+
+	VkPresentInfoKHR presentationInfo = {};
+	presentationInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	presentationInfo.waitSemaphoreCount = 1;
+	presentationInfo.pWaitSemaphores = signalSemaphores;
+	presentationInfo.swapchainCount = 1;
+	presentationInfo.pSwapchains = swapChains;
+	presentationInfo.pImageIndices = &imageIndex;
+
+	vkQueuePresentKHR(presentationQueue, &presentationInfo);
 }
 
 std::vector<const char*> Renderer::getRequiredExtensions()
