@@ -42,6 +42,7 @@ void Renderer::initVulkan()
 	createRenderPass();
 	createGraphicsPipeline();
 	createFramebuffers();
+	createCommandPool();
 }
 
 void Renderer::update()
@@ -54,6 +55,9 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
+	// destroy command pool
+	vkDestroyCommandPool(device, commandPool, nullptr);
+
 	// destroy framebuffers
 	for(auto framebuffer : swapChainFramebuffers)
 	{
@@ -549,6 +553,25 @@ void Renderer::createFramebuffers()
 			std::cerr << "Vulkan error: Failed to create framebuffer" << std::endl;
 			RenderUtils::checkVk(result);
 		}
+	}
+}
+
+void Renderer::createCommandPool()
+{
+	QueueFamilyIndices queueFamilyIndices = RenderUtils::findQueueFamilies(physicalDevice, surface);
+
+	VkCommandPoolCreateInfo poolInfo = {};
+	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
+	poolInfo.flags = 0; // Optional
+	// we will only record the command buffers at the beginning of the program and 
+	// then execute them many times in the main loop, so we're not going to use the flag
+
+	VkResult result = vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool);
+	if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to create command pool" << std::endl;
+		RenderUtils::checkVk(result);
 	}
 }
 
