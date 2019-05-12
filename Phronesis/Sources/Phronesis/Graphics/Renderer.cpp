@@ -44,6 +44,7 @@ void Renderer::initVulkan()
 	createFramebuffers();
 	createCommandPool();
 	createCommandBuffers();
+	createSemaphores();
 }
 
 void Renderer::update()
@@ -51,11 +52,16 @@ void Renderer::update()
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
+		drawFrame();
 	}
 }
 
 void Renderer::disposeVulkan()
 {
+	// destroy semaphores
+	vkDestroySemaphore(device, renderFinishedSemaphore, nullptr);
+	vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
+
 	// destroy command pool
 	vkDestroyCommandPool(device, commandPool, nullptr);
 
@@ -632,6 +638,25 @@ void Renderer::createCommandBuffers()
 			RenderUtils::checkVk(result);
 		}
 	}
+}
+
+void Renderer::createSemaphores()
+{
+	VkSemaphoreCreateInfo semaphoreInfo = {};
+	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+	VkResult result1 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphore);
+	VkResult result2 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphore);
+	if(result1 != VK_SUCCESS || result2 != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to create semaphores" << std::endl;
+		RenderUtils::checkVk(result1);
+		RenderUtils::checkVk(result2);
+	}
+}
+
+void Renderer::drawFrame()
+{
 }
 
 std::vector<const char*> Renderer::getRequiredExtensions()

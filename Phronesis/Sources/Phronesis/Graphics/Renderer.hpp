@@ -45,6 +45,9 @@ namespace Phronesis
 		VkCommandPool commandPool;
 		std::vector<VkCommandBuffer> commandBuffers;
 
+		VkSemaphore imageAvailableSemaphore;
+		VkSemaphore renderFinishedSemaphore;
+
 		void createInstance();
 		void setupDebugMessenger();
 		void createSurface();
@@ -57,6 +60,8 @@ namespace Phronesis
 		void createFramebuffers();
 		void createCommandPool();
 		void createCommandBuffers();
+		void createSemaphores();
+		void drawFrame();
 
 		std::vector<const char*> getRequiredExtensions();
 	};
