@@ -36,6 +36,7 @@ namespace Phronesis
 		VkFormat swapChainImageFormat;
 		VkExtent2D swapChainExtent;
 		std::vector<VkImageView> swapChainImageViews;
+		std::vector<VkFramebuffer> swapChainFramebuffers;
 
 		VkRenderPass renderPass;
 		VkPipelineLayout pipelineLayout;
@@ -50,6 +51,7 @@ namespace Phronesis
 		void createImageViews();
 		void createRenderPass();
 		void createGraphicsPipeline();
+		void createFramebuffers();
 
 		std::vector<const char*> getRequiredExtensions();
 	};
