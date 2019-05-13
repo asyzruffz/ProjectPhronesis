@@ -17,6 +17,8 @@ namespace Phronesis
 		void disposeVulkan();
 		void disposeWindow();
 
+		void triggerFramebufferResize();
+
 	private:
 		GLFWwindow* window;
 
@@ -50,6 +52,9 @@ namespace Phronesis
 		std::vector<VkFence> inFlightFences;
 		size_t currentFrame = 0;
 
+		bool framebufferResized = false;
+
+	private:
 		void createInstance();
 		void setupDebugMessenger();
 		void createSurface();
@@ -63,6 +68,9 @@ namespace Phronesis
 		void createCommandPool();
 		void createCommandBuffers();
 		void createSyncObjects();
+
+		void recreateSwapChain();
+		void cleanupSwapChain();
 		void drawFrame();
 
 		std::vector<const char*> getRequiredExtensions();

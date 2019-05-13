@@ -9,6 +9,9 @@
 
 #include "Phronesis/Core/Game.hpp"
 
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+
 using namespace Phronesis;
 
 // request standard diagnostics layers provided by the Vulkan SDK
@@ -310,7 +313,7 @@ VkPresentModeKHR RenderUtils::chooseSwapPresentMode(const std::vector<VkPresentM
 	return bestMode;
 }
 
-VkExtent2D RenderUtils::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
+VkExtent2D RenderUtils::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window)
 {
 	// swap extent is the resolution of the swap chain images and 
 	// it's almost always exactly equal to the resolution of the window that we're drawing to.
@@ -323,8 +326,14 @@ VkExtent2D RenderUtils::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabil
 	}
 	else
 	{
+		int width, height;
+		glfwGetFramebufferSize(window, &width, &height);
+
 		// pick the resolution that best matches the window
-		VkExtent2D actualExtent = { static_cast<uint32_t>(Game::WIDTH), static_cast<uint32_t>(Game::HEIGHT) };
+		VkExtent2D actualExtent = { 
+			static_cast<uint32_t>(width),
+			static_cast<uint32_t>(height)
+		};
 
 		// clamp the value between the allowed minimum and maximum extents
 		actualExtent.width = std::clamp(actualExtent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);

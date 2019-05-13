@@ -22,14 +22,22 @@ const bool enableValidationLayers = true;
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
+static void framebufferResizeCallback(GLFWwindow* window, int width, int height)
+{
+	auto renderer = reinterpret_cast<Renderer*>(glfwGetWindowUserPointer(window));
+	renderer->triggerFramebufferResize();
+}
+
 void Renderer::initWindow(int width, int height, const char* title)
 {
 	glfwInit(); // initialize the glfw library
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // tell it to not create an OpenGL context
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // disable window resize
+	// glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // disable window resize
 
 	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	glfwSetWindowUserPointer(window, this); // store a reference to Renderer class with this window
+	glfwSetFramebufferSizeCallback(window, framebufferResizeCallback); // callback for window resize
 }
 
 void Renderer::initVulkan()
@@ -62,6 +70,8 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
+	cleanupSwapChain();
+
 	// destroy semaphores and fences
 	for(size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 	{
@@ -73,33 +83,19 @@ void Renderer::disposeVulkan()
 	// destroy command pool
 	vkDestroyCommandPool(device, commandPool, nullptr);
 
-	// destroy framebuffers
-	for(auto framebuffer : swapChainFramebuffers)
-	{
-		vkDestroyFramebuffer(device, framebuffer, nullptr);
-	}
+	// destroy logical device (and queues)
+	vkDestroyDevice(device, nullptr);
 
-	// destroy graphics pipeline
-	vkDestroyPipeline(device, graphicsPipeline, nullptr);
-
-	// destroy pipeline layout
-	vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-
-	// destroy render pass
-	vkDestroyRenderPass(device, renderPass, nullptr);
-
-	for(auto imageView : swapChainImageViews)
-	{	// destroy image views
-		vkDestroyImageView(device, imageView, nullptr);
-	}
-	vkDestroySwapchainKHR(device, swapChain, nullptr); // destroy swap chain
-	vkDestroyDevice(device, nullptr); // destroy logical device (and queues)
 	if (enableValidationLayers) 
 	{	// destroy debug messenger resposible for validation
 		RenderUtils::destroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 	}
-	vkDestroySurfaceKHR(instance, surface, nullptr); // destroy window surface
-	vkDestroyInstance(instance, nullptr); // destroy Vulkan instance
+
+	// destroy window surface // destroy window surface
+	vkDestroySurfaceKHR(instance, surface, nullptr);
+
+	// destroy Vulkan instance
+	vkDestroyInstance(instance, nullptr);
 }
 
 void Renderer::disposeWindow()
@@ -107,6 +103,11 @@ void Renderer::disposeWindow()
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	//system("pause");
+}
+
+void Renderer::triggerFramebufferResize()
+{
+	framebufferResized = true;
 }
 
 void Renderer::createInstance()
@@ -293,7 +294,7 @@ void Renderer::createSwapChain()
 
 	VkSurfaceFormatKHR surfaceFormat = RenderUtils::chooseSwapSurfaceFormat(swapChainSupport.formats);
 	VkPresentModeKHR presentationMode = RenderUtils::chooseSwapPresentMode(swapChainSupport.presentationModes);
-	VkExtent2D extent = RenderUtils::chooseSwapExtent(swapChainSupport.capabilities);
+	VkExtent2D extent = RenderUtils::chooseSwapExtent(swapChainSupport.capabilities, window);
 
 	// request at least one more image because we may sometimes have to wait on the driver 
 	// to complete internal operations before we can acquire another image to render to
@@ -687,19 +688,88 @@ void Renderer::createSyncObjects()
 	}
 }
 
+void Renderer::recreateSwapChain()
+{
+	int width = 0, height = 0;
+	while(width == 0 || height == 0)
+	{	// when minimized, pause until the window is in the foreground
+		glfwGetFramebufferSize(window, &width, &height);
+		glfwWaitEvents();
+	}
+
+	vkDeviceWaitIdle(device);
+
+	cleanupSwapChain();
+
+	// create functions for the objects that depend on the swap chain or the window size
+	createSwapChain();
+	createImageViews();
+	createRenderPass();
+	createGraphicsPipeline();
+	createFramebuffers();
+	createCommandBuffers();
+}
+
+void Renderer::cleanupSwapChain()
+{
+	// destroy framebuffers
+	for(auto framebuffer : swapChainFramebuffers)
+	{
+		vkDestroyFramebuffer(device, framebuffer, nullptr);
+	}
+
+	// clean up the existing command buffers instead of destroying it
+	vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+
+	// destroy graphics pipeline
+	vkDestroyPipeline(device, graphicsPipeline, nullptr);
+
+	// destroy pipeline layout
+	vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+
+	// destroy render pass
+	vkDestroyRenderPass(device, renderPass, nullptr);
+
+	// destroy image views
+	for(auto imageView : swapChainImageViews)
+	{
+		vkDestroyImageView(device, imageView, nullptr);
+	}
+
+	// destroy swap chain
+	vkDestroySwapchainKHR(device, swapChain, nullptr);
+}
+
 void Renderer::drawFrame()
 {
+	// fence waits for available frame
 	vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
+
+	// acquire an image from the swap chain
+	uint32_t imageIndex;
+	VkResult result = vkAcquireNextImageKHR(device, swapChain, std::numeric_limits<uint64_t>::max(),
+								imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+	if(result == VK_ERROR_OUT_OF_DATE_KHR)
+	{	// the swap chain has become incompatible with the surface
+		// usually happens after a window resize
+		recreateSwapChain();
+		return;
+	}
+	else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
+	{
+		std::cerr << "Vulkan error: Failed to acquire swap chain image" << std::endl;
+		RenderUtils::checkVk(result);
+	}
+
 	vkResetFences(device, 1, &inFlightFences[currentFrame]);
 
-	uint32_t imageIndex;
-	vkAcquireNextImageKHR(device, swapChain, std::numeric_limits<uint64_t>::max(), 
-						  imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
-
+	// semaphores to signal that an image has been acquired and is ready for rendering
+	//		  and to signal that rendering has finished and presentation can happen
 	VkSemaphore waitSemaphores[] = { imageAvailableSemaphores[currentFrame] };
 	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 	VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
 
+	// submit the command buffer
 	VkSubmitInfo submitInfo = {};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 	submitInfo.waitSemaphoreCount = 1;
@@ -710,12 +780,14 @@ void Renderer::drawFrame()
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores;
 
-	VkResult result = vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]);
+	result = vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]);
 	if(result != VK_SUCCESS)
 	{
 		std::cerr << "Vulkan error: Failed to submit draw command buffer" << std::endl;
+		RenderUtils::checkVk(result);
 	}
 
+	// submit the result back to the swap chain to have it show up on the screen
 	VkSwapchainKHR swapChains[] = { swapChain };
 
 	VkPresentInfoKHR presentationInfo = {};
@@ -726,7 +798,17 @@ void Renderer::drawFrame()
 	presentationInfo.pSwapchains = swapChains;
 	presentationInfo.pImageIndices = &imageIndex;
 
-	vkQueuePresentKHR(presentationQueue, &presentationInfo);
+	result = vkQueuePresentKHR(presentationQueue, &presentationInfo);
+	if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized)
+	{	// also recreate the swap chain if it is suboptimal
+		recreateSwapChain();
+		framebufferResized = false;
+	}
+	else if(result != VK_SUCCESS)
+	{
+		std::cerr << "Vulkan error: Failed to present swap chain image" << std::endl;
+		RenderUtils::checkVk(result);
+	}
 
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
