@@ -20,6 +20,8 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
+const int MAX_FRAMES_IN_FLIGHT = 2;
+
 void Renderer::initWindow(int width, int height, const char* title)
 {
 	glfwInit(); // initialize the glfw library
@@ -44,7 +46,7 @@ void Renderer::initVulkan()
 	createFramebuffers();
 	createCommandPool();
 	createCommandBuffers();
-	createSemaphores();
+	createSyncObjects();
 }
 
 void Renderer::update()
@@ -60,9 +62,13 @@ void Renderer::update()
 
 void Renderer::disposeVulkan()
 {
-	// destroy semaphores
-	vkDestroySemaphore(device, renderFinishedSemaphore, nullptr);
-	vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
+	// destroy semaphores and fences
+	for(size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+	{
+		vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
+		vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
+		vkDestroyFence(device, inFlightFences[i], nullptr);
+	}
 
 	// destroy command pool
 	vkDestroyCommandPool(device, commandPool, nullptr);
@@ -100,7 +106,7 @@ void Renderer::disposeWindow()
 {
 	glfwDestroyWindow(window);
 	glfwTerminate();
-	system("pause");
+	//system("pause");
 }
 
 void Renderer::createInstance()
@@ -652,30 +658,47 @@ void Renderer::createCommandBuffers()
 	}
 }
 
-void Renderer::createSemaphores()
+void Renderer::createSyncObjects()
 {
+	// create semaphores and fences
+	imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
+	renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
+	inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
+
 	VkSemaphoreCreateInfo semaphoreInfo = {};
 	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-	VkResult result1 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphore);
-	VkResult result2 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphore);
-	if(result1 != VK_SUCCESS || result2 != VK_SUCCESS)
+	VkFenceCreateInfo fenceInfo = {};
+	fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+	fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+	for(size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 	{
-		std::cerr << "Vulkan error: Failed to create semaphores" << std::endl;
-		RenderUtils::checkVk(result1);
-		RenderUtils::checkVk(result2);
+		VkResult result1 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]);
+		VkResult result2 = vkCreateSemaphore(device, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]);
+		VkResult result3 = vkCreateFence(device, &fenceInfo, nullptr, &inFlightFences[i]);
+		if(result1 != VK_SUCCESS || result2 != VK_SUCCESS || result3 != VK_SUCCESS)
+		{
+			std::cerr << "Vulkan error: Failed to create synchronization objects for a frame" << std::endl;
+			RenderUtils::checkVk(result1);
+			RenderUtils::checkVk(result2);
+			RenderUtils::checkVk(result3);
+		}
 	}
 }
 
 void Renderer::drawFrame()
 {
+	vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
+	vkResetFences(device, 1, &inFlightFences[currentFrame]);
+
 	uint32_t imageIndex;
 	vkAcquireNextImageKHR(device, swapChain, std::numeric_limits<uint64_t>::max(), 
-						  imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+						  imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
 
-	VkSemaphore waitSemaphores[] = { imageAvailableSemaphore };
+	VkSemaphore waitSemaphores[] = { imageAvailableSemaphores[currentFrame] };
 	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-	VkSemaphore signalSemaphores[] = { renderFinishedSemaphore };
+	VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
 
 	VkSubmitInfo submitInfo = {};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -687,7 +710,7 @@ void Renderer::drawFrame()
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores;
 
-	VkResult result = vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
+	VkResult result = vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]);
 	if(result != VK_SUCCESS)
 	{
 		std::cerr << "Vulkan error: Failed to submit draw command buffer" << std::endl;
@@ -704,6 +727,8 @@ void Renderer::drawFrame()
 	presentationInfo.pImageIndices = &imageIndex;
 
 	vkQueuePresentKHR(presentationQueue, &presentationInfo);
+
+	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
 std::vector<const char*> Renderer::getRequiredExtensions()
