@@ -196,11 +196,11 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Sources\Core\Game.cpp" />
+    <ClCompile Include="Sources\Core\SandboxGame.cpp" />
+    <ClCompile Include="Sources\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Core\Game.hpp" />
+    <ClInclude Include="Sources\Core\SandboxGame.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\compileshader.bat" />

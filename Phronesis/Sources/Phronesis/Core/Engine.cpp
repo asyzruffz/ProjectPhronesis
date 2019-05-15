@@ -1,11 +1,4 @@
 
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
 #include <cstdlib>
 #include <iostream>
 
@@ -13,30 +6,25 @@
 using namespace Phronesis;
 
 
-void Engine::test()
+Engine::Engine(char** argv, int argc)
 {
-	glfwInit();
-
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
-
-	uint32_t extensionCount = 0;
-	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-
-	std::cout << extensionCount << " extensions supported" << std::endl;
-
-	glm::mat4 matrix;
-	glm::vec4 vec;
-	auto test = matrix * vec;
-
-	while (!glfwWindowShouldClose(window)) {
-		glfwPollEvents();
+	args.resize(argc); // convert arguments to string vector
+	for(int i = 0; i < argc; i++)
+	{
+		args[i] = argv[i];
 	}
+}
 
-	glfwDestroyWindow(window);
+Engine::~Engine()
+{
+}
 
-	glfwTerminate();
+void Engine::setGame(Game* newGame)
+{
+	game = std::unique_ptr<Game>(newGame);
+}
 
-	std::cout << "OK!" << std::endl;
-	system("pause");
+void Engine::run()
+{
+	if(game) game->run();
 }
