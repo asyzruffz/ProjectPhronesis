@@ -1,5 +1,6 @@
-#include "SandboxGame.hpp"
 
+#include "StdAfx.h"
+#include "SandboxGame.hpp"
 
 
 SandboxGame::SandboxGame()

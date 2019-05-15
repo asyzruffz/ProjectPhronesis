@@ -1,7 +1,6 @@
 
+#include "StdAfx.h"
 #include "BinaryFile.hpp"
-
-#include <fstream>
 
 using namespace Phronesis;
 

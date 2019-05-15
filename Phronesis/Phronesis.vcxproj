@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Phronesis\Core\ModuleHandler.hpp" />
     <ClInclude Include="Sources\Phronesis.hpp" />
     <ClInclude Include="Sources\Phronesis\Core.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\Engine.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\Game.hpp" />
+    <ClInclude Include="Sources\Phronesis\Core\Module.hpp" />
     <ClInclude Include="Sources\Phronesis\FileIO.hpp" />
     <ClInclude Include="Sources\Phronesis\FileIO\BinaryFile.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics.hpp" />
@@ -30,14 +32,22 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\RenderUtils.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.hpp" />
+    <ClInclude Include="Sources\StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Phronesis\Core\ModuleHandler.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
     <ClCompile Include="Sources\Phronesis\FileIO\BinaryFile.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\QueueFamilyIndices.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\RenderUtils.cpp" />
+    <ClCompile Include="Sources\StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A4805C6-DDF5-4B14-B84B-F44B19714D11}</ProjectGuid>
@@ -115,13 +125,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,13 +151,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,14 +178,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -196,14 +206,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

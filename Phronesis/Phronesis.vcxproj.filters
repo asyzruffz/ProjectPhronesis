@@ -43,6 +43,13 @@
     <ClInclude Include="Sources\Phronesis\FileIO\BinaryFile.hpp">
       <Filter>FileIO</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\StdAfx.h" />
+    <ClInclude Include="Sources\Phronesis\Core\Module.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Core\ModuleHandler.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -63,5 +70,9 @@
     <ClCompile Include="Sources\Phronesis\FileIO\BinaryFile.cpp">
       <Filter>FileIO</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Core\ModuleHandler.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\StdAfx.cpp" />
   </ItemGroup>
 </Project>

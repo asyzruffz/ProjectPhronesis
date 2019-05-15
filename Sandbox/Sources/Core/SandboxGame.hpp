@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Phronesis/Core/Game.hpp"
+#include "Phronesis/Core.hpp"
 
 class SandboxGame : public Phronesis::Game
 {

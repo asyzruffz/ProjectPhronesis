@@ -1,11 +1,6 @@
 
+#include "StdAfx.h"
 #include "RenderUtils.hpp"
-
-#include <iostream>
-#include <string>
-#include <set>
-#include <algorithm> // std::clamp
-#include <stdexcept>
 
 #include "Phronesis/Core/Game.hpp"
 
