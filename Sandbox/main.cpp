@@ -5,17 +5,14 @@
 #include <stdexcept>
 #include <cstdlib> // provide EXIT_SUCCESS
 
-#include "Phronesis/Core/Game.hpp"
+#include "Phronesis/Core.hpp"
 
 
 int main(int argc, char **argv)
 {
-	//Phronesis::Engine engine;
-	//engine.test();
-
-	Phronesis::Game game;
-
 	try {
+		Phronesis::Engine engine(argv, argc);
+
 		game.run();
 	}
 	catch(const std::exception& e) {
