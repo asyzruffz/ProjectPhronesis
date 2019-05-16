@@ -1,11 +1,9 @@
 
+#include "StdAfx.hpp"
 #include "Renderer.hpp"
 
-#include <iostream>
-#include <set>
-#include <stdexcept>
-
-#include "Phronesis/Graphics/RenderUtils.hpp"
+#include "RenderUtils.hpp"
+#include "Phronesis/Core/Engine.hpp"
 #include "Phronesis/FileIO/BinaryFile.hpp"
 
 #define GLFW_INCLUDE_VULKAN
@@ -59,17 +57,21 @@ void Renderer::initVulkan()
 
 void Renderer::update()
 {
-	while (!glfwWindowShouldClose(window))
+	if(glfwWindowShouldClose(window))
 	{
-		glfwPollEvents();
-		drawFrame();
+		Engine::Get()->stop();
+		return;
 	}
 
-	vkDeviceWaitIdle(device);
+	glfwPollEvents();
+	drawFrame();
 }
 
 void Renderer::disposeVulkan()
 {
+	// wait if device is busy
+	vkDeviceWaitIdle(device);
+
 	cleanupSwapChain();
 
 	// destroy semaphores and fences

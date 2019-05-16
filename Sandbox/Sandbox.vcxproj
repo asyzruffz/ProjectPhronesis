@@ -103,7 +103,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -128,7 +128,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)Lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -155,7 +155,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -184,7 +184,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -215,7 +215,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Core\SandboxGame.hpp" />
-    <ClInclude Include="Sources\StdAfx.h" />
+    <ClInclude Include="Sources\StdAfx.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\compileshader.bat" />

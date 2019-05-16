@@ -32,7 +32,9 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\RenderUtils.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.hpp" />
-    <ClInclude Include="Sources\StdAfx.h" />
+    <ClInclude Include="Sources\Phronesis\Utilities.hpp" />
+    <ClInclude Include="Sources\Phronesis\Utilities\TypeInfo.hpp" />
+    <ClInclude Include="Sources\StdAfx.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\ModuleHandler.cpp" />
@@ -131,7 +133,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,7 +159,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -185,7 +187,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -213,7 +215,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

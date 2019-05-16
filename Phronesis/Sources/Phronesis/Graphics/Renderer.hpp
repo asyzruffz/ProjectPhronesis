@@ -1,19 +1,21 @@
 #pragma once
 
+#include <vector>
+
 #include <vulkan/vulkan.h>
 
-#include <vector>
+#include "Phronesis/Core/Module.hpp"
 
 struct GLFWwindow;
 
 namespace Phronesis
 {
-	class Renderer
+	class Renderer : public Module
 	{
 	public:
 		void initWindow(int width, int height, const char* title);
 		void initVulkan();
-		void update();
+		void update() override;
 		void disposeVulkan();
 		void disposeWindow();
 

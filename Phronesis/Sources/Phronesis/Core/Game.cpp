@@ -1,6 +1,8 @@
 
+#include "StdAfx.hpp"
 #include "Game.hpp"
 
+#include "Engine.hpp"
 #include "Phronesis/Graphics/Renderer.hpp"
 
 using namespace Phronesis;
@@ -17,20 +19,29 @@ void Game::run()
 
 void Game::init()
 {
-	renderer = new Renderer;
+	modules.add<Renderer>(Module::Stage::Render);
 
-	renderer->initWindow(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
-	renderer->initVulkan();
+	modules.get<Renderer>()->initWindow(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
+	modules.get<Renderer>()->initVulkan();
 }
 
 void Game::mainLoop()
 {
-	renderer->update();
+	while(Engine::Get()->isRunning())
+	{
+		modules.updateStage(Module::Stage::Always);
+
+		modules.updateStage(Module::Stage::Pre);
+		modules.updateStage(Module::Stage::Normal);
+		modules.updateStage(Module::Stage::Post);
+
+
+		modules.updateStage(Module::Stage::Render);
+	}
 }
 
 void Game::dispose()
 {
-	renderer->disposeVulkan();
-	renderer->disposeWindow();
-	delete renderer;
+	modules.get<Renderer>()->disposeVulkan();
+	modules.get<Renderer>()->disposeWindow();
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ModuleHandler.hpp"
+
 namespace Phronesis
 {
 	class Renderer;
@@ -21,6 +23,6 @@ namespace Phronesis
 		void dispose();
 
 	private:
-		Renderer* renderer;
+		ModuleHandler modules;
 	};
 }

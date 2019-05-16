@@ -10,6 +10,9 @@
     <Filter Include="FileIO">
       <UniqueIdentifier>{6762210b-9ddb-4187-83d1-ebc6d09ab957}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{e19c94f7-65dd-475e-820e-3b788a126f02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Phronesis.hpp" />
@@ -43,12 +46,18 @@
     <ClInclude Include="Sources\Phronesis\FileIO\BinaryFile.hpp">
       <Filter>FileIO</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\StdAfx.h" />
     <ClInclude Include="Sources\Phronesis\Core\Module.hpp">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Sources\Phronesis\Core\ModuleHandler.hpp">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\StdAfx.hpp" />
+    <ClInclude Include="Sources\Phronesis\Utilities\TypeInfo.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Utilities.hpp">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
