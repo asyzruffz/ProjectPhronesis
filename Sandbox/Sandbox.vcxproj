@@ -204,7 +204,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Sources\Core\SandboxGame.cpp" />
+    <ClCompile Include="Sources\SandboxGame.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -214,7 +214,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Core\SandboxGame.hpp" />
+    <ClInclude Include="Sources\SandboxGame.hpp" />
     <ClInclude Include="Sources\StdAfx.hpp" />
   </ItemGroup>
   <ItemGroup>

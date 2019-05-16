@@ -2,18 +2,8 @@
 #include "StdAfx.hpp"
 #include "ModuleHandler.hpp"
 
-#include "Phronesis/Graphics/Renderer.hpp"
-
 using namespace Phronesis;
 
-
-ModuleHandler::ModuleHandler()
-{
-}
-
-ModuleHandler::~ModuleHandler()
-{
-}
 
 void ModuleHandler::updateStage(const Module::Stage & stage)
 {

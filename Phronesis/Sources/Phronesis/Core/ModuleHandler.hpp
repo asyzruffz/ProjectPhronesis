@@ -17,9 +17,7 @@ namespace Phronesis
 	class ModuleHandler
 	{
 	public:
-		ModuleHandler();
-		~ModuleHandler();
-
+		
 		template<typename T>
 		bool has() const
 		{

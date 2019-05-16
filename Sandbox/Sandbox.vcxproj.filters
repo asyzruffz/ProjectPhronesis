@@ -1,16 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Sources\Core\SandboxGame.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp" />
+    <ClCompile Include="Sources\SandboxGame.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Core">
-      <UniqueIdentifier>{40322add-ab77-4394-bd9e-a0e6fcf92fab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{587aeaaa-6653-4235-8462-1b28765ca36c}</UniqueIdentifier>
     </Filter>
@@ -31,9 +26,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Core\SandboxGame.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\StdAfx.hpp" />
+    <ClInclude Include="Sources\SandboxGame.hpp" />
   </ItemGroup>
 </Project>
