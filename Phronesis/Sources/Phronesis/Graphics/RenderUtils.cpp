@@ -1,5 +1,5 @@
 
-#include "StdAfx.h"
+#include "StdAfx.hpp"
 #include "RenderUtils.hpp"
 
 #include "Phronesis/Core/Game.hpp"

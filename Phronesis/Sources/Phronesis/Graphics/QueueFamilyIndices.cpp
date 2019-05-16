@@ -1,5 +1,5 @@
 
-#include "StdAfx.h"
+#include "StdAfx.hpp"
 #include "QueueFamilyIndices.hpp"
 
 using namespace Phronesis;
