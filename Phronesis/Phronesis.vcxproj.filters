@@ -59,6 +59,9 @@
     <ClInclude Include="Sources\Phronesis\Utilities.hpp">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Core\Log.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -83,5 +86,8 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Sources\StdAfx.cpp" />
+    <ClCompile Include="Sources\Phronesis\Core\Log.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

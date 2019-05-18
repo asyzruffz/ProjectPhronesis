@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Phronesis\Core\Log.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\ModuleHandler.hpp" />
     <ClInclude Include="Sources\Phronesis.hpp" />
     <ClInclude Include="Sources\Phronesis\Core.hpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Sources\StdAfx.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Phronesis\Core\Log.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\ModuleHandler.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
@@ -131,7 +133,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VStudioExtLib\spdlog-1.3.1\include;D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -157,7 +159,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VStudioExtLib\spdlog-1.3.1\include;D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -185,7 +187,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VStudioExtLib\spdlog-1.3.1\include;D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>
@@ -213,7 +215,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VStudioExtLib\spdlog-1.3.1\include;D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
     </ClCompile>

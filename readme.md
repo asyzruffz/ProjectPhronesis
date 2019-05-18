@@ -8,5 +8,6 @@ A project to develop a video game engine.
 ### Library dependencies
 * Engine:
   * C++17
-  * Vulkan
-  * GLFW
+  * [Vulkan](https://vulkan.lunarg.com/)
+  * [GLFW](https://www.glfw.org/)
+  * [spdlog](https://github.com/gabime/spdlog)

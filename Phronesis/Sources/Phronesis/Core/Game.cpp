@@ -7,7 +7,7 @@
 
 using namespace Phronesis;
 
-const int Game::WIDTH = 800;
+const int Game::WIDTH = 600;
 const int Game::HEIGHT = 600;
 
 void Game::run()

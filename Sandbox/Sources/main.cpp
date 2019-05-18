@@ -3,7 +3,7 @@
 
 #include "StdAfx.hpp"
 
-#include "Core/SandboxGame.hpp"
+#include "SandboxGame.hpp"
 
 int main(int argc, char** argv)
 {

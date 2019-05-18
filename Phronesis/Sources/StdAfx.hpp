@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <stdexcept>
+#include <filesystem>
 #include <memory>
 #include <utility>
 #include <string>
@@ -13,4 +14,5 @@
 #include <optional>
 #include <algorithm>
 
+#include "Phronesis/Core/Log.hpp"
 #include "Phronesis/Utilities/TypeInfo.hpp"
