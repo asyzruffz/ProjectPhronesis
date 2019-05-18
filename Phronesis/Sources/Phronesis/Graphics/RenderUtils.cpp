@@ -28,7 +28,7 @@ void RenderUtils::checkVk(const VkResult &result)
 	}
 
 	std::string failure = stringifyResultVk(result);
-	throw std::runtime_error("Vulkan error: " + failure);
+	throw std::runtime_error("[ERROR] [Vulkan] " + failure);
 }
 
 std::string RenderUtils::stringifyResultVk(const VkResult &result)
@@ -99,12 +99,14 @@ bool RenderUtils::checkValidationLayerSupport()
 
 	// log the validation layers
 #ifndef NDEBUG
-	std::cout << "Vulkan info: Required validation layers:" << std::endl;
+	std::cout << std::endl;
+	Log::info("[Vulkan] Required validation layers:");
 	for (const char* layerName : validationLayers) {
 		std::cout << "\t" << layerName << std::endl;
 	}
 
-	std::cout << "Vulkan info: Available validation layers:" << std::endl;
+	std::cout << std::endl;
+	Log::info("[Vulkan] Available validation layers:");
 	for (const auto& layerProperties : availableLayers) {
 		std::cout << "\t" << layerProperties.layerName << std::endl;
 	}
@@ -134,13 +136,13 @@ std::string RenderUtils::stringifyMessageSeverity(const VkDebugUtilsMessageSever
 	switch(severity)
 	{
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
-			return "verbose";
+			return "VERBOSE";
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-			return "info";
+			return "INFO";
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
-			return "warning";
+			return "WARNING";
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
-			return "error";
+			return "ERROR";
 		default:
 			return "?";
 	}
@@ -167,7 +169,21 @@ void RenderUtils::destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtil
 
 VKAPI_ATTR VkBool32 VKAPI_CALL RenderUtils::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT * pCallbackData, void * pUserData)
 {
-	std::cerr << "Vulkan validation (" << stringifyMessageSeverity(messageSeverity) << "): " << pCallbackData->pMessage << std::endl;
+	switch(messageSeverity)
+	{
+		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
+		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
+			Log::info("[Vulkan] {}", pCallbackData->pMessage);
+			break;
+		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
+		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
+		default:
+			Log::error("[Vulkan] {}", pCallbackData->pMessage);
+			break;
+	}
+
+	//Log::info("[Vulkan] [{}] {}", stringifyMessageSeverity(messageSeverity), pCallbackData->pMessage);
+	//std::cerr << "Vulkan validation (" << stringifyMessageSeverity(messageSeverity) << "): " << pCallbackData->pMessage << std::endl;
 	return VK_FALSE;
 }
 
@@ -350,7 +366,7 @@ VkShaderModule RenderUtils::createShaderModule(VkDevice device, const std::vecto
 	VkResult result = vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create shader module" << std::endl;
+		Log::error("[Vulkan] Failed to create shader module");
 		checkVk(result);
 	}
 

@@ -13,19 +13,19 @@ namespace Phronesis
 
 		// log into console and file
 		template<typename... Args>
-		static void info(const char* msg, const Args& ...args);
+		static void info(const std::string& msg, const Args& ...args);
 
 		template<typename... Args>
-		static void error(const char* msg, const Args& ...args);
+		static void error(const std::string& msg, const Args& ...args);
 
 		// in addition to console & file, also log in-game
 		template<typename... Args>
-		static void debug(const char* msg, const Args& ...args);
+		static void debug(const std::string& msg, const Args& ...args);
 
 		template<typename... Args>
-		static void print(const char* msg, const Args& ...args);
+		static void print(const std::string& msg, const Args& ...args);
 
-		static void echo(const char* msg); // for echoing user command
+		static void echo(const std::string& msg); // for echoing user command
 
 	private:
 		Log() = default;

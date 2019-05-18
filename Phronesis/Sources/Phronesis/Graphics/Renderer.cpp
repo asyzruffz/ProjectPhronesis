@@ -137,15 +137,23 @@ void Renderer::createInstance()
 	std::vector<VkExtensionProperties> extensionsAvailable(extensionCount);
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensionsAvailable.data());
 
-	std::cout << "Vulkan info: Required extensions:" << std::endl;
+	std::string ext = "";
+	ext = "[Vulkan] Required extensions:";
 	for (const auto& extension : extensions) {
-		std::cout << "\t" << extension << std::endl;
+		ext += "\n\t" + std::string(extension);
 	}
 
-	std::cout << "Vulkan info: Available extensions:" << std::endl;
+	std::cout << std::endl;
+	Log::info("{}", ext);
+	std::cout << std::endl;
+
+	ext = "[Vulkan] Available extensions:";
 	for (const auto& extension : extensionsAvailable) {
-		std::cout << "\t" << extension.extensionName << std::endl;
+		ext += "\n\t" + std::string(extension.extensionName);
 	}
+
+	Log::info(ext);
+	std::cout << std::endl;
 #endif
 
 	// function parameters for creating a Vulkan instance (not optional),
@@ -167,7 +175,7 @@ void Renderer::createInstance()
 	VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create instance" << std::endl;
+		Log::error("[Vulkan] Failed to create instance");
 		RenderUtils::checkVk(result);
 	}
 }
@@ -188,7 +196,7 @@ void Renderer::setupDebugMessenger()
 	VkResult result = RenderUtils::createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger);
 	if (result != VK_SUCCESS) 
 	{
-		std::cerr << "Vulkan error: Failed to set up debug messenger" << std::endl;
+		Log::error("[Vulkan] Failed to set up debug messenger");
 		RenderUtils::checkVk(result);
 	}
 }
@@ -198,7 +206,7 @@ void Renderer::createSurface()
 	VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create window surface" << std::endl;
+		Log::error("[Vulkan] Failed to create window surface");
 		RenderUtils::checkVk(result);
 	}
 }
@@ -280,7 +288,7 @@ void Renderer::createLogicalDevice()
 	VkResult result = vkCreateDevice(physicalDevice, &createInfo, nullptr, &device);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create logical device" << std::endl;
+		Log::error("[Vulkan] Failed to create logical device");
 		RenderUtils::checkVk(result);
 	}
 
@@ -338,7 +346,7 @@ void Renderer::createSwapChain()
 	VkResult result = vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create swap chain" << std::endl;
+		Log::error("[Vulkan] Failed to create swap chain");
 		RenderUtils::checkVk(result);
 	}
 
@@ -375,7 +383,7 @@ void Renderer::createImageViews()
 		VkResult result = vkCreateImageView(device, &createInfo, nullptr, &swapChainImageViews[i]);
 		if(result != VK_SUCCESS)
 		{
-			std::cerr << "Vulkan error: Failed to create image view" << std::endl;
+			Log::error("[Vulkan] Failed to create image view");
 			RenderUtils::checkVk(result);
 		}
 	}
@@ -422,7 +430,7 @@ void Renderer::createRenderPass()
 	VkResult result = vkCreateRenderPass(device, &renderPassInfo, nullptr, &renderPass);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create render pass" << std::endl;
+		Log::error("[Vulkan] Failed to create render pass");
 		RenderUtils::checkVk(result);
 	}
 }
@@ -523,7 +531,7 @@ void Renderer::createGraphicsPipeline()
 	VkResult result = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create pipeline layout" << std::endl;
+		Log::error("[Vulkan] Failed to create pipeline layout");
 		RenderUtils::checkVk(result);
 	}
 
@@ -547,7 +555,7 @@ void Renderer::createGraphicsPipeline()
 	result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create graphics pipeline" << std::endl;
+		Log::error("[Vulkan] Failed to create graphics pipeline");
 		RenderUtils::checkVk(result);
 	}
 
@@ -578,7 +586,7 @@ void Renderer::createFramebuffers()
 		VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &swapChainFramebuffers[i]);
 		if(result != VK_SUCCESS)
 		{
-			std::cerr << "Vulkan error: Failed to create framebuffer" << std::endl;
+			Log::error("[Vulkan] Failed to create framebuffer");
 			RenderUtils::checkVk(result);
 		}
 	}
@@ -598,7 +606,7 @@ void Renderer::createCommandPool()
 	VkResult result = vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to create command pool" << std::endl;
+		Log::error("[Vulkan] Failed to create command pool");
 		RenderUtils::checkVk(result);
 	}
 }
@@ -616,7 +624,7 @@ void Renderer::createCommandBuffers()
 	VkResult result = vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data());
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to allocate command buffers" << std::endl;
+		Log::error("[Vulkan] Failed to allocate command buffers");
 		RenderUtils::checkVk(result);
 	}
 
@@ -629,7 +637,7 @@ void Renderer::createCommandBuffers()
 		result = vkBeginCommandBuffer(commandBuffers[i], &beginInfo);
 		if(result != VK_SUCCESS)
 		{
-			std::cerr << "Vulkan error: Failed to begin recording command buffer" << std::endl;
+			Log::error("[Vulkan] Failed to begin recording command buffer");
 			RenderUtils::checkVk(result);
 		}
 
@@ -655,7 +663,7 @@ void Renderer::createCommandBuffers()
 		result = vkEndCommandBuffer(commandBuffers[i]);
 		if(result != VK_SUCCESS)
 		{
-			std::cerr << "Vulkan error: Failed to record command buffer" << std::endl;
+			Log::error("[Vulkan] Failed to record command buffer");
 			RenderUtils::checkVk(result);
 		}
 	}
@@ -682,7 +690,7 @@ void Renderer::createSyncObjects()
 		VkResult result3 = vkCreateFence(device, &fenceInfo, nullptr, &inFlightFences[i]);
 		if(result1 != VK_SUCCESS || result2 != VK_SUCCESS || result3 != VK_SUCCESS)
 		{
-			std::cerr << "Vulkan error: Failed to create synchronization objects for a frame" << std::endl;
+			Log::error("[Vulkan] Failed to create synchronization objects for a frame");
 			RenderUtils::checkVk(result1);
 			RenderUtils::checkVk(result2);
 			RenderUtils::checkVk(result3);
@@ -759,7 +767,7 @@ void Renderer::drawFrame()
 	}
 	else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
 	{
-		std::cerr << "Vulkan error: Failed to acquire swap chain image" << std::endl;
+		Log::error("[Vulkan] Failed to acquire swap chain image");
 		RenderUtils::checkVk(result);
 	}
 
@@ -785,7 +793,7 @@ void Renderer::drawFrame()
 	result = vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]);
 	if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to submit draw command buffer" << std::endl;
+		Log::error("[Vulkan] Failed to submit draw command buffer");
 		RenderUtils::checkVk(result);
 	}
 
@@ -808,7 +816,7 @@ void Renderer::drawFrame()
 	}
 	else if(result != VK_SUCCESS)
 	{
-		std::cerr << "Vulkan error: Failed to present swap chain image" << std::endl;
+		Log::error("[Vulkan] Failed to present swap chain image");
 		RenderUtils::checkVk(result);
 	}
 

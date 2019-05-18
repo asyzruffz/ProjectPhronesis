@@ -43,32 +43,32 @@ void Log::init()
 }
 
 template<typename... Args>
-void Log::info(const char* msg, const Args& ...args)
+void Log::info(const std::string& msg, const Args& ...args)
 {
-	inst()->engineLogger->info(msg, args...);
+	inst()->engineLogger->info(msg.c_str(), args...);
 }
 
 template<typename... Args>
-void Log::error(const char* msg, const Args& ...args)
+void Log::error(const std::string& msg, const Args& ...args)
 {
-	inst()->engineLogger->error(msg, args...);
+	inst()->engineLogger->error(msg.c_str(), args...);
 }
 
 template<typename... Args>
-void Log::debug(const char* msg, const Args& ...args)
+void Log::debug(const std::string& msg, const Args& ...args)
 {
-	inst()->gameLogger->debug(msg, args...);
+	inst()->gameLogger->debug(msg.c_str(), args...);
 }
 
 template<typename... Args>
-void Log::print(const char* msg, const Args& ...args)
+void Log::print(const std::string& msg, const Args& ...args)
 {
-	inst()->gameLogger->trace(msg, args...);
+	inst()->gameLogger->trace(msg.c_str(), args...);
 }
 
-void Log::echo(const char* msg)
+void Log::echo(const std::string& msg)
 {
-	inst()->gameLogger->warn(msg);
+	inst()->gameLogger->warn(msg.c_str());
 }
 
 Log* Log::inst()
@@ -97,8 +97,20 @@ void solveLinkingIssue()
 	Log::debug("Debug {}", 0.1);
 	Log::print("Print {}", 0.1);
 
-	Log::info("Info {}", "?!");
-	Log::error("Error {}", "?!");
-	Log::debug("Debug {}", "?!");
-	Log::print("Print {}", "?!");
+	Log::info("Info {}", "!");
+	Log::error("Error {}", "!");
+	Log::debug("Debug {}", "!");
+	Log::print("Print {}", "!");
+
+	const char* cstr = "!";
+	Log::info("Info {}", cstr);
+	Log::error("Error {}", cstr);
+	Log::debug("Debug {}", cstr);
+	Log::print("Print {}", cstr);
+
+	std::string s = "!";
+	Log::info("Info {}", s);
+	Log::error("Error {}", s);
+	Log::debug("Debug {}", s);
+	Log::print("Print {}", s);
 }
