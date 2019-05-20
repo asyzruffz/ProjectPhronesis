@@ -100,7 +100,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources;$(SolutionDir)Phronesis\Sources\External</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
@@ -125,7 +125,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources;$(SolutionDir)Phronesis\Sources\External</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
@@ -152,7 +152,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources;$(SolutionDir)Phronesis\Sources\External</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
@@ -181,7 +181,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Phronesis\Sources;$(SolutionDir)Phronesis\Sources\External</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>

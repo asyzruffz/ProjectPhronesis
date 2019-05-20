@@ -2,7 +2,15 @@
 
 #include <memory>
 
-namespace spdlog { class logger; }
+#define SPDLOG_NO_NAME
+#define SPDLOG_NO_THREAD_ID
+#define SPDLOG_NO_ATOMIC_LEVELS
+#define SPDLOG_DISABLE_DEFAULT_LOGGER
+
+#define SPDLOG_LEVEL_NAMES { " ", "DEBUG", "INFO", "CMD", "ERROR", "CRITICAL", "OFF" }
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+
+#include "spdlog/spdlog.h"
 
 namespace Phronesis
 {
@@ -13,17 +21,29 @@ namespace Phronesis
 
 		// log into console and file
 		template<typename... Args>
-		static void info(const std::string& msg, const Args& ...args);
+		static void info(const std::string& msg, const Args& ...args)
+		{
+			inst()->engineLogger->info(msg.c_str(), args...);
+		}
 
 		template<typename... Args>
-		static void error(const std::string& msg, const Args& ...args);
+		static void error(const std::string& msg, const Args& ...args)
+		{
+			inst()->engineLogger->error(msg.c_str(), args...);
+		}
 
 		// in addition to console & file, also log in-game
 		template<typename... Args>
-		static void debug(const std::string& msg, const Args& ...args);
+		static void debug(const std::string& msg, const Args& ...args)
+		{
+			inst()->gameLogger->debug(msg.c_str(), args...);
+		}
 
 		template<typename... Args>
-		static void print(const std::string& msg, const Args& ...args);
+		static void print(const std::string& msg, const Args& ...args)
+		{
+			inst()->gameLogger->trace(msg.c_str(), args...);
+		}
 
 		static void echo(const std::string& msg); // for echoing user command
 

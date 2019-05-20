@@ -1,0 +1,3 @@
+[submodule "Phronesis/Sources/External/spdlog"]
+	path = Phronesis/Sources/External/spdlog
+	url = https://github.com/asyzruffz/spdlog.git
