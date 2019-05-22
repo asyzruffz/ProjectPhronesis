@@ -42,6 +42,11 @@ void Engine::setGame(Game* newGame)
 	game = std::unique_ptr<Game>(newGame);
 }
 
+Game& Engine::getGame()
+{
+	return *(game.get());
+}
+
 void Engine::run()
 {
 	running = true;

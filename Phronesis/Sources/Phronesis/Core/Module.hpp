@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Engine.hpp"
 #include "Phronesis/Utilities/TypeInfo.hpp"
 
 namespace Phronesis
@@ -16,6 +17,12 @@ namespace Phronesis
 		virtual ~Module() = default;
 
 		virtual void update() = 0;
+
+		template<typename T>
+		bool hasModule() const { return Engine::Get()->getGame().hasModule<T>(); }
+
+		template<typename T>
+		T* getModule() const { return Engine::Get()->getGame().getModule<T>(); }
 	};
 
 	template class TypeInfo<Module>;

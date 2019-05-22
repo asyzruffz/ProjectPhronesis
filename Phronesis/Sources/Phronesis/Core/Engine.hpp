@@ -15,6 +15,8 @@ namespace Phronesis
 		~Engine();
 
 		void setGame(Game* newGame);
+		Game& getGame();
+
 		void run();
 
 		bool isRunning() const;
