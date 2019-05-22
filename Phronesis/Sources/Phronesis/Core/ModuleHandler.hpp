@@ -32,7 +32,7 @@ namespace Phronesis
 
 			if(it == modules.end() || it->second.module == nullptr)
 			{
-				throw std::runtime_error("Module Handler does not have requested Module");
+				throw std::runtime_error("[ERROR] Module handler does not have requested Module");
 				return nullptr;
 			}
 

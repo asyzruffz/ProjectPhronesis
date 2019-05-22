@@ -224,6 +224,10 @@
     <ClInclude Include="Sources\External\spdlog\sinks\wincolor_sink.h">
       <Filter>_External\spdlog</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\Window.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\Instance.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -250,6 +254,10 @@
     <ClCompile Include="Sources\StdAfx.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Log.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\Instance.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

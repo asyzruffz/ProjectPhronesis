@@ -3,21 +3,12 @@
 #include "RenderUtils.hpp"
 
 #include "Phronesis/Core/Game.hpp"
+#include "Instance.hpp"
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 using namespace Phronesis;
-
-// request standard diagnostics layers provided by the Vulkan SDK
-const std::vector<const char*> RenderUtils::validationLayers = {
-	"VK_LAYER_LUNARG_standard_validation"
-};
-
-// request device extension for image presentation to surface
-const std::vector<const char*> RenderUtils::deviceExtensions = {
-	VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
 
 void RenderUtils::checkVk(const VkResult &result)
 {
@@ -88,49 +79,6 @@ std::string RenderUtils::stringifyResultVk(const VkResult &result)
 	}
 }
 
-bool RenderUtils::checkValidationLayerSupport()
-{
-	uint32_t layerCount;
-	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-
-	// list all of the available layers
-	std::vector<VkLayerProperties> availableLayers(layerCount);
-	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-	// log the validation layers
-#ifndef NDEBUG
-	std::cout << std::endl;
-	Log::info("[Vulkan] Required validation layers:");
-	for (const char* layerName : validationLayers) {
-		std::cout << "\t" << layerName << std::endl;
-	}
-
-	std::cout << std::endl;
-	Log::info("[Vulkan] Available validation layers:");
-	for (const auto& layerProperties : availableLayers) {
-		std::cout << "\t" << layerProperties.layerName << std::endl;
-	}
-#endif
-
-	// check if all of the layers in validationLayers exist in the availableLayers list
-	for (const char* layerName : validationLayers) {
-		bool layerFound = false;
-
-		for (const auto& layerProperties : availableLayers) {
-			if (strcmp(layerName, layerProperties.layerName) == 0) {
-				layerFound = true;
-				break;
-			}
-		}
-
-		if (!layerFound) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 std::string RenderUtils::stringifyMessageSeverity(const VkDebugUtilsMessageSeverityFlagBitsEXT &severity)
 {
 	switch(severity)
@@ -146,45 +94,6 @@ std::string RenderUtils::stringifyMessageSeverity(const VkDebugUtilsMessageSever
 		default:
 			return "?";
 	}
-}
-
-VkResult RenderUtils::createDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
-{
-	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
-	if (func != nullptr) {
-		return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
-	}
-	else {
-		return VK_ERROR_EXTENSION_NOT_PRESENT;
-	}
-}
-
-void RenderUtils::destroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator)
-{
-	auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
-	if (func != nullptr) {
-		func(instance, debugMessenger, pAllocator);
-	}
-}
-
-VKAPI_ATTR VkBool32 VKAPI_CALL RenderUtils::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT * pCallbackData, void * pUserData)
-{
-	switch(messageSeverity)
-	{
-		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
-		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-			Log::info("[Vulkan] {}", pCallbackData->pMessage);
-			break;
-		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
-		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
-		default:
-			Log::error("[Vulkan] {}", pCallbackData->pMessage);
-			break;
-	}
-
-	//Log::info("[Vulkan] [{}] {}", stringifyMessageSeverity(messageSeverity), pCallbackData->pMessage);
-	//std::cerr << "Vulkan validation (" << stringifyMessageSeverity(messageSeverity) << "): " << pCallbackData->pMessage << std::endl;
-	return VK_FALSE;
 }
 
 bool RenderUtils::isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface)
@@ -382,7 +291,7 @@ bool RenderUtils::checkDeviceExtensionSupport(VkPhysicalDevice device)
 	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
 
 	// check if all of the required extensions are amongst them
-	std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
+	std::set<std::string> requiredExtensions(Instance::deviceExtensions.begin(), Instance::deviceExtensions.end());
 
 	for(const auto& extension : availableExtensions)
 	{

@@ -3,6 +3,7 @@
 #include "Game.hpp"
 
 #include "Engine.hpp"
+#include "Phronesis/Graphics/Window.hpp"
 #include "Phronesis/Graphics/Renderer.hpp"
 
 using namespace Phronesis;
@@ -19,8 +20,10 @@ void Game::run()
 
 void Game::init()
 {
-	modules.add<Renderer>(Module::Stage::Render);
+	modules.add<Window>(Module::Stage::Render);
+	modules.get<Window>()->init(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
 
+	modules.add<Renderer>(Module::Stage::Render);
 	modules.get<Renderer>()->initWindow(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
 	modules.get<Renderer>()->initVulkan();
 }

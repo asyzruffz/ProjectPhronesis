@@ -5,6 +5,7 @@
 #include <vulkan/vulkan.h>
 
 #include "Phronesis/Core/Module.hpp"
+#include "Instance.hpp"
 
 struct GLFWwindow;
 
@@ -22,11 +23,9 @@ namespace Phronesis
 		void triggerFramebufferResize();
 
 	private:
+		Instance instance;
+
 		GLFWwindow* window;
-
-		VkInstance instance;
-		VkDebugUtilsMessengerEXT debugMessenger;
-
 		VkSurfaceKHR surface;
 
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
@@ -57,8 +56,6 @@ namespace Phronesis
 		bool framebufferResized = false;
 
 	private:
-		void createInstance();
-		void setupDebugMessenger();
 		void createSurface();
 		void pickPhysicalDevice();
 		void createLogicalDevice();
@@ -74,7 +71,5 @@ namespace Phronesis
 		void recreateSwapChain();
 		void cleanupSwapChain();
 		void drawFrame();
-
-		std::vector<const char*> getRequiredExtensions();
 	};
 }
