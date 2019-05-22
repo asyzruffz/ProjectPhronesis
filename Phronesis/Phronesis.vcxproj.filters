@@ -19,6 +19,9 @@
     <Filter Include="_External\spdlog">
       <UniqueIdentifier>{991b4ecf-bd01-4e08-9c3d-e61f2e982be1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Maths">
+      <UniqueIdentifier>{0cb6fd54-7e69-4774-8483-74f132eb6167}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Phronesis.hpp" />
@@ -228,6 +231,12 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Instance.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Maths\Vector2.hpp">
+      <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Maths.hpp">
+      <Filter>Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -259,5 +268,13 @@
     <ClCompile Include="Sources\Phronesis\Graphics\Instance.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Maths\Vector2.cpp">
+      <Filter>Maths</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sources\Phronesis\Maths\Vector2.inl">
+      <Filter>Maths</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -87,6 +87,8 @@
     <ClInclude Include="Sources\Phronesis\Graphics\RenderUtils.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Window.hpp" />
+    <ClInclude Include="Sources\Phronesis\Maths.hpp" />
+    <ClInclude Include="Sources\Phronesis\Maths\Vector2.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities\TypeInfo.hpp" />
     <ClInclude Include="Sources\StdAfx.hpp" />
@@ -102,12 +104,16 @@
     <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\RenderUtils.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp" />
+    <ClCompile Include="Sources\Phronesis\Maths\Vector2.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sources\Phronesis\Maths\Vector2.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A4805C6-DDF5-4B14-B84B-F44B19714D11}</ProjectGuid>
