@@ -3,10 +3,10 @@
 #include <memory>
 #include <vector>
 
-#include "Game.hpp"
-
 namespace Phronesis
 {
+	class Game;
+
 	class Engine
 	{
 	public:

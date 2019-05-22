@@ -2,6 +2,8 @@
 #include "StdAfx.hpp"
 #include "Engine.hpp"
 
+#include "Game.hpp"
+
 using namespace Phronesis;
 
 
