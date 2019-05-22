@@ -26,10 +26,22 @@ namespace Phronesis
 			inst()->engineLogger->info(msg.c_str(), args...);
 		}
 
+		template<typename T>
+		static void info(const T& msg)
+		{
+			inst()->engineLogger->info(msg);
+		}
+
 		template<typename... Args>
 		static void error(const std::string& msg, const Args& ...args)
 		{
 			inst()->engineLogger->error(msg.c_str(), args...);
+		}
+
+		template<typename T>
+		static void error(const T& msg)
+		{
+			inst()->engineLogger->error(msg);
 		}
 
 		// in addition to console & file, also log in-game
@@ -39,10 +51,22 @@ namespace Phronesis
 			inst()->gameLogger->debug(msg.c_str(), args...);
 		}
 
+		template<typename T>
+		static void debug(const T& msg)
+		{
+			inst()->gameLogger->debug(msg);
+		}
+
 		template<typename... Args>
 		static void print(const std::string& msg, const Args& ...args)
 		{
 			inst()->gameLogger->trace(msg.c_str(), args...);
+		}
+
+		template<typename T>
+		static void print(const T& msg)
+		{
+			inst()->gameLogger->trace(msg);
 		}
 
 		static void echo(const std::string& msg); // for echoing user command

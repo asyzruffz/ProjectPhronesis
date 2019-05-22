@@ -27,7 +27,7 @@ Engine::Engine(char** argv, int argc)
 
 	// Log testing
 	Log::info("Info test!");
-	Log::error("Error test!");
+	Log::error(505);
 	Log::debug("Debug test!");
 	Log::echo("Echo test!");
 	Log::print("Print test!");
