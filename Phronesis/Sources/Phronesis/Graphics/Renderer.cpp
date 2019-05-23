@@ -3,10 +3,10 @@
 #include "Renderer.hpp"
 
 #include "RenderUtils.hpp"
+#include "Window.hpp"
 #include "Phronesis/Core/Engine.hpp"
 #include "Phronesis/FileIO/BinaryFile.hpp"
 
-#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 using namespace Phronesis;
@@ -14,23 +14,7 @@ using namespace Phronesis;
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
-static void framebufferResizeCallback(GLFWwindow* window, int width, int height)
-{
-	auto renderer = reinterpret_cast<Renderer*>(glfwGetWindowUserPointer(window));
-	renderer->triggerFramebufferResize();
-}
-
-void Renderer::initWindow(int width, int height, const char* title)
-{
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // tell it to not create an OpenGL context
-	// glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // disable window resize
-
-	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-	glfwSetWindowUserPointer(window, this); // store a reference to Renderer class with this window
-	glfwSetFramebufferSizeCallback(window, framebufferResizeCallback); // callback for window resize
-}
-
-void Renderer::initVulkan()
+void Renderer::init()
 {
 	createSurface();
 	pickPhysicalDevice();
@@ -47,17 +31,10 @@ void Renderer::initVulkan()
 
 void Renderer::update()
 {
-	if(glfwWindowShouldClose(window))
-	{
-		Engine::Get()->stop();
-		return;
-	}
-
-	glfwPollEvents();
 	drawFrame();
 }
 
-void Renderer::disposeVulkan()
+void Renderer::dispose()
 {
 	// wait if device is busy
 	vkDeviceWaitIdle(device);
@@ -82,21 +59,14 @@ void Renderer::disposeVulkan()
 	vkDestroySurfaceKHR(instance, surface, nullptr);
 }
 
-void Renderer::disposeWindow()
-{
-	glfwDestroyWindow(window);
-	glfwTerminate();
-	//system("pause");
-}
-
-void Renderer::triggerFramebufferResize()
+void Renderer::requestResize()
 {
 	framebufferResized = true;
 }
 
 void Renderer::createSurface()
 {
-	VkResult result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
+	VkResult result = getModule<Window>()->createSurface(instance, nullptr, &surface);
 	if(result != VK_SUCCESS)
 	{
 		Log::error("[Vulkan] Failed to create window surface");
@@ -110,7 +80,7 @@ void Renderer::pickPhysicalDevice()
 	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
 	if (deviceCount == 0) {
-		throw std::runtime_error("Vulkan error: Failed to find GPUs with Vulkan support");
+		throw std::runtime_error("[ERROR] [Vulkan] Failed to find GPUs with Vulkan support");
 	}
 
 	std::vector<VkPhysicalDevice> devices(deviceCount);
@@ -124,7 +94,7 @@ void Renderer::pickPhysicalDevice()
 	}
 
 	if (physicalDevice == VK_NULL_HANDLE) {
-		throw std::runtime_error("Vulkan error: Failed to find a suitable GPU");
+		throw std::runtime_error("[ERROR] [Vulkan] Failed to find a suitable GPU");
 	}
 }
 
@@ -197,7 +167,8 @@ void Renderer::createSwapChain()
 
 	VkSurfaceFormatKHR surfaceFormat = RenderUtils::chooseSwapSurfaceFormat(swapChainSupport.formats);
 	VkPresentModeKHR presentationMode = RenderUtils::chooseSwapPresentMode(swapChainSupport.presentationModes);
-	VkExtent2D extent = RenderUtils::chooseSwapExtent(swapChainSupport.capabilities, window);
+	//VkExtent2D extent = RenderUtils::chooseSwapExtent(swapChainSupport.capabilities, window);
+	VkExtent2D extent = { getModule<Window>()->getSize().x, getModule<Window>()->getSize().y };
 
 	// request at least one more image because we may sometimes have to wait on the driver 
 	// to complete internal operations before we can acquire another image to render to
@@ -593,15 +564,9 @@ void Renderer::createSyncObjects()
 
 void Renderer::recreateSwapChain()
 {
-	int width = 0, height = 0;
-	while(width == 0 || height == 0)
-	{	// when minimized, pause until the window is in the foreground
-		glfwGetFramebufferSize(window, &width, &height);
-		glfwWaitEvents();
-	}
+	getModule<Window>()->handleMinimize();
 
 	vkDeviceWaitIdle(device);
-
 	cleanupSwapChain();
 
 	// create functions for the objects that depend on the swap chain or the window size

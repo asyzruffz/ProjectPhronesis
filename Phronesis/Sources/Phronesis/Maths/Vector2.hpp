@@ -33,8 +33,8 @@ namespace Phronesis
 
 	using Vector2f = Vector2T<float>;
 	using Vector2d = Vector2T<double>;
-	using Vector2i = Vector2T<int32_t>;
-	using Vector2ui = Vector2T<uint32_t>;
+	using Vector2i = Vector2T<int>;
+	using Vector2ui = Vector2T<unsigned int>;
 	using Vector2 = Vector2f;
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Engine.hpp"
 #include "Phronesis/Utilities/TypeInfo.hpp"
 
 namespace Phronesis
@@ -19,10 +18,10 @@ namespace Phronesis
 		virtual void update() = 0;
 
 		template<typename T>
-		bool hasModule() const { return Engine::Get()->getGame().hasModule<T>(); }
+		static bool hasModule();
 
 		template<typename T>
-		T* getModule() const { return Engine::Get()->getGame().getModule<T>(); }
+		static T* getModule();
 	};
 
 	template class TypeInfo<Module>;
@@ -30,7 +29,7 @@ namespace Phronesis
 	template<typename T>
 	TypeID GetModuleTypeId() noexcept
 	{
-		static_assert(std::is_base_of<Module, T>::value, "T must be a Module.");
+		static_assert(std::is_base_of<Module, T>::value, "[ERROR] T must be a Module");
 		return TypeInfo<Module>::GetTypeId<T>();
 	}
 }

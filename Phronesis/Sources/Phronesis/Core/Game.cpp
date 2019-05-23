@@ -24,8 +24,7 @@ void Game::init()
 	modules.get<Window>()->init(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
 
 	modules.add<Renderer>(Module::Stage::Render);
-	modules.get<Renderer>()->initWindow(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
-	modules.get<Renderer>()->initVulkan();
+	modules.get<Renderer>()->init();
 }
 
 void Game::mainLoop()
@@ -45,6 +44,6 @@ void Game::mainLoop()
 
 void Game::dispose()
 {
-	modules.get<Renderer>()->disposeVulkan();
-	modules.get<Renderer>()->disposeWindow();
+	modules.get<Renderer>()->dispose();
+	modules.get<Window>()->dispose();
 }

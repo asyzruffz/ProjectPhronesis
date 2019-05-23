@@ -19,58 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\External\spdlog\async.h" />
-    <ClInclude Include="Sources\External\spdlog\async_logger.h" />
-    <ClInclude Include="Sources\External\spdlog\common.h" />
-    <ClInclude Include="Sources\External\spdlog\details\async_logger_impl.h" />
-    <ClInclude Include="Sources\External\spdlog\details\circular_q.h" />
-    <ClInclude Include="Sources\External\spdlog\details\console_globals.h" />
-    <ClInclude Include="Sources\External\spdlog\details\file_helper.h" />
-    <ClInclude Include="Sources\External\spdlog\details\fmt_helper.h" />
-    <ClInclude Include="Sources\External\spdlog\details\logger_impl.h" />
-    <ClInclude Include="Sources\External\spdlog\details\log_msg.h" />
-    <ClInclude Include="Sources\External\spdlog\details\mpmc_blocking_q.h" />
-    <ClInclude Include="Sources\External\spdlog\details\null_mutex.h" />
-    <ClInclude Include="Sources\External\spdlog\details\os.h" />
-    <ClInclude Include="Sources\External\spdlog\details\pattern_formatter.h" />
-    <ClInclude Include="Sources\External\spdlog\details\periodic_worker.h" />
-    <ClInclude Include="Sources\External\spdlog\details\registry.h" />
-    <ClInclude Include="Sources\External\spdlog\details\thread_pool.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bin_to_hex.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\chrono.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\color.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\core.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\format-inl.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\format.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\locale.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\ostream.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\posix.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\printf.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\ranges.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\time.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\fmt.h" />
-    <ClInclude Include="Sources\External\spdlog\fmt\ostr.h" />
-    <ClInclude Include="Sources\External\spdlog\formatter.h" />
-    <ClInclude Include="Sources\External\spdlog\logger.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\android_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\ansicolor_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\base_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\basic_file_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\daily_file_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\dist_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\msvc_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\null_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\ostream_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\rotating_file_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\stdout_color_sinks.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\stdout_sinks.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\syslog_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\systemd_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\sinks\wincolor_sink.h" />
-    <ClInclude Include="Sources\External\spdlog\spdlog.h" />
-    <ClInclude Include="Sources\External\spdlog\tweakme.h" />
-    <ClInclude Include="Sources\External\spdlog\version.h" />
     <ClInclude Include="Sources\Phronesis\Core\Log.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\ModuleHandler.hpp" />
     <ClInclude Include="Sources\Phronesis.hpp" />
@@ -95,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Log.cpp" />
+    <ClCompile Include="Sources\Phronesis\Core\Module.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\ModuleHandler.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />

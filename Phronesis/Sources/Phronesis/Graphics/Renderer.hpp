@@ -7,25 +7,20 @@
 #include "Phronesis/Core/Module.hpp"
 #include "Instance.hpp"
 
-struct GLFWwindow;
-
 namespace Phronesis
 {
 	class Renderer : public Module
 	{
 	public:
-		void initWindow(int width, int height, const char* title);
-		void initVulkan();
+		void init();
 		void update() override;
-		void disposeVulkan();
-		void disposeWindow();
+		void dispose();
 
-		void triggerFramebufferResize();
+		void requestResize();
 
 	private:
 		Instance instance;
 
-		GLFWwindow* window;
 		VkSurfaceKHR surface;
 
 		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;

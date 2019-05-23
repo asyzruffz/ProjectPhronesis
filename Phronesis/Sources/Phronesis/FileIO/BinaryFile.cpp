@@ -11,7 +11,7 @@ std::vector<char> BinaryFile::read(const std::string& filename)
 
 	if(!file.is_open())
 	{
-		throw std::runtime_error("FileIO error: Failed to open file " + filename);
+		throw std::runtime_error("[ERROR] [FileIO] Failed to open file " + filename);
 	}
 
 	// so we can use the read position to determine the size of the file and allocate a buffer

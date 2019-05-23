@@ -71,163 +71,6 @@
     <ClInclude Include="Sources\Phronesis\Core\Log.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\android_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\ansicolor_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\async.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\async_logger.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\async_logger_impl.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\base_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\basic_file_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bin_to_hex.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\chrono.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\circular_q.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\color.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\common.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\console_globals.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\core.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\daily_file_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\dist_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\file_helper.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\fmt.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\fmt_helper.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\format.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\format-inl.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\formatter.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\locale.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\log_msg.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\logger.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\logger_impl.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\mpmc_blocking_q.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\msvc_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\null_mutex.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\null_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\os.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\ostr.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\ostream.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\ostream_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\pattern_formatter.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\periodic_worker.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\posix.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\printf.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\ranges.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\registry.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\rotating_file_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\spdlog.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\stdout_color_sinks.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\stdout_sinks.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\syslog_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\systemd_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\details\thread_pool.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\fmt\bundled\time.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\tweakme.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\version.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\External\spdlog\sinks\wincolor_sink.h">
-      <Filter>_External\spdlog</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\Phronesis\Graphics\Window.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Instance.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -236,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Sources\Phronesis\Maths.hpp">
       <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\Window.hpp">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -264,12 +110,17 @@
     <ClCompile Include="Sources\Phronesis\Core\Log.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Instance.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Maths\Vector2.cpp">
       <Filter>Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Core\Module.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
