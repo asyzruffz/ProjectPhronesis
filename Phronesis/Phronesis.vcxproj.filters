@@ -83,6 +83,9 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Window.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\PhysicalDevice.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Core\Module.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\PhysicalDevice.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

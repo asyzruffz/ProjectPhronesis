@@ -6,6 +6,7 @@
 
 #include "Phronesis/Core/Module.hpp"
 #include "Instance.hpp"
+#include "PhysicalDevice.hpp"
 
 namespace Phronesis
 {
@@ -23,7 +24,7 @@ namespace Phronesis
 
 		VkSurfaceKHR surface;
 
-		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+		PhysicalDevice physicalDevice;
 		VkDevice device;
 
 		VkQueue graphicsQueue;
@@ -52,7 +53,6 @@ namespace Phronesis
 
 	private:
 		void createSurface();
-		void pickPhysicalDevice();
 		void createLogicalDevice();
 		void createSwapChain();
 		void createImageViews();

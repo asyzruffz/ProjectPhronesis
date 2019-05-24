@@ -17,7 +17,7 @@ const int MAX_FRAMES_IN_FLIGHT = 2;
 void Renderer::init()
 {
 	createSurface();
-	pickPhysicalDevice();
+	physicalDevice.pick(&instance, surface);
 	createLogicalDevice();
 	createSwapChain();
 	createImageViews();
@@ -71,30 +71,6 @@ void Renderer::createSurface()
 	{
 		Log::error("[Vulkan] Failed to create window surface");
 		RenderUtils::checkVk(result);
-	}
-}
-
-void Renderer::pickPhysicalDevice()
-{
-	uint32_t deviceCount = 0;
-	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
-
-	if (deviceCount == 0) {
-		throw std::runtime_error("[ERROR] [Vulkan] Failed to find GPUs with Vulkan support");
-	}
-
-	std::vector<VkPhysicalDevice> devices(deviceCount);
-	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
-
-	for (const auto& device : devices) {
-		if (RenderUtils::isDeviceSuitable(device, surface)) {
-			physicalDevice = device;
-			break;
-		}
-	}
-
-	if (physicalDevice == VK_NULL_HANDLE) {
-		throw std::runtime_error("[ERROR] [Vulkan] Failed to find a suitable GPU");
 	}
 }
 
