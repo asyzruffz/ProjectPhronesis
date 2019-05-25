@@ -5,7 +5,6 @@
 #include "Phronesis/Core/Engine.hpp"
 #include "Phronesis/FileIO/BinaryFile.hpp"
 #include "Window.hpp"
-#include "SwapChainSupportDetails.hpp"
 #include "RenderUtils.hpp"
 
 #include <GLFW/glfw3.h>
@@ -18,10 +17,13 @@ const int MAX_FRAMES_IN_FLIGHT = 2;
 void Renderer::init()
 {
 	// create surface
-	createSurface();
+	surface.create(instance);
 
 	// pick physical device
 	physicalDevice.pick(&instance, surface);
+
+	// acquire the basic surface capabilities, supported surface formats & supported presentation modes
+	surface.acquireProperties(physicalDevice);
 
 	queueFamilyIndices = QueueFamilyIndices::find(physicalDevice, surface);
 
@@ -64,8 +66,8 @@ void Renderer::dispose()
 	// destroy logical device (and queues)
 	device.dispose();
 
-	// destroy window surface // destroy window surface
-	vkDestroySurfaceKHR(instance, surface, nullptr);
+	// destroy window surface
+	surface.dispose(instance);
 }
 
 void Renderer::requestResize()
@@ -73,32 +75,24 @@ void Renderer::requestResize()
 	framebufferResized = true;
 }
 
-void Renderer::createSurface()
-{
-	VkResult result = getModule<Window>()->createSurface(instance, nullptr, &surface);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to create window surface");
-		RenderUtils::checkVk(result);
-	}
-}
-
 void Renderer::createSwapChain()
 {
-	SwapChainSupportDetails swapChainSupport = SwapChainSupportDetails::query(physicalDevice, surface);
+	auto capabilities = surface.getCapabilities();
+	auto formats = surface.getFormats();
+	auto presentationModes = surface.getPresentationModes();
 
-	VkSurfaceFormatKHR surfaceFormat = RenderUtils::chooseSwapSurfaceFormat(swapChainSupport.formats);
-	VkPresentModeKHR presentationMode = RenderUtils::chooseSwapPresentMode(swapChainSupport.presentationModes);
+	VkSurfaceFormatKHR surfaceFormat = RenderUtils::chooseSwapSurfaceFormat(formats);
+	VkPresentModeKHR presentationMode = RenderUtils::chooseSwapPresentMode(presentationModes);
 	//VkExtent2D extent = RenderUtils::chooseSwapExtent(swapChainSupport.capabilities, window);
 	VkExtent2D extent = { getModule<Window>()->getSize().x, getModule<Window>()->getSize().y };
 
 	// request at least one more image because we may sometimes have to wait on the driver 
 	// to complete internal operations before we can acquire another image to render to
-	uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+	uint32_t imageCount = capabilities.minImageCount + 1;
 	// make sure to not exceed the maximum number of images
-	if(swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
+	if(capabilities.maxImageCount > 0 && imageCount > capabilities.maxImageCount)
 	{ // 0  means that there is no maximum
-		imageCount = swapChainSupport.capabilities.maxImageCount;
+		imageCount = capabilities.maxImageCount;
 	}
 
 	unsigned int queueFamIndices[] = { 
@@ -125,7 +119,7 @@ void Renderer::createSwapChain()
 		createInfo.queueFamilyIndexCount = 0; // Optional
 		createInfo.pQueueFamilyIndices = nullptr; // Optional
 	}
-	createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
+	createInfo.preTransform = capabilities.currentTransform;
 	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // blending with other windows in the window system? no, so opaque
 	createInfo.presentMode = presentationMode;
 	createInfo.clipped = VK_TRUE;

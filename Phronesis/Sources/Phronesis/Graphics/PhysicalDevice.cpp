@@ -4,7 +4,7 @@
 
 #include "Instance.hpp"
 #include "QueueFamilyIndices.hpp"
-#include "SwapChainSupportDetails.hpp"
+#include "Surface.hpp"
 
 using namespace Phronesis;
 
@@ -82,8 +82,8 @@ bool PhysicalDevice::isDeviceSuitable(const VkPhysicalDevice& device, const VkSu
 	bool swapChainAdequate = false;
 	if(extensionsSupported)
 	{
-		SwapChainSupportDetails swapChainSupport = SwapChainSupportDetails::query(device, surface);
-		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentationModes.empty();
+		auto swapChainSupport = Surface::querySwapChainSupport(device, surface);
+		swapChainAdequate = !swapChainSupport.first.empty() && !swapChainSupport.second.empty();
 	}
 
 	return indices.isComplete() && extensionsSupported && swapChainAdequate;

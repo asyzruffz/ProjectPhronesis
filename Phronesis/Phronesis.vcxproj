@@ -35,7 +35,7 @@
     <ClInclude Include="Sources\Phronesis\Graphics\QueueFamilyIndices.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\RenderUtils.hpp" />
-    <ClInclude Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\Surface.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Window.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths\Vector2.hpp" />
@@ -56,7 +56,7 @@
     <ClCompile Include="Sources\Phronesis\Graphics\QueueFamilyIndices.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\RenderUtils.cpp" />
-    <ClCompile Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\Surface.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp" />
     <ClCompile Include="Sources\Phronesis\Maths\Vector2.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp">

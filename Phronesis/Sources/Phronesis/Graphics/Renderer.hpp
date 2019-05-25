@@ -6,6 +6,7 @@
 
 #include "Phronesis/Core/Module.hpp"
 #include "Instance.hpp"
+#include "Surface.hpp"
 #include "QueueFamilyIndices.hpp"
 #include "PhysicalDevice.hpp"
 #include "LogicalDevice.hpp"
@@ -24,7 +25,7 @@ namespace Phronesis
 	private:
 		Instance instance;
 
-		VkSurfaceKHR surface;
+		Surface surface;
 
 		QueueFamilyIndices queueFamilyIndices;
 
@@ -53,7 +54,6 @@ namespace Phronesis
 		bool framebufferResized = false;
 
 	private:
-		void createSurface();
 		void createSwapChain();
 		void createImageViews();
 		void createRenderPass();
