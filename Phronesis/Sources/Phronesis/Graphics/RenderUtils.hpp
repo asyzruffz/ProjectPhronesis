@@ -14,9 +14,6 @@ namespace Phronesis
 	public:
 		static void checkVk(const VkResult &result);
 
-		// Device related
-		static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface);
-
 		// Swap chain related
 		static VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 		static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
@@ -28,7 +25,5 @@ namespace Phronesis
 	private:
 		static std::string stringifyResultVk(const VkResult &result);
 		static std::string stringifyMessageSeverity(const VkDebugUtilsMessageSeverityFlagBitsEXT &severity);
-
-		static bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 	};
 }

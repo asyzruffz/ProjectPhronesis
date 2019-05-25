@@ -6,7 +6,9 @@
 
 #include "Phronesis/Core/Module.hpp"
 #include "Instance.hpp"
+#include "QueueFamilyIndices.hpp"
 #include "PhysicalDevice.hpp"
+#include "LogicalDevice.hpp"
 
 namespace Phronesis
 {
@@ -24,11 +26,10 @@ namespace Phronesis
 
 		VkSurfaceKHR surface;
 
-		PhysicalDevice physicalDevice;
-		VkDevice device;
+		QueueFamilyIndices queueFamilyIndices;
 
-		VkQueue graphicsQueue;
-		VkQueue presentationQueue;
+		PhysicalDevice physicalDevice;
+		LogicalDevice device;
 
 		VkSwapchainKHR swapChain;
 		std::vector<VkImage> swapChainImages;
@@ -53,7 +54,6 @@ namespace Phronesis
 
 	private:
 		void createSurface();
-		void createLogicalDevice();
 		void createSwapChain();
 		void createImageViews();
 		void createRenderPass();

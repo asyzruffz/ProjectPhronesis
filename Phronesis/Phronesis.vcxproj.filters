@@ -86,6 +86,9 @@
     <ClInclude Include="Sources\Phronesis\Graphics\PhysicalDevice.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\LogicalDevice.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -126,6 +129,12 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\PhysicalDevice.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\LogicalDevice.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

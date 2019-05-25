@@ -30,6 +30,7 @@
     <ClInclude Include="Sources\Phronesis\FileIO\BinaryFile.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Instance.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\LogicalDevice.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\PhysicalDevice.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\QueueFamilyIndices.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp" />
@@ -50,10 +51,12 @@
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
     <ClCompile Include="Sources\Phronesis\FileIO\BinaryFile.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Instance.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\LogicalDevice.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\PhysicalDevice.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\QueueFamilyIndices.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\RenderUtils.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\SwapChainSupportDetails.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp" />
     <ClCompile Include="Sources\Phronesis\Maths\Vector2.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp">

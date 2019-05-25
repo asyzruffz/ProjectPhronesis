@@ -96,26 +96,6 @@ std::string RenderUtils::stringifyMessageSeverity(const VkDebugUtilsMessageSever
 	}
 }
 
-bool RenderUtils::isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface)
-{
-	// check for required features if neccessary
-
-	// check which queue families are supported by the device
-	QueueFamilyIndices indices = findQueueFamilies(device, surface);
-	// check if the device extension(s) is supported
-	bool extensionsSupported = checkDeviceExtensionSupport(device);
-
-	// verify that swap chain support is adequate
-	bool swapChainAdequate = false;
-	if(extensionsSupported)
-	{
-		SwapChainSupportDetails swapChainSupport = querySwapChainSupport(device, surface);
-		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentationModes.empty();
-	}
-
-	return indices.isComplete() && extensionsSupported && swapChainAdequate;
-}
-
 VkSurfaceFormatKHR RenderUtils::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
 	// VkSurfaceFormatKHR struct contains a format and a colorSpace member
@@ -213,23 +193,4 @@ VkShaderModule RenderUtils::createShaderModule(VkDevice device, const std::vecto
 	}
 
 	return shaderModule;
-}
-
-bool RenderUtils::checkDeviceExtensionSupport(VkPhysicalDevice device)
-{
-	// enumerate the available extensions
-	uint32_t extensionCount;
-	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
-	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
-	vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
-
-	// check if all of the required extensions are amongst them
-	std::set<std::string> requiredExtensions(Instance::deviceExtensions.begin(), Instance::deviceExtensions.end());
-
-	for(const auto& extension : availableExtensions)
-	{
-		requiredExtensions.erase(extension.extensionName);
-	}
-
-	return requiredExtensions.empty();
 }

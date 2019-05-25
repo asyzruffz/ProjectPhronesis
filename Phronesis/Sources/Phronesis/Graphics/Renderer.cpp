@@ -2,10 +2,11 @@
 #include "StdAfx.hpp"
 #include "Renderer.hpp"
 
-#include "RenderUtils.hpp"
-#include "Window.hpp"
 #include "Phronesis/Core/Engine.hpp"
 #include "Phronesis/FileIO/BinaryFile.hpp"
+#include "Window.hpp"
+#include "SwapChainSupportDetails.hpp"
+#include "RenderUtils.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -16,9 +17,17 @@ const int MAX_FRAMES_IN_FLIGHT = 2;
 
 void Renderer::init()
 {
+	// create surface
 	createSurface();
+
+	// pick physical device
 	physicalDevice.pick(&instance, surface);
-	createLogicalDevice();
+
+	queueFamilyIndices = QueueFamilyIndices::find(physicalDevice, surface);
+
+	// create logical device
+	device.create(physicalDevice, queueFamilyIndices);
+
 	createSwapChain();
 	createImageViews();
 	createRenderPass();
@@ -53,7 +62,7 @@ void Renderer::dispose()
 	vkDestroyCommandPool(device, commandPool, nullptr);
 
 	// destroy logical device (and queues)
-	vkDestroyDevice(device, nullptr);
+	device.dispose();
 
 	// destroy window surface // destroy window surface
 	vkDestroySurfaceKHR(instance, surface, nullptr);
@@ -74,72 +83,9 @@ void Renderer::createSurface()
 	}
 }
 
-void Renderer::createLogicalDevice()
-{
-	QueueFamilyIndices indices = RenderUtils::findQueueFamilies(physicalDevice, surface);
-
-	// make sure the queue families are not redundant while making different queues
-	std::set<uint32_t> uniqueQueueFamilies = { 
-		indices.graphicsFamily.value(), 
-		indices.presentationFamily.value() 
-	};
-
-	// vector to store the createinfos for each queue
-	std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-
-	float queuePriority = 1.0f; // between 0.0 and 1.0
-	for(uint32_t queueFamily : uniqueQueueFamilies)
-	{
-		// specifying details for logical device creation
-		VkDeviceQueueCreateInfo queueCreateInfo = {};
-		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-		queueCreateInfo.queueFamilyIndex = queueFamily;
-		queueCreateInfo.queueCount = 1; // the number of queues we want for a single queue family
-		queueCreateInfo.pQueuePriorities = &queuePriority;
-
-		queueCreateInfos.push_back(queueCreateInfo);
-
-	}
-
-	// specify is the set of device features that we'll be using.
-	// features that needed to be queried support for with vkGetPhysicalDeviceFeatures 
-	// in RenderUtils::isDeviceSuitable()
-	VkPhysicalDeviceFeatures deviceFeatures = {};
-
-	// creating the logical device
-	VkDeviceCreateInfo createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	createInfo.pQueueCreateInfos = queueCreateInfos.data();
-	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-	createInfo.pEnabledFeatures = &deviceFeatures;
-	createInfo.enabledExtensionCount = static_cast<uint32_t>(Instance::deviceExtensions.size());
-	createInfo.ppEnabledExtensionNames = Instance::deviceExtensions.data();
-	if(Instance::enableValidationLayers)
-	{
-		createInfo.enabledLayerCount = static_cast<uint32_t>(Instance::validationLayers.size());
-		createInfo.ppEnabledLayerNames = Instance::validationLayers.data();
-	}
-	else
-	{
-		createInfo.enabledLayerCount = 0;
-	}
-
-	VkResult result = vkCreateDevice(physicalDevice, &createInfo, nullptr, &device);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to create logical device");
-		RenderUtils::checkVk(result);
-	}
-
-	// the queues are automatically created along with the logical device,
-	// but we need to have a handle to interface with the graphics and presentation queue
-	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
-	vkGetDeviceQueue(device, indices.presentationFamily.value(), 0, &presentationQueue);
-}
-
 void Renderer::createSwapChain()
 {
-	SwapChainSupportDetails swapChainSupport = RenderUtils::querySwapChainSupport(physicalDevice, surface);
+	SwapChainSupportDetails swapChainSupport = SwapChainSupportDetails::query(physicalDevice, surface);
 
 	VkSurfaceFormatKHR surfaceFormat = RenderUtils::chooseSwapSurfaceFormat(swapChainSupport.formats);
 	VkPresentModeKHR presentationMode = RenderUtils::chooseSwapPresentMode(swapChainSupport.presentationModes);
@@ -155,8 +101,10 @@ void Renderer::createSwapChain()
 		imageCount = swapChainSupport.capabilities.maxImageCount;
 	}
 
-	QueueFamilyIndices indices = RenderUtils::findQueueFamilies(physicalDevice, surface);
-	uint32_t queueFamilyIndices[] = { indices.graphicsFamily.value(), indices.presentationFamily.value() };
+	unsigned int queueFamIndices[] = { 
+		queueFamilyIndices.graphicsFamily.value(), 
+		queueFamilyIndices.presentationFamily.value() 
+	};
 
 	// create the swap chain
 	VkSwapchainCreateInfoKHR createInfo = {};
@@ -168,10 +116,10 @@ void Renderer::createSwapChain()
 	createInfo.imageExtent = extent;
 	createInfo.imageArrayLayers = 1; // always 1 unless we are developing a stereoscopic 3D application
 	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // render directly to image without post-processing
-	if(indices.graphicsFamily != indices.presentationFamily) {
+	if(queueFamilyIndices.graphicsFamily != queueFamilyIndices.presentationFamily) {
 		createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 		createInfo.queueFamilyIndexCount = 2;
-		createInfo.pQueueFamilyIndices = queueFamilyIndices;
+		createInfo.pQueueFamilyIndices = queueFamIndices;
 	} else {
 		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		createInfo.queueFamilyIndexCount = 0; // Optional
@@ -434,8 +382,6 @@ void Renderer::createFramebuffers()
 
 void Renderer::createCommandPool()
 {
-	QueueFamilyIndices queueFamilyIndices = RenderUtils::findQueueFamilies(physicalDevice, surface);
-
 	VkCommandPoolCreateInfo poolInfo = {};
 	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
@@ -624,7 +570,7 @@ void Renderer::drawFrame()
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores;
 
-	result = vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]);
+	result = vkQueueSubmit(device.getGraphicsQueue(), 1, &submitInfo, inFlightFences[currentFrame]);
 	if(result != VK_SUCCESS)
 	{
 		Log::error("[Vulkan] Failed to submit draw command buffer");
@@ -642,7 +588,7 @@ void Renderer::drawFrame()
 	presentationInfo.pSwapchains = swapChains;
 	presentationInfo.pImageIndices = &imageIndex;
 
-	result = vkQueuePresentKHR(presentationQueue, &presentationInfo);
+	result = vkQueuePresentKHR(device.getPresentationQueue(), &presentationInfo);
 	if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized)
 	{	// also recreate the swap chain if it is suboptimal
 		recreateSwapChain();
