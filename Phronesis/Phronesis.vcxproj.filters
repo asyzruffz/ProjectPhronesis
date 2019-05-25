@@ -86,7 +86,9 @@
     <ClInclude Include="Sources\Phronesis\Graphics\LogicalDevice.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Phronesis\Graphics\Surface.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\Surface.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -132,7 +134,9 @@
     <ClCompile Include="Sources\Phronesis\Graphics\LogicalDevice.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Phronesis\Graphics\Surface.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\Surface.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Sources\Phronesis\Maths\Vector2.inl">

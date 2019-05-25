@@ -25,10 +25,8 @@ void Renderer::init()
 	// acquire the basic surface capabilities, supported surface formats & supported presentation modes
 	surface.acquireProperties(physicalDevice);
 
-	queueFamilyIndices = QueueFamilyIndices::find(physicalDevice, surface);
-
 	// create logical device
-	device.create(physicalDevice, queueFamilyIndices);
+	device.create(physicalDevice, surface);
 
 	createSwapChain();
 	createImageViews();
@@ -95,9 +93,9 @@ void Renderer::createSwapChain()
 		imageCount = capabilities.maxImageCount;
 	}
 
-	unsigned int queueFamIndices[] = { 
-		queueFamilyIndices.graphicsFamily.value(), 
-		queueFamilyIndices.presentationFamily.value() 
+	unsigned int queueFamilyIndices[] = {
+		device.getGraphicsFamily(),
+		device.getPresentationFamily()
 	};
 
 	// create the swap chain
@@ -110,10 +108,10 @@ void Renderer::createSwapChain()
 	createInfo.imageExtent = extent;
 	createInfo.imageArrayLayers = 1; // always 1 unless we are developing a stereoscopic 3D application
 	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // render directly to image without post-processing
-	if(queueFamilyIndices.graphicsFamily != queueFamilyIndices.presentationFamily) {
+	if(device.getGraphicsFamily() != device.getPresentationFamily()) {
 		createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 		createInfo.queueFamilyIndexCount = 2;
-		createInfo.pQueueFamilyIndices = queueFamIndices;
+		createInfo.pQueueFamilyIndices = queueFamilyIndices;
 	} else {
 		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		createInfo.queueFamilyIndexCount = 0; // Optional
@@ -378,7 +376,7 @@ void Renderer::createCommandPool()
 {
 	VkCommandPoolCreateInfo poolInfo = {};
 	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
+	poolInfo.queueFamilyIndex = device.getGraphicsFamily();
 	poolInfo.flags = 0; // Optional
 	// we will only record the command buffers at the beginning of the program and 
 	// then execute them many times in the main loop, so we're not going to use the flag

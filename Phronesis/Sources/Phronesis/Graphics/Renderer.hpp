@@ -7,7 +7,6 @@
 #include "Phronesis/Core/Module.hpp"
 #include "Instance.hpp"
 #include "Surface.hpp"
-#include "QueueFamilyIndices.hpp"
 #include "PhysicalDevice.hpp"
 #include "LogicalDevice.hpp"
 
@@ -24,11 +23,7 @@ namespace Phronesis
 
 	private:
 		Instance instance;
-
 		Surface surface;
-
-		QueueFamilyIndices queueFamilyIndices;
-
 		PhysicalDevice physicalDevice;
 		LogicalDevice device;
 

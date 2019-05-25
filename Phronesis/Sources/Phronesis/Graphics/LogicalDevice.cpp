@@ -24,12 +24,14 @@ const VkDevice& LogicalDevice::getLogicalDevice() const
 	return logicalDevice;
 }
 
-void LogicalDevice::create(const PhysicalDevice& physicalDevice, const QueueFamilyIndices& indices)
+void LogicalDevice::create(const PhysicalDevice& physicalDevice, const VkSurfaceKHR& surface)
 {
+	findQueueFamilies(physicalDevice, surface);
+
 	// make sure the queue families are not redundant while making different queues
 	std::set<unsigned int> uniqueQueueFamilies = {
-		indices.graphicsFamily.value(),
-		indices.presentationFamily.value()
+		getGraphicsFamily(),
+		getPresentationFamily()
 	};
 
 	// vector to store the createinfos for each queue
@@ -80,13 +82,23 @@ void LogicalDevice::create(const PhysicalDevice& physicalDevice, const QueueFami
 
 	// the queues are automatically created along with the logical device,
 	// but we need to have a handle to interface with the graphics and presentation queue
-	vkGetDeviceQueue(logicalDevice, indices.graphicsFamily.value(), 0, &graphicsQueue);
-	vkGetDeviceQueue(logicalDevice, indices.presentationFamily.value(), 0, &presentationQueue);
+	vkGetDeviceQueue(logicalDevice, getGraphicsFamily(), 0, &graphicsQueue);
+	vkGetDeviceQueue(logicalDevice, getPresentationFamily(), 0, &presentationQueue);
 }
 
 void LogicalDevice::dispose()
 {
 	vkDestroyDevice(logicalDevice, nullptr);
+}
+
+const unsigned int& LogicalDevice::getGraphicsFamily() const
+{
+	return queueIndices.graphicsFamily.value();
+}
+
+const unsigned int& LogicalDevice::getPresentationFamily() const
+{
+	return queueIndices.presentationFamily.value();
 }
 
 const VkQueue& LogicalDevice::getGraphicsQueue() const
@@ -97,4 +109,39 @@ const VkQueue& LogicalDevice::getGraphicsQueue() const
 const VkQueue& LogicalDevice::getPresentationQueue() const
 {
 	return presentationQueue;
+}
+
+void LogicalDevice::findQueueFamilies(const PhysicalDevice& device, const VkSurfaceKHR& surface)
+{
+	// retrieving the list of queue families
+	unsigned int queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0;
+	for(const auto& queueFamily : queueFamilies)
+	{
+		// find at least one queue family that supports VK_QUEUE_GRAPHICS_BIT
+		if(queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+		{
+			queueIndices.graphicsFamily = i;
+		}
+
+		// also look for a queue family that has the capability of presenting to our window surface
+		VkBool32 presentationSupport = false;
+		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentationSupport);
+
+		if(queueFamily.queueCount > 0 && presentationSupport)
+		{
+			queueIndices.presentationFamily = i;
+		}
+
+		if(queueIndices.isComplete())
+		{
+			break;
+		}
+
+		i++;
+	}
 }
