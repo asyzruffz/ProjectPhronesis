@@ -24,13 +24,6 @@ Engine::Engine(char** argv, int argc)
 	{
 		args[i] = argv[i];
 	}
-
-	// Log testing
-	Log::info("Info test!");
-	Log::error(505);
-	Log::debug("Debug test!");
-	Log::echo("Echo test!");
-	Log::print("Print test!");
 }
 
 Engine::~Engine()
