@@ -3,9 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "QueueFamilyIndices.hpp"
-#include "SwapChainSupportDetails.hpp"
-
 #include <vulkan/vulkan.h>
 
 struct GLFWwindow;
@@ -19,10 +16,8 @@ namespace Phronesis
 
 		// Device related
 		static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface);
-		static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface);
 
 		// Swap chain related
-		static SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface);
 		static VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 		static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window);

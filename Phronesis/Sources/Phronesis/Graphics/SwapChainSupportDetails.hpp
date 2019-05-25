@@ -11,5 +11,7 @@ namespace Phronesis
 		VkSurfaceCapabilitiesKHR capabilities;
 		std::vector<VkSurfaceFormatKHR> formats;
 		std::vector<VkPresentModeKHR> presentationModes;
+
+		static SwapChainSupportDetails query(VkPhysicalDevice device, VkSurfaceKHR surface);
 	};
 }
