@@ -7,6 +7,7 @@
 namespace Phronesis
 {
 	class PhysicalDevice;
+	class Surface;
 	struct QueueFamilyIndices;
 
 	class LogicalDevice
@@ -17,7 +18,7 @@ namespace Phronesis
 		operator const VkDevice&() const;
 		const VkDevice& getLogicalDevice() const;
 
-		void create(const PhysicalDevice& physicalDevice, const VkSurfaceKHR& surface);
+		void create(const PhysicalDevice& physicalDevice, const Surface& surface);
 		void dispose();
 
 		const unsigned int& getGraphicsFamily() const;
@@ -27,7 +28,7 @@ namespace Phronesis
 		const VkQueue& getPresentationQueue() const;
 
 	private:
-		void findQueueFamilies(const PhysicalDevice& device, const VkSurfaceKHR& surface);
+		void findQueueFamilies(const PhysicalDevice& device, const Surface& surface);
 
 	private:
 		VkDevice logicalDevice;

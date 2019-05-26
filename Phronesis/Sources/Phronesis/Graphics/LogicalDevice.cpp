@@ -5,8 +5,9 @@
 using namespace Phronesis;
 
 #include "Instance.hpp"
-#include "QueueFamilyIndices.hpp"
 #include "PhysicalDevice.hpp"
+#include "Surface.hpp"
+#include "QueueFamilyIndices.hpp"
 #include "RenderUtils.hpp"
 
 LogicalDevice::LogicalDevice() :
@@ -24,7 +25,7 @@ const VkDevice& LogicalDevice::getLogicalDevice() const
 	return logicalDevice;
 }
 
-void LogicalDevice::create(const PhysicalDevice& physicalDevice, const VkSurfaceKHR& surface)
+void LogicalDevice::create(const PhysicalDevice& physicalDevice, const Surface& surface)
 {
 	findQueueFamilies(physicalDevice, surface);
 
@@ -111,7 +112,7 @@ const VkQueue& LogicalDevice::getPresentationQueue() const
 	return presentationQueue;
 }
 
-void LogicalDevice::findQueueFamilies(const PhysicalDevice& device, const VkSurfaceKHR& surface)
+void LogicalDevice::findQueueFamilies(const PhysicalDevice& device, const Surface& surface)
 {
 	// retrieving the list of queue families
 	unsigned int queueFamilyCount = 0;

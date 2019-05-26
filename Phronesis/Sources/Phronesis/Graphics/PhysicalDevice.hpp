@@ -7,6 +7,7 @@
 namespace Phronesis
 {
 	class Instance;
+	class Surface;
 
 	class PhysicalDevice
 	{
@@ -16,7 +17,7 @@ namespace Phronesis
 		operator const VkPhysicalDevice&() const;
 		const VkPhysicalDevice& getPhysicalDevice() const;
 
-		void pick(const Instance* instance, VkSurfaceKHR surface);
+		void pick(const Instance& instance, const Surface& surface);
 
 	private:
 		VkPhysicalDevice choosePhysicalDevice(const std::vector<VkPhysicalDevice>& devices, const VkSurfaceKHR& surface);

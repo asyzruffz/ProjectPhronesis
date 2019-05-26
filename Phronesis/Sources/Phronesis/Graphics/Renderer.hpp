@@ -9,6 +9,7 @@
 #include "Surface.hpp"
 #include "PhysicalDevice.hpp"
 #include "LogicalDevice.hpp"
+#include "SwapChain.hpp"
 
 namespace Phronesis
 {
@@ -27,10 +28,8 @@ namespace Phronesis
 		PhysicalDevice physicalDevice;
 		LogicalDevice device;
 
-		VkSwapchainKHR swapChain;
-		std::vector<VkImage> swapChainImages;
-		VkFormat swapChainImageFormat;
-		VkExtent2D swapChainExtent;
+		SwapChain swapChain;
+
 		std::vector<VkImageView> swapChainImageViews;
 		std::vector<VkFramebuffer> swapChainFramebuffers;
 
@@ -49,7 +48,6 @@ namespace Phronesis
 		bool framebufferResized = false;
 
 	private:
-		void createSwapChain();
 		void createImageViews();
 		void createRenderPass();
 		void createGraphicsPipeline();

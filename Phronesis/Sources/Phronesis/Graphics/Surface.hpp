@@ -7,6 +7,7 @@
 namespace Phronesis
 {
 	class Instance;
+	class PhysicalDevice;
 
 	class Surface
 	{
@@ -19,7 +20,7 @@ namespace Phronesis
 		void create(const Instance& instance);
 		void dispose(const Instance& instance);
 
-		void acquireProperties(VkPhysicalDevice device);
+		void acquireProperties(const PhysicalDevice& device);
 
 		const VkSurfaceCapabilitiesKHR& getCapabilities() const;
 		const std::vector<VkSurfaceFormatKHR>& getFormats() const;

@@ -5,6 +5,7 @@
 #include "Phronesis/Core.hpp"
 #include "Window.hpp"
 #include "Instance.hpp"
+#include "PhysicalDevice.hpp"
 #include "RenderUtils.hpp"
 
 using namespace Phronesis;
@@ -39,7 +40,7 @@ void Surface::dispose(const Instance& instance)
 	vkDestroySurfaceKHR(instance, surface, nullptr);
 }
 
-void Surface::acquireProperties(VkPhysicalDevice device)
+void Surface::acquireProperties(const PhysicalDevice& device)
 {
 	// query the basic surface capabilities
 	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &capabilities);

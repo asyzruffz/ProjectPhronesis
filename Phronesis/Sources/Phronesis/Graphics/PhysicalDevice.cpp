@@ -3,8 +3,8 @@
 #include "PhysicalDevice.hpp"
 
 #include "Instance.hpp"
-#include "QueueFamilyIndices.hpp"
 #include "Surface.hpp"
+#include "QueueFamilyIndices.hpp"
 
 using namespace Phronesis;
 
@@ -23,10 +23,10 @@ const VkPhysicalDevice& PhysicalDevice::getPhysicalDevice() const
 	return physicalDevice;
 }
 
-void PhysicalDevice::pick(const Instance* instance, VkSurfaceKHR surface)
+void PhysicalDevice::pick(const Instance& instance, const Surface& surface)
 {
 	uint32_t deviceCount = 0;
-	vkEnumeratePhysicalDevices(*instance, &deviceCount, nullptr);
+	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
 	if(deviceCount == 0)
 	{
@@ -34,7 +34,7 @@ void PhysicalDevice::pick(const Instance* instance, VkSurfaceKHR surface)
 	}
 
 	std::vector<VkPhysicalDevice> devices(deviceCount);
-	vkEnumeratePhysicalDevices(*instance, &deviceCount, devices.data());
+	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
 	physicalDevice = choosePhysicalDevice(devices, surface);
 

@@ -20,7 +20,7 @@ void Renderer::init()
 	surface.create(instance);
 
 	// pick physical device
-	physicalDevice.pick(&instance, surface);
+	physicalDevice.pick(instance, surface);
 
 	// acquire the basic surface capabilities, supported surface formats & supported presentation modes
 	surface.acquireProperties(physicalDevice);
@@ -28,7 +28,9 @@ void Renderer::init()
 	// create logical device
 	device.create(physicalDevice, surface);
 
-	createSwapChain();
+	// create swap chain
+	swapChain.create(device, surface);
+
 	createImageViews();
 	createRenderPass();
 	createGraphicsPipeline();
@@ -73,83 +75,19 @@ void Renderer::requestResize()
 	framebufferResized = true;
 }
 
-void Renderer::createSwapChain()
-{
-	auto capabilities = surface.getCapabilities();
-	auto formats = surface.getFormats();
-	auto presentationModes = surface.getPresentationModes();
-
-	VkSurfaceFormatKHR surfaceFormat = RenderUtils::chooseSwapSurfaceFormat(formats);
-	VkPresentModeKHR presentationMode = RenderUtils::chooseSwapPresentMode(presentationModes);
-	//VkExtent2D extent = RenderUtils::chooseSwapExtent(swapChainSupport.capabilities, window);
-	VkExtent2D extent = { getModule<Window>()->getSize().x, getModule<Window>()->getSize().y };
-
-	// request at least one more image because we may sometimes have to wait on the driver 
-	// to complete internal operations before we can acquire another image to render to
-	uint32_t imageCount = capabilities.minImageCount + 1;
-	// make sure to not exceed the maximum number of images
-	if(capabilities.maxImageCount > 0 && imageCount > capabilities.maxImageCount)
-	{ // 0  means that there is no maximum
-		imageCount = capabilities.maxImageCount;
-	}
-
-	unsigned int queueFamilyIndices[] = {
-		device.getGraphicsFamily(),
-		device.getPresentationFamily()
-	};
-
-	// create the swap chain
-	VkSwapchainCreateInfoKHR createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-	createInfo.surface = surface;
-	createInfo.minImageCount = imageCount;
-	createInfo.imageFormat = surfaceFormat.format;
-	createInfo.imageColorSpace = surfaceFormat.colorSpace;
-	createInfo.imageExtent = extent;
-	createInfo.imageArrayLayers = 1; // always 1 unless we are developing a stereoscopic 3D application
-	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT; // render directly to image without post-processing
-	if(device.getGraphicsFamily() != device.getPresentationFamily()) {
-		createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
-		createInfo.queueFamilyIndexCount = 2;
-		createInfo.pQueueFamilyIndices = queueFamilyIndices;
-	} else {
-		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-		createInfo.queueFamilyIndexCount = 0; // Optional
-		createInfo.pQueueFamilyIndices = nullptr; // Optional
-	}
-	createInfo.preTransform = capabilities.currentTransform;
-	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; // blending with other windows in the window system? no, so opaque
-	createInfo.presentMode = presentationMode;
-	createInfo.clipped = VK_TRUE;
-	createInfo.oldSwapchain = VK_NULL_HANDLE;
-
-	VkResult result = vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to create swap chain");
-		RenderUtils::checkVk(result);
-	}
-
-	vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
-	swapChainImages.resize(imageCount);
-	vkGetSwapchainImagesKHR(device, swapChain, &imageCount, swapChainImages.data());
-
-	swapChainImageFormat = surfaceFormat.format;
-	swapChainExtent = extent;
-}
-
 void Renderer::createImageViews()
 {
-	swapChainImageViews.resize(swapChainImages.size());
+	auto imagesSize = swapChain.getImages().size();
+	swapChainImageViews.resize(imagesSize);
 
-	for(size_t i = 0; i < swapChainImages.size(); i++)
+	for(size_t i = 0; i < imagesSize; i++)
 	{
 		// create image view
 		VkImageViewCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		createInfo.image = swapChainImages[i];
+		createInfo.image = swapChain.getImages()[i];
 		createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D; // allows us to treat images as 1D, 2D, 3D textures or cube maps
-		createInfo.format = swapChainImageFormat;
+		createInfo.format = swapChain.getImageFormat();
 		createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
 		createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
 		createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -172,7 +110,7 @@ void Renderer::createImageViews()
 void Renderer::createRenderPass()
 {
 	VkAttachmentDescription colorAttachment = {};
-	colorAttachment.format = swapChainImageFormat;
+	colorAttachment.format = swapChain.getImageFormat();
 	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
 	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -256,14 +194,14 @@ void Renderer::createGraphicsPipeline()
 	VkViewport viewport = {};
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
-	viewport.width = (float)swapChainExtent.width;
-	viewport.height = (float)swapChainExtent.height;
+	viewport.width = (float)swapChain.getExtent().width;
+	viewport.height = (float)swapChain.getExtent().height;
 	viewport.minDepth = 0.0f;
 	viewport.maxDepth = 1.0f;
 
 	VkRect2D scissor = {};
 	scissor.offset = { 0, 0 };
-	scissor.extent = swapChainExtent;
+	scissor.extent = swapChain.getExtent();
 
 	// create viewport state (note: using multiple requires enabling a GPU feature)
 	VkPipelineViewportStateCreateInfo viewportState = {};
@@ -359,8 +297,8 @@ void Renderer::createFramebuffers()
 		framebufferInfo.renderPass = renderPass;
 		framebufferInfo.attachmentCount = 1;
 		framebufferInfo.pAttachments = attachments;
-		framebufferInfo.width = swapChainExtent.width;
-		framebufferInfo.height = swapChainExtent.height;
+		framebufferInfo.width = swapChain.getExtent().width;
+		framebufferInfo.height = swapChain.getExtent().height;
 		framebufferInfo.layers = 1;
 
 		VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &swapChainFramebuffers[i]);
@@ -424,7 +362,7 @@ void Renderer::createCommandBuffers()
 		renderPassInfo.renderPass = renderPass;
 		renderPassInfo.framebuffer = swapChainFramebuffers[i];
 		renderPassInfo.renderArea.offset = { 0, 0 };
-		renderPassInfo.renderArea.extent = swapChainExtent;
+		renderPassInfo.renderArea.extent = swapChain.getExtent();
 
 		VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
 		renderPassInfo.clearValueCount = 1;
@@ -483,8 +421,8 @@ void Renderer::recreateSwapChain()
 	vkDeviceWaitIdle(device);
 	cleanupSwapChain();
 
-	// create functions for the objects that depend on the swap chain or the window size
-	createSwapChain();
+	// recreate objects that depend on the swap chain or the window size
+	swapChain.create(device, surface);
 	createImageViews();
 	createRenderPass();
 	createGraphicsPipeline();
@@ -519,7 +457,7 @@ void Renderer::cleanupSwapChain()
 	}
 
 	// destroy swap chain
-	vkDestroySwapchainKHR(device, swapChain, nullptr);
+	swapChain.dispose(device);
 }
 
 void Renderer::drawFrame()
