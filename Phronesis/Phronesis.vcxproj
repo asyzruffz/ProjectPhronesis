@@ -34,6 +34,7 @@
     <ClInclude Include="Sources\Phronesis\Graphics\PhysicalDevice.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\QueueFamilyIndices.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Renderer.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\RenderPass.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\RenderUtils.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Surface.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\SwapChain.hpp" />
@@ -56,6 +57,7 @@
     <ClCompile Include="Sources\Phronesis\Graphics\PhysicalDevice.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\QueueFamilyIndices.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Renderer.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\RenderPass.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\RenderUtils.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Surface.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\SwapChain.cpp" />

@@ -92,6 +92,9 @@
     <ClInclude Include="Sources\Phronesis\Graphics\SwapChain.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\RenderPass.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -141,6 +144,9 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\SwapChain.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\RenderPass.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

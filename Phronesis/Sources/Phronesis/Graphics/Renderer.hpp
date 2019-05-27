@@ -10,6 +10,7 @@
 #include "PhysicalDevice.hpp"
 #include "LogicalDevice.hpp"
 #include "SwapChain.hpp"
+#include "RenderPass.hpp"
 
 namespace Phronesis
 {
@@ -29,11 +30,11 @@ namespace Phronesis
 		LogicalDevice device;
 
 		SwapChain swapChain;
+		RenderPass renderPass;
 
 		std::vector<VkImageView> swapChainImageViews;
 		std::vector<VkFramebuffer> swapChainFramebuffers;
 
-		VkRenderPass renderPass;
 		VkPipelineLayout pipelineLayout;
 		VkPipeline graphicsPipeline;
 
@@ -49,7 +50,6 @@ namespace Phronesis
 
 	private:
 		void createImageViews();
-		void createRenderPass();
 		void createGraphicsPipeline();
 		void createFramebuffers();
 		void createCommandPool();
