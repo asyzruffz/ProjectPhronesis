@@ -11,6 +11,7 @@
 #include "LogicalDevice.hpp"
 #include "SwapChain.hpp"
 #include "RenderPass.hpp"
+#include "FrameBuffers.hpp"
 
 namespace Phronesis
 {
@@ -31,8 +32,7 @@ namespace Phronesis
 
 		SwapChain swapChain;
 		RenderPass renderPass;
-
-		std::vector<VkFramebuffer> swapChainFramebuffers;
+		FrameBuffers frameBuffers;
 
 		VkPipelineLayout pipelineLayout;
 		VkPipeline graphicsPipeline;
@@ -49,7 +49,6 @@ namespace Phronesis
 
 	private:
 		void createGraphicsPipeline();
-		void createFramebuffers();
 		void createCommandPool();
 		void createCommandBuffers();
 		void createSyncObjects();

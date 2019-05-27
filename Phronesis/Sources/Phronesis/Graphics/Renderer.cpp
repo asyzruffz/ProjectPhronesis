@@ -25,17 +25,20 @@ void Renderer::init()
 	// acquire the basic surface capabilities, supported surface formats & supported presentation modes
 	surface.acquireProperties(physicalDevice);
 
-	// create logical device
+	// create logical device (and queues)
 	device.create(physicalDevice, surface);
 
-	// create swap chain
+	// create swap chain (and image views)
 	swapChain.create(device, surface);
 
 	// create render pass
 	renderPass.create(device, swapChain);
 
 	createGraphicsPipeline();
-	createFramebuffers();
+
+	// create frame buffers
+	frameBuffers.create(device, swapChain, renderPass);
+
 	createCommandPool();
 	createCommandBuffers();
 	createSyncObjects();
@@ -205,34 +208,6 @@ void Renderer::createGraphicsPipeline()
 	vkDestroyShaderModule(device, vertShaderModule, nullptr);
 }
 
-void Renderer::createFramebuffers()
-{
-	swapChainFramebuffers.resize(swapChain.getImageViews().size());
-
-	for(size_t i = 0; i < swapChain.getImageViews().size(); i++)
-	{
-		VkImageView attachments[] = {
-			swapChain.getImageViews()[i]
-		};
-
-		VkFramebufferCreateInfo framebufferInfo = {};
-		framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-		framebufferInfo.renderPass = renderPass;
-		framebufferInfo.attachmentCount = 1;
-		framebufferInfo.pAttachments = attachments;
-		framebufferInfo.width = swapChain.getExtent().width;
-		framebufferInfo.height = swapChain.getExtent().height;
-		framebufferInfo.layers = 1;
-
-		VkResult result = vkCreateFramebuffer(device, &framebufferInfo, nullptr, &swapChainFramebuffers[i]);
-		if(result != VK_SUCCESS)
-		{
-			Log::error("[Vulkan] Failed to create framebuffer");
-			RenderUtils::checkVk(result);
-		}
-	}
-}
-
 void Renderer::createCommandPool()
 {
 	VkCommandPoolCreateInfo poolInfo = {};
@@ -252,7 +227,7 @@ void Renderer::createCommandPool()
 
 void Renderer::createCommandBuffers()
 {
-	commandBuffers.resize(swapChainFramebuffers.size());
+	commandBuffers.resize(frameBuffers.size());
 
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -283,7 +258,7 @@ void Renderer::createCommandBuffers()
 		VkRenderPassBeginInfo renderPassInfo = {};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		renderPassInfo.renderPass = renderPass;
-		renderPassInfo.framebuffer = swapChainFramebuffers[i];
+		renderPassInfo.framebuffer = frameBuffers[i];
 		renderPassInfo.renderArea.offset = { 0, 0 };
 		renderPassInfo.renderArea.extent = swapChain.getExtent();
 
@@ -348,17 +323,14 @@ void Renderer::recreateSwapChain()
 	swapChain.create(device, surface);
 	renderPass.create(device, swapChain);
 	createGraphicsPipeline();
-	createFramebuffers();
+	frameBuffers.create(device, swapChain, renderPass);
 	createCommandBuffers();
 }
 
 void Renderer::cleanupSwapChain()
 {
 	// destroy framebuffers
-	for(auto framebuffer : swapChainFramebuffers)
-	{
-		vkDestroyFramebuffer(device, framebuffer, nullptr);
-	}
+	frameBuffers.dispose(device);
 
 	// clean up the existing command buffers instead of destroying it
 	vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());

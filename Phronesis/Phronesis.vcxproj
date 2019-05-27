@@ -29,6 +29,7 @@
     <ClInclude Include="Sources\Phronesis\FileIO.hpp" />
     <ClInclude Include="Sources\Phronesis\FileIO\BinaryFile.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\FrameBuffers.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Instance.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\LogicalDevice.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\PhysicalDevice.hpp" />
@@ -52,6 +53,7 @@
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
     <ClCompile Include="Sources\Phronesis\FileIO\BinaryFile.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\FrameBuffers.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Instance.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\LogicalDevice.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\PhysicalDevice.cpp" />
