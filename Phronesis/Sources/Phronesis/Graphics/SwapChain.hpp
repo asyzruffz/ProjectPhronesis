@@ -22,6 +22,7 @@ namespace Phronesis
 
 		const VkExtent2D& getExtent() const;
 		const std::vector<VkImage>& getImages() const;
+		const std::vector<VkImageView>& getImageViews() const;
 		const VkFormat& getImageFormat() const;
 
 	private:
@@ -29,12 +30,15 @@ namespace Phronesis
 		VkPresentModeKHR choosePresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		VkExtent2D chooseExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
+		void createImageViews(const LogicalDevice& device);
+
 	private:
 		VkSwapchainKHR swapChain;
 
 		VkExtent2D extent;
 
 		std::vector<VkImage> images;
+		std::vector<VkImageView> imageViews;
 		VkFormat imageFormat;
 	};
 }

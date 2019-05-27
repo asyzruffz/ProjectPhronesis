@@ -8,7 +8,8 @@
 
 using namespace Phronesis;
 
-RenderPass::RenderPass()
+RenderPass::RenderPass() :
+	renderPass(VK_NULL_HANDLE)
 {
 }
 

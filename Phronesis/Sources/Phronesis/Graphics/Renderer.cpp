@@ -31,8 +31,6 @@ void Renderer::init()
 	// create swap chain
 	swapChain.create(device, surface);
 
-	createImageViews();
-
 	// create render pass
 	renderPass.create(device, swapChain);
 
@@ -76,38 +74,6 @@ void Renderer::dispose()
 void Renderer::requestResize()
 {
 	framebufferResized = true;
-}
-
-void Renderer::createImageViews()
-{
-	auto imagesSize = swapChain.getImages().size();
-	swapChainImageViews.resize(imagesSize);
-
-	for(size_t i = 0; i < imagesSize; i++)
-	{
-		// create image view
-		VkImageViewCreateInfo createInfo = {};
-		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-		createInfo.image = swapChain.getImages()[i];
-		createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D; // allows us to treat images as 1D, 2D, 3D textures or cube maps
-		createInfo.format = swapChain.getImageFormat();
-		createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-		createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-		createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-		createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-		createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT; // used as color targets
-		createInfo.subresourceRange.baseMipLevel = 0; // without any mipmapping levels
-		createInfo.subresourceRange.levelCount = 1;
-		createInfo.subresourceRange.baseArrayLayer = 0;
-		createInfo.subresourceRange.layerCount = 1; // no multiple layers
-
-		VkResult result = vkCreateImageView(device, &createInfo, nullptr, &swapChainImageViews[i]);
-		if(result != VK_SUCCESS)
-		{
-			Log::error("[Vulkan] Failed to create image view");
-			RenderUtils::checkVk(result);
-		}
-	}
 }
 
 void Renderer::createGraphicsPipeline()
@@ -241,12 +207,12 @@ void Renderer::createGraphicsPipeline()
 
 void Renderer::createFramebuffers()
 {
-	swapChainFramebuffers.resize(swapChainImageViews.size());
+	swapChainFramebuffers.resize(swapChain.getImageViews().size());
 
-	for(size_t i = 0; i < swapChainImageViews.size(); i++)
+	for(size_t i = 0; i < swapChain.getImageViews().size(); i++)
 	{
 		VkImageView attachments[] = {
-			swapChainImageViews[i]
+			swapChain.getImageViews()[i]
 		};
 
 		VkFramebufferCreateInfo framebufferInfo = {};
@@ -380,7 +346,6 @@ void Renderer::recreateSwapChain()
 
 	// recreate objects that depend on the swap chain or the window size
 	swapChain.create(device, surface);
-	createImageViews();
 	renderPass.create(device, swapChain);
 	createGraphicsPipeline();
 	createFramebuffers();
@@ -407,13 +372,7 @@ void Renderer::cleanupSwapChain()
 	// destroy render pass
 	renderPass.dispose(device);
 
-	// destroy image views
-	for(auto imageView : swapChainImageViews)
-	{
-		vkDestroyImageView(device, imageView, nullptr);
-	}
-
-	// destroy swap chain
+	// destroy swap chain (and image views)
 	swapChain.dispose(device);
 }
 

@@ -90,10 +90,16 @@ void SwapChain::create(const LogicalDevice& device, const Surface& surface)
 
 	imageFormat = surfaceFormat.format;
 	
+	createImageViews(device);
 }
 
 void SwapChain::dispose(const LogicalDevice& device)
 {
+	for(auto imageView : imageViews)
+	{
+		vkDestroyImageView(device, imageView, nullptr);
+	}
+
 	vkDestroySwapchainKHR(device, swapChain, nullptr);
 }
 
@@ -105,6 +111,11 @@ const VkExtent2D& SwapChain::getExtent() const
 const std::vector<VkImage>& SwapChain::getImages() const
 {
 	return images;
+}
+
+const std::vector<VkImageView>& SwapChain::getImageViews() const
+{
+	return imageViews;
 }
 
 const VkFormat& SwapChain::getImageFormat() const
@@ -186,5 +197,36 @@ VkExtent2D SwapChain::chooseExtent(const VkSurfaceCapabilitiesKHR& capabilities)
 		actualExtent.height = std::clamp(actualExtent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
 
 		return actualExtent;
+	}
+}
+
+void SwapChain::createImageViews(const LogicalDevice& device)
+{
+	imageViews.resize(images.size());
+
+	for(size_t i = 0; i < images.size(); i++)
+	{
+		// create image view
+		VkImageViewCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		createInfo.image = images[i];
+		createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D; // allows us to treat images as 1D, 2D, 3D textures or cube maps
+		createInfo.format = imageFormat;
+		createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+		createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT; // used as color targets
+		createInfo.subresourceRange.baseMipLevel = 0; // without any mipmapping levels
+		createInfo.subresourceRange.levelCount = 1;
+		createInfo.subresourceRange.baseArrayLayer = 0;
+		createInfo.subresourceRange.layerCount = 1; // no multiple layers
+
+		VkResult result = vkCreateImageView(device, &createInfo, nullptr, &imageViews[i]);
+		if(result != VK_SUCCESS)
+		{
+			Log::error("[Vulkan] Failed to create image view");
+			RenderUtils::checkVk(result);
+		}
 	}
 }

@@ -32,7 +32,6 @@ namespace Phronesis
 		SwapChain swapChain;
 		RenderPass renderPass;
 
-		std::vector<VkImageView> swapChainImageViews;
 		std::vector<VkFramebuffer> swapChainFramebuffers;
 
 		VkPipelineLayout pipelineLayout;
@@ -49,7 +48,6 @@ namespace Phronesis
 		bool framebufferResized = false;
 
 	private:
-		void createImageViews();
 		void createGraphicsPipeline();
 		void createFramebuffers();
 		void createCommandPool();
