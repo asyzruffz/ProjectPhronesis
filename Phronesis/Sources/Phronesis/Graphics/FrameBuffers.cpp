@@ -9,10 +9,6 @@
 
 using namespace Phronesis;
 
-FrameBuffers::FrameBuffers()
-{
-}
-
 const std::vector<VkFramebuffer>& FrameBuffers::getFrameBuffers() const
 {
 	return frameBuffers;

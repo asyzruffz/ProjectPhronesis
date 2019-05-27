@@ -11,7 +11,7 @@ namespace Phronesis
 	class FrameBuffers
 	{
 	public:
-		FrameBuffers();
+		FrameBuffers() = default;
 
 		const std::vector<VkFramebuffer>& getFrameBuffers() const;
 		VkFramebuffer& operator[](const size_t i);
