@@ -26,6 +26,7 @@
     <ClInclude Include="Sources\Phronesis\Core\Engine.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\Game.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\Module.hpp" />
+    <ClInclude Include="Sources\Phronesis\FileIO\Directory.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\CommandBuffer.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\CommandPool.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Pipeline.hpp" />
@@ -57,6 +58,7 @@
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
     <ClCompile Include="Sources\Phronesis\FileIO\BinaryFile.cpp" />
+    <ClCompile Include="Sources\Phronesis\FileIO\Directory.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\CommandBuffer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\CommandPool.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\FrameBuffers.cpp" />

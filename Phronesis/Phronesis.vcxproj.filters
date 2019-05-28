@@ -110,6 +110,9 @@
     <ClInclude Include="Sources\Phronesis\Graphics\CommandBuffer.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\FileIO\Directory.hpp">
+      <Filter>FileIO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\CommandBuffer.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\FileIO\Directory.cpp">
+      <Filter>FileIO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
