@@ -113,6 +113,12 @@
     <ClInclude Include="Sources\Phronesis\FileIO\Directory.hpp">
       <Filter>FileIO</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Utilities\String.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\Shader.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -184,6 +190,12 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\FileIO\Directory.cpp">
       <Filter>FileIO</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Utilities\String.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\Shader.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

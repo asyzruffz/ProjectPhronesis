@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <locale>
 #include <cstdlib>
 #include <stdexcept>
 #include <filesystem>

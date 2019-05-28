@@ -95,22 +95,3 @@ std::string RenderUtils::stringifyMessageSeverity(const VkDebugUtilsMessageSever
 			return "?";
 	}
 }
-
-VkShaderModule RenderUtils::createShaderModule(VkDevice device, const std::vector<char>& code)
-{
-	// create shader module
-	VkShaderModuleCreateInfo createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	createInfo.codeSize = code.size();
-	createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
-
-	VkShaderModule shaderModule;
-	VkResult result = vkCreateShaderModule(device, &createInfo, nullptr, &shaderModule);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to create shader module");
-		checkVk(result);
-	}
-
-	return shaderModule;
-}

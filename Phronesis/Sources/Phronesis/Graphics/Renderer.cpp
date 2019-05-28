@@ -4,7 +4,9 @@
 
 #include "Phronesis/Core/Engine.hpp"
 #include "Phronesis/FileIO/BinaryFile.hpp"
+#include "Phronesis/FileIO/Directory.hpp"
 #include "Window.hpp"
+#include "Shader.hpp"
 #include "RenderUtils.hpp"
 
 #include <GLFW/glfw3.h>
@@ -83,34 +85,32 @@ void Renderer::requestResize()
 
 void Renderer::createGraphicsPipeline()
 {
-	auto vertShaderCode = BinaryFile::read("Shaders/shader_base.vert.spv");
-	auto fragShaderCode = BinaryFile::read("Shaders/shader_base.frag.spv");
+	auto shaderFiles = Directory::getAllFilesIn("Shaders");
 
-	// create shader modules
-	VkShaderModule vertShaderModule = RenderUtils::createShaderModule(device, vertShaderCode);
-	VkShaderModule fragShaderModule = RenderUtils::createShaderModule(device, fragShaderCode);
+	// create shaders
+	std::vector<Shader> shaders;
+	shaders.resize(shaderFiles.size());
+	for(size_t i = 0; i < shaderFiles.size(); i++)
+	{
+		shaders[i].create(device, shaderFiles[i]);
+	}
 
-	// create shader stages
-	VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};
-	vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	vertShaderStageInfo.module = vertShaderModule;
-	vertShaderStageInfo.pName = "main";
-
-	VkPipelineShaderStageCreateInfo fragShaderStageInfo = {};
-	fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	fragShaderStageInfo.module = fragShaderModule;
-	fragShaderStageInfo.pName = "main";
-
-	VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
+	// get shader stages
+	std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
+	shaderStages.resize(shaders.size());
+	for(size_t i = 0; i < shaders.size(); i++)
+	{
+		shaderStages[i] = shaders[i].getStageInfo();
+	}
 
 	// createGraphicsPipeline
-	graphicsPipeline.create(device, swapChain, shaderStages, renderPass);
+	graphicsPipeline.create(device, swapChain, shaderStages.data(), renderPass);
 
-	// destroy shader modules
-	vkDestroyShaderModule(device, fragShaderModule, nullptr);
-	vkDestroyShaderModule(device, vertShaderModule, nullptr);
+	// destroy shaders
+	for(auto& shader : shaders)
+	{
+		shader.dispose(device);
+	}
 }
 
 void Renderer::createCommandBuffers()
