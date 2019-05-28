@@ -116,32 +116,14 @@ void Renderer::createGraphicsPipeline()
 void Renderer::createCommandBuffers()
 {
 	commandBuffers.resize(frameBuffers.size());
-
-	VkCommandBufferAllocateInfo allocInfo = {};
-	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-	allocInfo.commandPool = commandPool;
-	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-	allocInfo.commandBufferCount = (uint32_t)commandBuffers.size();
-
-	VkResult result = vkAllocateCommandBuffers(device, &allocInfo, commandBuffers.data());
-	if(result != VK_SUCCESS)
+	for(auto& commandBuffer : commandBuffers)
 	{
-		Log::error("[Vulkan] Failed to allocate command buffers");
-		RenderUtils::checkVk(result);
+		commandBuffer.allocate(device, commandPool);
 	}
 
 	for(size_t i = 0; i < commandBuffers.size(); i++)
 	{
-		VkCommandBufferBeginInfo beginInfo = {};
-		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-
-		result = vkBeginCommandBuffer(commandBuffers[i], &beginInfo);
-		if(result != VK_SUCCESS)
-		{
-			Log::error("[Vulkan] Failed to begin recording command buffer");
-			RenderUtils::checkVk(result);
-		}
+		commandBuffers[i].begin();
 
 		VkRenderPassBeginInfo renderPassInfo = {};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -162,12 +144,7 @@ void Renderer::createCommandBuffers()
 
 		vkCmdEndRenderPass(commandBuffers[i]);
 
-		result = vkEndCommandBuffer(commandBuffers[i]);
-		if(result != VK_SUCCESS)
-		{
-			Log::error("[Vulkan] Failed to record command buffer");
-			RenderUtils::checkVk(result);
-		}
+		commandBuffers[i].end();
 	}
 }
 
@@ -221,7 +198,10 @@ void Renderer::cleanupSwapChain()
 	frameBuffers.dispose(device);
 
 	// clean up the existing command buffers instead of destroying it
-	vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+	for(auto& commandBuffer : commandBuffers)
+	{
+		commandBuffer.free(device, commandPool);
+	}
 
 	// destroy graphics pipeline (and pipeline layout)
 	graphicsPipeline.dispose(device);
@@ -258,27 +238,11 @@ void Renderer::drawFrame()
 
 	// semaphores to signal that an image has been acquired and is ready for rendering
 	//		  and to signal that rendering has finished and presentation can happen
-	VkSemaphore waitSemaphores[] = { imageAvailableSemaphores[currentFrame] };
-	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-	VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
+	VkSemaphore& waitSemaphore = imageAvailableSemaphores[currentFrame];
+	VkSemaphore& signalSemaphore = renderFinishedSemaphores[currentFrame];
 
 	// submit the command buffer
-	VkSubmitInfo submitInfo = {};
-	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-	submitInfo.waitSemaphoreCount = 1;
-	submitInfo.pWaitSemaphores = waitSemaphores;
-	submitInfo.pWaitDstStageMask = waitStages;
-	submitInfo.commandBufferCount = 1;
-	submitInfo.pCommandBuffers = &commandBuffers[imageIndex];
-	submitInfo.signalSemaphoreCount = 1;
-	submitInfo.pSignalSemaphores = signalSemaphores;
-
-	result = vkQueueSubmit(device.getGraphicsQueue(), 1, &submitInfo, inFlightFences[currentFrame]);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to submit draw command buffer");
-		RenderUtils::checkVk(result);
-	}
+	commandBuffers[imageIndex].submit(device.getGraphicsQueue(), waitSemaphore, signalSemaphore, inFlightFences[currentFrame]);
 
 	// submit the result back to the swap chain to have it show up on the screen
 	VkSwapchainKHR swapChains[] = { swapChain };
@@ -286,7 +250,7 @@ void Renderer::drawFrame()
 	VkPresentInfoKHR presentationInfo = {};
 	presentationInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 	presentationInfo.waitSemaphoreCount = 1;
-	presentationInfo.pWaitSemaphores = signalSemaphores;
+	presentationInfo.pWaitSemaphores = &signalSemaphore;
 	presentationInfo.swapchainCount = 1;
 	presentationInfo.pSwapchains = swapChains;
 	presentationInfo.pImageIndices = &imageIndex;
