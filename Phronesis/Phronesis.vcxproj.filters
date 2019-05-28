@@ -98,6 +98,12 @@
     <ClInclude Include="Sources\Phronesis\Graphics\FrameBuffers.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\Pipeline.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\GraphicsPipeline.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -153,6 +159,12 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\FrameBuffers.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\GraphicsPipeline.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\Pipeline.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

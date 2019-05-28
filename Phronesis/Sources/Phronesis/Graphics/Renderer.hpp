@@ -12,6 +12,7 @@
 #include "SwapChain.hpp"
 #include "RenderPass.hpp"
 #include "FrameBuffers.hpp"
+#include "GraphicsPipeline.hpp"
 
 namespace Phronesis
 {
@@ -34,8 +35,7 @@ namespace Phronesis
 		RenderPass renderPass;
 		FrameBuffers frameBuffers;
 
-		VkPipelineLayout pipelineLayout;
-		VkPipeline graphicsPipeline;
+		GraphicsPipeline graphicsPipeline;
 
 		VkCommandPool commandPool;
 		std::vector<VkCommandBuffer> commandBuffers;

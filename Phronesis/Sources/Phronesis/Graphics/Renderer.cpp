@@ -103,105 +103,8 @@ void Renderer::createGraphicsPipeline()
 
 	VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
 
-	// create vertex input (describes the format of the vertex data that will be passed to the vertex shader)
-	VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
-	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	vertexInputInfo.vertexBindingDescriptionCount = 0;
-	vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-	vertexInputInfo.vertexAttributeDescriptionCount = 0;
-	vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
-
-	// create input assembly (describes what kind of geometry will be drawn from the vertices)
-	VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};
-	inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-	inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-	inputAssembly.primitiveRestartEnable = VK_FALSE;
-
-	VkViewport viewport = {};
-	viewport.x = 0.0f;
-	viewport.y = 0.0f;
-	viewport.width = (float)swapChain.getExtent().width;
-	viewport.height = (float)swapChain.getExtent().height;
-	viewport.minDepth = 0.0f;
-	viewport.maxDepth = 1.0f;
-
-	VkRect2D scissor = {};
-	scissor.offset = { 0, 0 };
-	scissor.extent = swapChain.getExtent();
-
-	// create viewport state (note: using multiple requires enabling a GPU feature)
-	VkPipelineViewportStateCreateInfo viewportState = {};
-	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-	viewportState.viewportCount = 1;
-	viewportState.pViewports = &viewport;
-	viewportState.scissorCount = 1;
-	viewportState.pScissors = &scissor;
-
-	VkPipelineRasterizationStateCreateInfo rasterizer = {};
-	rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-	rasterizer.depthClampEnable = VK_FALSE; // useful in shadow maps if true (requires enabling a GPU feature)
-	rasterizer.rasterizerDiscardEnable = VK_FALSE; // disables any output to the framebuffer if true
-	rasterizer.polygonMode = VK_POLYGON_MODE_FILL; // FILL, LINE, POINT (mode other than fill requires enabling a GPU feature)
-	rasterizer.lineWidth = 1.0f; // line thicker than 1.0f requires you to enable the wideLines GPU feature
-	rasterizer.cullMode = VK_CULL_MODE_BACK_BIT; // can disable culling, cull the front faces, cull the back faces or both
-	rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE; // specifies the vertex order
-	rasterizer.depthBiasEnable = VK_FALSE;
-
-	VkPipelineMultisampleStateCreateInfo multisampling = {}; // disabled for now
-	multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
-	multisampling.sampleShadingEnable = VK_FALSE;
-	multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-
-	VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
-	colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-	colorBlendAttachment.blendEnable = VK_FALSE; // in our case we only have one framebuffer
-
-	VkPipelineColorBlendStateCreateInfo colorBlending = {};
-	colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-	colorBlending.logicOpEnable = VK_FALSE;
-	colorBlending.logicOp = VK_LOGIC_OP_COPY;
-	colorBlending.attachmentCount = 1;
-	colorBlending.pAttachments = &colorBlendAttachment;
-	colorBlending.blendConstants[0] = 0.0f;
-	colorBlending.blendConstants[1] = 0.0f;
-	colorBlending.blendConstants[2] = 0.0f;
-	colorBlending.blendConstants[3] = 0.0f;
-
-	VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
-	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	pipelineLayoutInfo.setLayoutCount = 0;
-	pipelineLayoutInfo.pushConstantRangeCount = 0;
-
-	VkResult result = vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to create pipeline layout");
-		RenderUtils::checkVk(result);
-	}
-
-	VkGraphicsPipelineCreateInfo pipelineInfo = {};
-	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-	pipelineInfo.stageCount = 2;
-	pipelineInfo.pStages = shaderStages;
-	pipelineInfo.pVertexInputState = &vertexInputInfo;
-	pipelineInfo.pInputAssemblyState = &inputAssembly;
-	pipelineInfo.pViewportState = &viewportState;
-	pipelineInfo.pRasterizationState = &rasterizer;
-	pipelineInfo.pMultisampleState = &multisampling;
-	pipelineInfo.pDepthStencilState = nullptr; // Optional
-	pipelineInfo.pColorBlendState = &colorBlending;
-	pipelineInfo.pDynamicState = nullptr; // Optional
-	pipelineInfo.layout = pipelineLayout;
-	pipelineInfo.renderPass = renderPass;
-	pipelineInfo.subpass = 0;
-	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
-
-	result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to create graphics pipeline");
-		RenderUtils::checkVk(result);
-	}
+	// createGraphicsPipeline
+	graphicsPipeline.create(device, swapChain, shaderStages, renderPass);
 
 	// destroy shader modules
 	vkDestroyShaderModule(device, fragShaderModule, nullptr);
@@ -268,7 +171,7 @@ void Renderer::createCommandBuffers()
 
 		vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-			vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+			graphicsPipeline.bind(commandBuffers[i]);
 
 			vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
 
@@ -335,11 +238,8 @@ void Renderer::cleanupSwapChain()
 	// clean up the existing command buffers instead of destroying it
 	vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
 
-	// destroy graphics pipeline
-	vkDestroyPipeline(device, graphicsPipeline, nullptr);
-
-	// destroy pipeline layout
-	vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+	// destroy graphics pipeline (and pipeline layout)
+	graphicsPipeline.dispose(device);
 
 	// destroy render pass
 	renderPass.dispose(device);

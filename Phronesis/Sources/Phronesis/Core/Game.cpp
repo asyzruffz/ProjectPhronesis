@@ -20,7 +20,7 @@ void Game::run()
 
 void Game::init()
 {
-	modules.add<Window>(Module::Stage::Render);
+	modules.add<Window>(Module::Stage::Pre);
 	modules.get<Window>()->init(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
 
 	modules.add<Renderer>(Module::Stage::Render);
