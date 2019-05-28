@@ -20,6 +20,9 @@ namespace Phronesis
 		void create(const LogicalDevice& device, const Surface& surface);
 		void dispose(const LogicalDevice& device);
 
+		VkResult acquireNextImage(const LogicalDevice& device, unsigned int* imageIndex, const VkSemaphore& presentationCompleteSemaphore = VK_NULL_HANDLE);
+		VkResult queuePresentation(const VkQueue &queue, unsigned int* imageIndex, const VkSemaphore &waitSemaphore = VK_NULL_HANDLE);
+
 		const VkExtent2D& getExtent() const;
 		const std::vector<VkImage>& getImages() const;
 		const std::vector<VkImageView>& getImageViews() const;

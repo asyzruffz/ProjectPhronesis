@@ -218,53 +218,32 @@ void Renderer::drawFrame()
 	// fence waits for available frame
 	vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
 
+	// semaphores to signal that an image has been acquired and is ready for rendering
+	//		  and to signal that rendering has finished and presentation can happen
+	VkSemaphore& waitSemaphore = imageAvailableSemaphores[currentFrame];
+	VkSemaphore& signalSemaphore = renderFinishedSemaphores[currentFrame];
+
 	// acquire an image from the swap chain
-	uint32_t imageIndex;
-	VkResult result = vkAcquireNextImageKHR(device, swapChain, std::numeric_limits<uint64_t>::max(),
-								imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+	unsigned int imageIndex;
+	VkResult result = swapChain.acquireNextImage(device, &imageIndex, waitSemaphore);
 	if(result == VK_ERROR_OUT_OF_DATE_KHR)
 	{	// the swap chain has become incompatible with the surface
 		// usually happens after a window resize
 		recreateSwapChain();
 		return;
 	}
-	else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
-	{
-		Log::error("[Vulkan] Failed to acquire swap chain image");
-		RenderUtils::checkVk(result);
-	}
 
 	vkResetFences(device, 1, &inFlightFences[currentFrame]);
-
-	// semaphores to signal that an image has been acquired and is ready for rendering
-	//		  and to signal that rendering has finished and presentation can happen
-	VkSemaphore& waitSemaphore = imageAvailableSemaphores[currentFrame];
-	VkSemaphore& signalSemaphore = renderFinishedSemaphores[currentFrame];
 
 	// submit the command buffer
 	commandBuffers[imageIndex].submit(device.getGraphicsQueue(), waitSemaphore, signalSemaphore, inFlightFences[currentFrame]);
 
 	// submit the result back to the swap chain to have it show up on the screen
-	VkSwapchainKHR swapChains[] = { swapChain };
-
-	VkPresentInfoKHR presentationInfo = {};
-	presentationInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-	presentationInfo.waitSemaphoreCount = 1;
-	presentationInfo.pWaitSemaphores = &signalSemaphore;
-	presentationInfo.swapchainCount = 1;
-	presentationInfo.pSwapchains = swapChains;
-	presentationInfo.pImageIndices = &imageIndex;
-
-	result = vkQueuePresentKHR(device.getPresentationQueue(), &presentationInfo);
+	result = swapChain.queuePresentation(device.getPresentationQueue(), &imageIndex, signalSemaphore);
 	if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized)
 	{	// also recreate the swap chain if it is suboptimal
 		recreateSwapChain();
 		framebufferResized = false;
-	}
-	else if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to present swap chain image");
-		RenderUtils::checkVk(result);
 	}
 
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;

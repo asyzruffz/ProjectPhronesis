@@ -103,6 +103,41 @@ void SwapChain::dispose(const LogicalDevice& device)
 	vkDestroySwapchainKHR(device, swapChain, nullptr);
 }
 
+VkResult SwapChain::acquireNextImage(const LogicalDevice& device, unsigned int* imageIndex, const VkSemaphore& presentationCompleteSemaphore)
+{
+	VkResult result = vkAcquireNextImageKHR(device, swapChain, std::numeric_limits<uint64_t>::max(),
+											presentationCompleteSemaphore, VK_NULL_HANDLE, imageIndex);
+	if(result == VK_ERROR_OUT_OF_DATE_KHR) {}
+	else if(result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
+	{
+		Log::error("[Vulkan] Failed to acquire swap chain image");
+		RenderUtils::checkVk(result);
+	}
+
+	return result;
+}
+
+VkResult SwapChain::queuePresentation(const VkQueue& queue, unsigned int* imageIndex, const VkSemaphore& waitSemaphore)
+{
+	VkPresentInfoKHR presentationInfo = {};
+	presentationInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	presentationInfo.waitSemaphoreCount = 1;
+	presentationInfo.pWaitSemaphores = &waitSemaphore;
+	presentationInfo.swapchainCount = 1;
+	presentationInfo.pSwapchains = &swapChain;
+	presentationInfo.pImageIndices = imageIndex;
+
+	VkResult result = vkQueuePresentKHR(queue, &presentationInfo);
+	if(result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {}
+	else if(result != VK_SUCCESS)
+	{
+		Log::error("[Vulkan] Failed to present swap chain image");
+		RenderUtils::checkVk(result);
+	}
+
+	return result;
+}
+
 const VkExtent2D& SwapChain::getExtent() const
 {
 	return extent;
