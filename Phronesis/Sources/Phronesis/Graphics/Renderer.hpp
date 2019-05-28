@@ -13,6 +13,7 @@
 #include "RenderPass.hpp"
 #include "FrameBuffers.hpp"
 #include "GraphicsPipeline.hpp"
+#include "CommandPool.hpp"
 
 namespace Phronesis
 {
@@ -37,7 +38,7 @@ namespace Phronesis
 
 		GraphicsPipeline graphicsPipeline;
 
-		VkCommandPool commandPool;
+		CommandPool commandPool;
 		std::vector<VkCommandBuffer> commandBuffers;
 
 		std::vector<VkSemaphore> imageAvailableSemaphores;
@@ -49,7 +50,6 @@ namespace Phronesis
 
 	private:
 		void createGraphicsPipeline();
-		void createCommandPool();
 		void createCommandBuffers();
 		void createSyncObjects();
 

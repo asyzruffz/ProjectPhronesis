@@ -39,7 +39,9 @@ void Renderer::init()
 	// create frame buffers
 	frameBuffers.create(device, swapChain, renderPass);
 
-	createCommandPool();
+	// create command pool
+	commandPool.create(device);
+
 	createCommandBuffers();
 	createSyncObjects();
 }
@@ -65,7 +67,7 @@ void Renderer::dispose()
 	}
 
 	// destroy command pool
-	vkDestroyCommandPool(device, commandPool, nullptr);
+	commandPool.dispose(device);
 
 	// destroy logical device (and queues)
 	device.dispose();
@@ -109,23 +111,6 @@ void Renderer::createGraphicsPipeline()
 	// destroy shader modules
 	vkDestroyShaderModule(device, fragShaderModule, nullptr);
 	vkDestroyShaderModule(device, vertShaderModule, nullptr);
-}
-
-void Renderer::createCommandPool()
-{
-	VkCommandPoolCreateInfo poolInfo = {};
-	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	poolInfo.queueFamilyIndex = device.getGraphicsFamily();
-	poolInfo.flags = 0; // Optional
-	// we will only record the command buffers at the beginning of the program and 
-	// then execute them many times in the main loop, so we're not going to use the flag
-
-	VkResult result = vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to create command pool");
-		RenderUtils::checkVk(result);
-	}
 }
 
 void Renderer::createCommandBuffers()
