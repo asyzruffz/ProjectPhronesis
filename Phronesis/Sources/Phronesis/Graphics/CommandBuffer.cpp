@@ -46,13 +46,13 @@ void CommandBuffer::free(const LogicalDevice& device, const CommandPool& command
 	commandBuffer = VK_NULL_HANDLE;
 }
 
-void CommandBuffer::begin()
+void CommandBuffer::begin(VkCommandBufferUsageFlags flags)
 {
 	if(running) return;
 
 	VkCommandBufferBeginInfo beginInfo = {};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+	beginInfo.flags = flags;
 
 	VkResult result = vkBeginCommandBuffer(commandBuffer, &beginInfo);
 	if(result != VK_SUCCESS)
@@ -78,19 +78,26 @@ void CommandBuffer::end()
 	running = false;
 }
 
-void CommandBuffer::submit(const VkQueue& queue, const VkSemaphore& waitSemaphore, const VkSemaphore& signalSemaphore, VkFence fence)
+void CommandBuffer::submit(const VkQueue& queue, const VkPipelineStageFlags& waitStages, const VkSemaphore& waitSemaphore, const VkSemaphore& signalSemaphore, VkFence fence)
 {
-	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-
 	VkSubmitInfo submitInfo = {};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-	submitInfo.waitSemaphoreCount = 1;
-	submitInfo.pWaitSemaphores = &waitSemaphore;
-	submitInfo.pWaitDstStageMask = waitStages;
 	submitInfo.commandBufferCount = 1;
 	submitInfo.pCommandBuffers = &commandBuffer;
-	submitInfo.signalSemaphoreCount = 1;
-	submitInfo.pSignalSemaphores = &signalSemaphore;
+	if(waitStages != VK_NULL_HANDLE)
+	{
+		submitInfo.pWaitDstStageMask = &waitStages;
+	}
+	if(waitSemaphore != VK_NULL_HANDLE)
+	{
+		submitInfo.waitSemaphoreCount = 1;
+		submitInfo.pWaitSemaphores = &waitSemaphore;
+	}
+	if(signalSemaphore != VK_NULL_HANDLE)
+	{
+		submitInfo.signalSemaphoreCount = 1;
+		submitInfo.pSignalSemaphores = &signalSemaphore;
+	}
 
 	VkResult result = vkQueueSubmit(queue, 1, &submitInfo, fence);
 	if(result != VK_SUCCESS)

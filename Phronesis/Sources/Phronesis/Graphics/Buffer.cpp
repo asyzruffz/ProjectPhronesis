@@ -4,6 +4,8 @@
 
 #include "LogicalDevice.hpp"
 #include "PhysicalDevice.hpp"
+#include "CommandPool.hpp"
+#include "CommandBuffer.hpp"
 #include "RenderUtils.hpp"
 
 using namespace Phronesis;
@@ -53,7 +55,7 @@ void Buffer::dispose(const LogicalDevice & device)
 	}
 }
 
-void Buffer::allocateMemory(const LogicalDevice& logicalDevice, const PhysicalDevice& physicalDevice, const void* data)
+void Buffer::allocateMemory(const LogicalDevice& logicalDevice, const PhysicalDevice& physicalDevice, VkMemoryPropertyFlags properties, const void* data)
 {
 	VkMemoryRequirements memRequirements;
 	vkGetBufferMemoryRequirements(logicalDevice, buffer, &memRequirements);
@@ -61,9 +63,7 @@ void Buffer::allocateMemory(const LogicalDevice& logicalDevice, const PhysicalDe
 	VkMemoryAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 	allocInfo.allocationSize = memRequirements.size;
-	allocInfo.memoryTypeIndex = findMemoryType(physicalDevice,
-											   memRequirements.memoryTypeBits,
-											   VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	allocInfo.memoryTypeIndex = findMemoryType(physicalDevice, memRequirements.memoryTypeBits, properties);
 
 	VkResult result = vkAllocateMemory(logicalDevice, &allocInfo, nullptr, &memory);
 	if(result != VK_SUCCESS)
@@ -106,4 +106,22 @@ const VkDeviceSize& Buffer::getSize() const
 const VkDeviceMemory& Buffer::getMemory() const
 {
 	return memory;
+}
+
+void Buffer::copy(const LogicalDevice& device, const CommandPool& commandPool, const Buffer& srcBuffer, const Buffer& dstBuffer)
+{
+	// allocate a temporary command buffer
+	CommandBuffer commandBuffer;
+	commandBuffer.allocate(device, commandPool);
+
+	commandBuffer.begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+		VkBufferCopy copyRegion = {};
+		copyRegion.size = dstBuffer.getSize();
+		vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
+	commandBuffer.end();
+
+	commandBuffer.submit(device.getGraphicsQueue());
+	vkQueueWaitIdle(device.getGraphicsQueue());
+
+	commandBuffer.free(device, commandPool);
 }

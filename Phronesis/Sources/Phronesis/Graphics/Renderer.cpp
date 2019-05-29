@@ -51,9 +51,20 @@ void Renderer::init()
 	// create command pool
 	commandPool.create(device);
 
+	// create a staging buffer for mapping and copying the vertex data
+	Buffer stagingBuffer;
+	stagingBuffer.create(device, sizeof(Vertex) * vertices.size(), VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
+	stagingBuffer.allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, vertices.data());
+
 	// create vertex buffer
-	vertexBuffer.create(device, sizeof(Vertex) * vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
-	vertexBuffer.allocateMemory(device, physicalDevice, vertices.data());
+	vertexBuffer.create(device, sizeof(Vertex) * vertices.size(), VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
+	vertexBuffer.allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+	// copy the contents from staging buffer to vertex buffer
+	Buffer::copy(device, commandPool, stagingBuffer, vertexBuffer);
+
+	// destroy the staging buffer
+	stagingBuffer.dispose(device);
 
 	createCommandBuffers();
 	createSyncObjects();
@@ -137,7 +148,9 @@ void Renderer::createCommandBuffers()
 
 	for(size_t i = 0; i < commandBuffers.size(); i++)
 	{
-		commandBuffers[i].begin();
+		commandBuffers[i].begin(VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT);
+
+		VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 		VkRenderPassBeginInfo renderPassInfo = {};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -145,8 +158,6 @@ void Renderer::createCommandBuffers()
 		renderPassInfo.framebuffer = frameBuffers[i];
 		renderPassInfo.renderArea.offset = { 0, 0 };
 		renderPassInfo.renderArea.extent = swapChain.getExtent();
-
-		VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
 		renderPassInfo.clearValueCount = 1;
 		renderPassInfo.pClearValues = &clearColor;
 
@@ -154,8 +165,8 @@ void Renderer::createCommandBuffers()
 
 			graphicsPipeline.bind(commandBuffers[i]);
 
-			VkDeviceSize offsets[] = { 0 };
-			vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, &vertexBuffer.getBuffer(), offsets);
+			VkDeviceSize offset = 0;
+			vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, &vertexBuffer.getBuffer(), &offset);
 
 			vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(vertices.size()), 1, 0, 0);
 
@@ -239,6 +250,7 @@ void Renderer::drawFrame()
 	//		  and to signal that rendering has finished and presentation can happen
 	VkSemaphore& waitSemaphore = imageAvailableSemaphores[currentFrame];
 	VkSemaphore& signalSemaphore = renderFinishedSemaphores[currentFrame];
+	VkPipelineStageFlags waitStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 
 	// acquire an image from the swap chain
 	unsigned int imageIndex;
@@ -253,7 +265,7 @@ void Renderer::drawFrame()
 	vkResetFences(device, 1, &inFlightFences[currentFrame]);
 
 	// submit the command buffer
-	commandBuffers[imageIndex].submit(device.getGraphicsQueue(), waitSemaphore, signalSemaphore, inFlightFences[currentFrame]);
+	commandBuffers[imageIndex].submit(device.getGraphicsQueue(), waitStage, waitSemaphore, signalSemaphore, inFlightFences[currentFrame]);
 
 	// submit the result back to the swap chain to have it show up on the screen
 	result = swapChain.queuePresentation(device.getPresentationQueue(), &imageIndex, signalSemaphore);

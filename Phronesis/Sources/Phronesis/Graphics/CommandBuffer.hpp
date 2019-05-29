@@ -18,10 +18,10 @@ namespace Phronesis
 		void allocate(const LogicalDevice& device, const CommandPool& commandPool);
 		void free(const LogicalDevice& device, const CommandPool& commandPool);
 
-		void begin();
+		void begin(VkCommandBufferUsageFlags flags);
 		void end();
 
-		void submit(const VkQueue& queue, const VkSemaphore& waitSemaphore = VK_NULL_HANDLE, const VkSemaphore& signalSemaphore = VK_NULL_HANDLE, VkFence fence = VK_NULL_HANDLE);
+		void submit(const VkQueue& queue, const VkPipelineStageFlags& waitStages = VK_NULL_HANDLE, const VkSemaphore& waitSemaphore = VK_NULL_HANDLE, const VkSemaphore& signalSemaphore = VK_NULL_HANDLE, VkFence fence = VK_NULL_HANDLE);
 
 	private:
 		VkCommandBuffer commandBuffer;
