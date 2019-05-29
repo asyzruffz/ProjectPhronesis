@@ -18,9 +18,14 @@ using namespace Phronesis;
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
 const std::vector<Vertex> vertices = {
-	{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-	{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-	{{-0.5f, 0.5f}, {0.0f, 1.0f, 1.0f}}
+	{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+	{{ 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+	{{ 0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}},
+	{{-0.5f,  0.5f}, {1.0f, 1.0f, 0.0f}}
+};
+
+const std::vector<uint32_t> indices = {
+	0, 1, 2, 2, 3, 0
 };
 
 void Renderer::init()
@@ -51,17 +56,35 @@ void Renderer::init()
 	// create command pool
 	commandPool.create(device);
 
-	// create a staging buffer for mapping and copying the vertex data
 	Buffer stagingBuffer;
-	stagingBuffer.create(device, sizeof(Vertex) * vertices.size(), VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
+	VkDeviceSize bufferSize;
+
+	// create a staging buffer for mapping and copying the vertex data
+	bufferSize = sizeof(vertices[0]) * vertices.size();
+	stagingBuffer.create(device, bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
 	stagingBuffer.allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, vertices.data());
 
 	// create vertex buffer
-	vertexBuffer.create(device, sizeof(Vertex) * vertices.size(), VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
+	vertexBuffer.create(device, bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
 	vertexBuffer.allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 	// copy the contents from staging buffer to vertex buffer
 	Buffer::copy(device, commandPool, stagingBuffer, vertexBuffer);
+
+	// destroy the staging buffer
+	stagingBuffer.dispose(device);
+
+	// create a staging buffer for mapping and copying the index data
+	bufferSize = sizeof(indices[0]) * indices.size();
+	stagingBuffer.create(device, bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
+	stagingBuffer.allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, indices.data());
+
+	// create index buffer
+	indexBuffer.create(device, bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT);
+	indexBuffer.allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+	// copy the contents from staging buffer to index buffer
+	Buffer::copy(device, commandPool, stagingBuffer, indexBuffer);
 
 	// destroy the staging buffer
 	stagingBuffer.dispose(device);
@@ -81,6 +104,9 @@ void Renderer::dispose()
 	vkDeviceWaitIdle(device);
 
 	cleanupSwapChain();
+
+	// destroy index buffer
+	indexBuffer.dispose(device);
 
 	// destroy vertex buffer
 	vertexBuffer.dispose(device);
@@ -167,8 +193,9 @@ void Renderer::createCommandBuffers()
 
 			VkDeviceSize offset = 0;
 			vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, &vertexBuffer.getBuffer(), &offset);
+			vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
-			vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+			vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
 		vkCmdEndRenderPass(commandBuffers[i]);
 

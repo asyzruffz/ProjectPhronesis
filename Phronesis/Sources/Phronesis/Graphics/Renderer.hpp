@@ -43,6 +43,7 @@ namespace Phronesis
 		CommandPool commandPool;
 
 		Buffer vertexBuffer;
+		Buffer indexBuffer;
 
 		std::vector<CommandBuffer> commandBuffers;
 
