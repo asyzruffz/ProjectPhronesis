@@ -19,6 +19,8 @@ namespace Phronesis
 
 		void pick(const Instance& instance, const Surface& surface);
 
+		const VkPhysicalDeviceMemoryProperties& getMemoryProperties() const;
+
 	private:
 		VkPhysicalDevice choosePhysicalDevice(const std::vector<VkPhysicalDevice>& devices, const VkSurfaceKHR& surface);
 		bool isDeviceSuitable(const VkPhysicalDevice& device, const VkSurfaceKHR& surface);
@@ -27,5 +29,6 @@ namespace Phronesis
 
 	private:
 		VkPhysicalDevice physicalDevice;
+		VkPhysicalDeviceMemoryProperties memoryProperties;
 	};
 }

@@ -119,6 +119,12 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Shader.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\Vertex.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\Buffer.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -195,6 +201,12 @@
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\Shader.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\Vertex.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\Buffer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

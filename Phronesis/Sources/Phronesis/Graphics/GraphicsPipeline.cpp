@@ -5,6 +5,7 @@
 #include "LogicalDevice.hpp"
 #include "SwapChain.hpp"
 #include "RenderPass.hpp"
+#include "Vertex.hpp"
 #include "RenderUtils.hpp"
 
 using namespace Phronesis;
@@ -14,12 +15,15 @@ void GraphicsPipeline::create(const LogicalDevice& device, const SwapChain& swap
 	createPipelineLayout(device);
 
 	// create vertex input (describes the format of the vertex data that will be passed to the vertex shader)
+	auto bindingDescription = Vertex::getBindingDescription();
+	auto attributeDescriptions = Vertex::getAttributeDescriptions();
+
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	vertexInputInfo.vertexBindingDescriptionCount = 0;
-	vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-	vertexInputInfo.vertexAttributeDescriptionCount = 0;
-	vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+	vertexInputInfo.vertexBindingDescriptionCount = 1;
+	vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+	vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 	// create input assembly (describes what kind of geometry will be drawn from the vertices)
 	VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};

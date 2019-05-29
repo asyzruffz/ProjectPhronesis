@@ -7,6 +7,7 @@
 #include "Phronesis/FileIO/Directory.hpp"
 #include "Window.hpp"
 #include "Shader.hpp"
+#include "Vertex.hpp"
 #include "RenderUtils.hpp"
 
 #include <GLFW/glfw3.h>
@@ -15,6 +16,12 @@ using namespace Phronesis;
 
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
+
+const std::vector<Vertex> vertices = {
+	{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+	{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+	{{-0.5f, 0.5f}, {0.0f, 1.0f, 1.0f}}
+};
 
 void Renderer::init()
 {
@@ -44,6 +51,10 @@ void Renderer::init()
 	// create command pool
 	commandPool.create(device);
 
+	// create vertex buffer
+	vertexBuffer.create(device, sizeof(Vertex) * vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT);
+	vertexBuffer.allocateMemory(device, physicalDevice, vertices.data());
+
 	createCommandBuffers();
 	createSyncObjects();
 }
@@ -59,6 +70,9 @@ void Renderer::dispose()
 	vkDeviceWaitIdle(device);
 
 	cleanupSwapChain();
+
+	// destroy vertex buffer
+	vertexBuffer.dispose(device);
 
 	// destroy semaphores and fences
 	for(size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
@@ -140,7 +154,10 @@ void Renderer::createCommandBuffers()
 
 			graphicsPipeline.bind(commandBuffers[i]);
 
-			vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
+			VkDeviceSize offsets[] = { 0 };
+			vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, &vertexBuffer.getBuffer(), offsets);
+
+			vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(vertices.size()), 1, 0, 0);
 
 		vkCmdEndRenderPass(commandBuffers[i]);
 

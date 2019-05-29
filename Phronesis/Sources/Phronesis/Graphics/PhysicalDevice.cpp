@@ -9,7 +9,8 @@
 using namespace Phronesis;
 
 PhysicalDevice::PhysicalDevice() :
-	physicalDevice(VK_NULL_HANDLE)
+	physicalDevice(VK_NULL_HANDLE),
+	memoryProperties({})
 {
 }
 
@@ -43,7 +44,10 @@ void PhysicalDevice::pick(const Instance& instance, const Surface& surface)
 		throw std::runtime_error("[ERROR] [Vulkan] Failed to find a suitable GPU");
 	}
 
-	// Print info about chosen GPU
+	// query info about the available types of memory
+	vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProperties);
+
+	// print info about chosen GPU
 	VkPhysicalDeviceProperties deviceProperties;
 	vkGetPhysicalDeviceProperties(physicalDevice, &deviceProperties);
 
@@ -53,6 +57,11 @@ void PhysicalDevice::pick(const Instance& instance, const Surface& surface)
 	vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionPropertyCount, extensionProperties.data());
 	
 	logPhysicalDevice(deviceProperties, extensionProperties);
+}
+
+const VkPhysicalDeviceMemoryProperties& PhysicalDevice::getMemoryProperties() const
+{
+	return memoryProperties;
 }
 
 VkPhysicalDevice PhysicalDevice::choosePhysicalDevice(const std::vector<VkPhysicalDevice>& devices, const VkSurfaceKHR& surface)
