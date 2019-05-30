@@ -3,14 +3,15 @@
 #include <array>
 
 #include <vulkan/vulkan.h>
-#include <glm/glm.hpp>
+
+#include <Phronesis/Maths.hpp>
 
 namespace Phronesis
 {
 	struct Vertex
 	{
-		glm::vec2 pos;
-		glm::vec3 color;
+		Vector2 pos;
+		Vector3 color;
 
 		static VkVertexInputBindingDescription getBindingDescription();
 		static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions();

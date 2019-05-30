@@ -5,23 +5,25 @@
 namespace Phronesis
 {
 	template<typename T>
-	Vector2T<T>::Vector2T() : x(0), y(0) {}
+	Vector2T<T>::Vector2T() : glm::tvec2<T>(0, 0) {}
 
 	template<typename T>
-	Vector2T<T>::Vector2T(const T& val) : x(val), y(val) {}
+	Vector2T<T>::Vector2T(const T& val) : glm::tvec2<T>(val, val) {}
 
 	template<typename T>
-	Vector2T<T>::Vector2T(const T& x_val, const T& y_val) : x(x_val), y(y_val) {}
+	Vector2T<T>::Vector2T(const T& x_val, const T& y_val) : glm::tvec2<T>(x_val, y_val) {}
 
 	template<typename T>
 	template<typename K>
-	Vector2T<T>::Vector2T(const Vector2T<K>& source) : x(static_cast<T>(source.x)), y(static_cast<T>(source.y)) {}
+	Vector2T<T>::Vector2T(const Vector2T<K>& source) : glm::tvec2<T>(static_cast<T>(source.x), static_cast<T>(source.y)) {}
 
 	template<typename T>
 	template<typename K>
 	bool Vector2T<T>::operator==(const Vector2T<K> &other) const
 	{
-		return x == other.x && y == other.y;
+		return detail::compute_equal<T, std::numeric_limits<T>::is_iec559>::call(x, other.x) &&
+			   detail::compute_equal<T, std::numeric_limits<T>::is_iec559>::call(y, other.y);
+		//return x == other.x && y == other.y;
 	}
 
 	template<typename T>

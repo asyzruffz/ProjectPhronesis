@@ -125,6 +125,9 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Buffer.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Maths\Vector3.hpp">
+      <Filter>Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -209,10 +212,14 @@
     <ClCompile Include="Sources\Phronesis\Graphics\Buffer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Maths\Vector3.cpp">
+      <Filter>Maths</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Sources\Phronesis\Maths\Vector2.inl">
       <Filter>Maths</Filter>
     </None>
+    <None Include="Sources\Phronesis\Maths\Vector3.inl" />
   </ItemGroup>
 </Project>

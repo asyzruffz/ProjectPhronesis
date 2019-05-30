@@ -50,6 +50,7 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Window.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths\Vector2.hpp" />
+    <ClInclude Include="Sources\Phronesis\Maths\Vector3.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities\String.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities\TypeInfo.hpp" />
@@ -82,6 +83,7 @@
     <ClCompile Include="Sources\Phronesis\Graphics\Vertex.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp" />
     <ClCompile Include="Sources\Phronesis\Maths\Vector2.cpp" />
+    <ClCompile Include="Sources\Phronesis\Maths\Vector3.cpp" />
     <ClCompile Include="Sources\Phronesis\Utilities\String.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -92,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sources\Phronesis\Maths\Vector2.inl" />
+    <None Include="Sources\Phronesis\Maths\Vector3.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A4805C6-DDF5-4B14-B84B-F44B19714D11}</ProjectGuid>

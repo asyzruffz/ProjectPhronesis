@@ -1,11 +1,12 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 namespace Phronesis
 {
 	template<typename T>
-	class Vector2T
+	struct Vector2T : public glm::tvec2<T>
 	{
-	public:
 		Vector2T();
 
 		explicit Vector2T(const T& val);
@@ -27,8 +28,6 @@ namespace Phronesis
 		static const Vector2T right;
 		static const Vector2T up;
 		static const Vector2T down;
-
-		T x, y;
 	};
 
 	using Vector2f = Vector2T<float>;
