@@ -19,7 +19,7 @@ void RenderUtils::checkVk(const VkResult &result)
 	}
 
 	std::string failure = stringifyResultVk(result);
-	throw std::runtime_error("[ERROR] [Vulkan] " + failure);
+	throw std::runtime_error("[Vulkan] " + failure);
 }
 
 std::string RenderUtils::stringifyResultVk(const VkResult &result)

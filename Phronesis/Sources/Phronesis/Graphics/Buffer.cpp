@@ -95,7 +95,7 @@ uint32_t Buffer::findMemoryType(const PhysicalDevice& physicalDevice, uint32_t t
 		}
 	}
 
-	throw std::runtime_error("[ERROR] [Vulkan] Failed to find suitable memory type");
+	throw std::runtime_error("[Vulkan] Failed to find suitable memory type");
 }
 
 const VkDeviceSize& Buffer::getSize() const

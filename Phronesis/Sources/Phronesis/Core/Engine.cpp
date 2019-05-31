@@ -46,8 +46,15 @@ void Engine::run()
 {
 	running = true;
 
-	// TODO: implement multi-threading
-	if(game) game->run();
+	try {
+		// TODO: implement multi-threading
+		if(game) game->run();
+	}
+	catch(const std::exception& e)
+	{
+		Log::error(e.what());
+		throw;
+	}
 }
 
 bool Engine::isRunning() const

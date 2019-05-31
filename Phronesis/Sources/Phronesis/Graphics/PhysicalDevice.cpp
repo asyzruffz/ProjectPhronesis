@@ -31,7 +31,7 @@ void PhysicalDevice::pick(const Instance& instance, const Surface& surface)
 
 	if(deviceCount == 0)
 	{
-		throw std::runtime_error("[ERROR] [Vulkan] Failed to find GPUs with Vulkan support");
+		throw std::runtime_error("[Vulkan] Failed to find GPUs with Vulkan support");
 	}
 
 	std::vector<VkPhysicalDevice> devices(deviceCount);
@@ -41,7 +41,7 @@ void PhysicalDevice::pick(const Instance& instance, const Surface& surface)
 
 	if(physicalDevice == VK_NULL_HANDLE)
 	{
-		throw std::runtime_error("[ERROR] [Vulkan] Failed to find a suitable GPU");
+		throw std::runtime_error("[Vulkan] Failed to find a suitable GPU");
 	}
 
 	// query info about the available types of memory
@@ -165,12 +165,12 @@ void PhysicalDevice::logPhysicalDevice(const VkPhysicalDeviceProperties& physica
 		VK_VERSION_PATCH(physicalDeviceProperties.apiVersion) };
 	stream << "\tAPI Version: " << supportedVersion[0] << "." << supportedVersion[1] << "." << supportedVersion[2] << std::endl;
 
-	stream << "\tExtensions: \n";
-	for(const auto &extension : extensionProperties)
+	stream << "\tExtensions: " << extensionProperties.size() << std::endl;
+	/*for(const auto &extension : extensionProperties)
 	{
 		stream << "\t\t" << extension.extensionName << "\n";
 	}
-	stream << std::endl;
+	stream << std::endl;*/
 
 	Log::info(stream.str());
 }

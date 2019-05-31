@@ -32,7 +32,9 @@ void LogicalDevice::create(const PhysicalDevice& physicalDevice, const Surface& 
 	// make sure the queue families are not redundant while making different queues
 	std::set<unsigned int> uniqueQueueFamilies = {
 		getGraphicsFamily(),
-		getPresentationFamily()
+		getPresentationFamily(),
+		getComputeFamily(),
+		getTransferFamily()
 	};
 
 	// vector to store the createinfos for each queue
@@ -85,6 +87,8 @@ void LogicalDevice::create(const PhysicalDevice& physicalDevice, const Surface& 
 	// but we need to have a handle to interface with the graphics and presentation queue
 	vkGetDeviceQueue(logicalDevice, getGraphicsFamily(), 0, &graphicsQueue);
 	vkGetDeviceQueue(logicalDevice, getPresentationFamily(), 0, &presentationQueue);
+	vkGetDeviceQueue(logicalDevice, getComputeFamily(), 0, &computeQueue);
+	vkGetDeviceQueue(logicalDevice, getTransferFamily(), 0, &transferQueue);
 }
 
 void LogicalDevice::dispose()
@@ -102,6 +106,16 @@ const unsigned int& LogicalDevice::getPresentationFamily() const
 	return queueIndices.presentationFamily.value();
 }
 
+const unsigned int& LogicalDevice::getComputeFamily() const
+{
+	return queueIndices.computeFamily.value();
+}
+
+const unsigned int& LogicalDevice::getTransferFamily() const
+{
+	return queueIndices.transferFamily.value();
+}
+
 const VkQueue& LogicalDevice::getGraphicsQueue() const
 {
 	return graphicsQueue;
@@ -110,6 +124,16 @@ const VkQueue& LogicalDevice::getGraphicsQueue() const
 const VkQueue& LogicalDevice::getPresentationQueue() const
 {
 	return presentationQueue;
+}
+
+const VkQueue& LogicalDevice::getComputeQueue() const
+{
+	return computeQueue;
+}
+
+const VkQueue& LogicalDevice::getTransferQueue() const
+{
+	return transferQueue;
 }
 
 void LogicalDevice::findQueueFamilies(const PhysicalDevice& device, const Surface& surface)
@@ -136,6 +160,18 @@ void LogicalDevice::findQueueFamilies(const PhysicalDevice& device, const Surfac
 		if(queueFamily.queueCount > 0 && presentationSupport)
 		{
 			queueIndices.presentationFamily = i;
+		}
+
+		// check for compute support
+		if(queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
+		{
+			queueIndices.computeFamily = i;
+		}
+
+		// check for transfer support
+		if(queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT)
+		{
+			queueIndices.transferFamily = i;
 		}
 
 		if(queueIndices.isComplete())

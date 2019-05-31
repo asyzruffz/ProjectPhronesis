@@ -8,7 +8,11 @@ using namespace Phronesis;
 
 bool QueueFamilyIndices::isComplete()
 {
-	return graphicsFamily.has_value() && presentationFamily.has_value();
+	return 
+		graphicsFamily.has_value() && 
+		presentationFamily.has_value() &&
+		computeFamily.has_value() &&
+		transferFamily.has_value();
 }
 
 QueueFamilyIndices QueueFamilyIndices::find(VkPhysicalDevice device, VkSurfaceKHR surface)
@@ -37,6 +41,18 @@ QueueFamilyIndices QueueFamilyIndices::find(VkPhysicalDevice device, VkSurfaceKH
 		if(queueFamily.queueCount > 0 && presentationSupport)
 		{
 			indices.presentationFamily = i;
+		}
+
+		// check for compute support
+		if(queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
+		{
+			indices.computeFamily = i;
+		}
+
+		// check for transfer support
+		if(queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT)
+		{
+			indices.transferFamily = i;
 		}
 
 		if(indices.isComplete())

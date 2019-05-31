@@ -23,9 +23,13 @@ namespace Phronesis
 
 		const unsigned int& getGraphicsFamily() const;
 		const unsigned int& getPresentationFamily() const;
+		const unsigned int& getComputeFamily() const;
+		const unsigned int& getTransferFamily() const;
 
 		const VkQueue& getGraphicsQueue() const;
 		const VkQueue& getPresentationQueue() const;
+		const VkQueue& getComputeQueue() const;
+		const VkQueue& getTransferQueue() const;
 
 	private:
 		void findQueueFamilies(const PhysicalDevice& device, const Surface& surface);
@@ -37,5 +41,7 @@ namespace Phronesis
 
 		VkQueue graphicsQueue;
 		VkQueue presentationQueue;
+		VkQueue computeQueue;
+		VkQueue transferQueue;
 	};
 }

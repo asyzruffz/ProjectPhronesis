@@ -106,6 +106,7 @@ bool Instance::checkValidationLayerSupport()
 
 	// log the validation layers
 #ifndef NDEBUG
+	/*
 	std::cout << std::endl;
 	Log::debug("[Vulkan] Required validation layers:");
 	for(const char* layerName : validationLayers)
@@ -119,6 +120,7 @@ bool Instance::checkValidationLayerSupport()
 	{
 		std::cout << "\t" << layerProperties.layerName << std::endl;
 	}
+	*/
 #endif
 
 	// check if all of the layers in validationLayers exist in the availableLayers list
@@ -156,6 +158,7 @@ std::vector<const char*> Instance::getRequiredExtensions()
 
 	// log the extensions
 #ifndef NDEBUG
+	/*
 	// get a list of available extensions
 	uint32_t extensionCount = 0;
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
@@ -181,6 +184,7 @@ std::vector<const char*> Instance::getRequiredExtensions()
 
 	Log::debug(ext);
 	std::cout << std::endl;
+	*/
 #endif
 
 	return extensions;
@@ -190,7 +194,7 @@ void Instance::createInstance()
 {
 	if(enableValidationLayers && !checkValidationLayerSupport())
 	{
-		throw std::runtime_error("[ERROR] [Vulkan] Validation layers requested, but not available");
+		throw std::runtime_error("[Vulkan] Validation layers requested, but not available");
 	}
 
 	// information about our application

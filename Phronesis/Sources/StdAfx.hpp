@@ -17,5 +17,6 @@
 #include <optional>
 #include <algorithm>
 
+#include <glm/glm.hpp>
+
 #include "Phronesis/Core/Log.hpp"
-#include "Phronesis/Utilities/TypeInfo.hpp"

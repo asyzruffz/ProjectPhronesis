@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 		engine.run();
 	}
 	catch(const std::exception& e) {
-		std::cerr << e.what() << std::endl;
+		std::cerr << "[ERROR] " << e.what() << std::endl;
 		system("pause");
 		return EXIT_FAILURE;
 	}

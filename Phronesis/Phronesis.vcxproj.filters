@@ -220,6 +220,8 @@
     <None Include="Sources\Phronesis\Maths\Vector2.inl">
       <Filter>Maths</Filter>
     </None>
-    <None Include="Sources\Phronesis\Maths\Vector3.inl" />
+    <None Include="Sources\Phronesis\Maths\Vector3.inl">
+      <Filter>Maths</Filter>
+    </None>
   </ItemGroup>
 </Project>
