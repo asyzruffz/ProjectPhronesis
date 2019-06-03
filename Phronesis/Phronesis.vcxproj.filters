@@ -128,6 +128,15 @@
     <ClInclude Include="Sources\Phronesis\Maths\Vector3.hpp">
       <Filter>Maths</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Maths\Matrix4.hpp">
+      <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\UniformBufferObject.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\UniformBuffer.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -213,6 +222,12 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Maths\Vector3.cpp">
+      <Filter>Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\UniformBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Maths\Matrix4.cpp">
       <Filter>Maths</Filter>
     </ClCompile>
   </ItemGroup>

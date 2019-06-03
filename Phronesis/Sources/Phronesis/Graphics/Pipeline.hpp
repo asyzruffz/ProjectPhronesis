@@ -5,6 +5,7 @@
 namespace Phronesis
 {
 	class LogicalDevice;
+	class Shader;
 
 	class Pipeline
 	{
@@ -21,11 +22,13 @@ namespace Phronesis
 		const VkPipelineBindPoint& getPipelineBindPoint() const;
 
 	protected:
-		void createPipelineLayout(const LogicalDevice& device);
+		virtual void createDescriptorSetLayout(const LogicalDevice& device, const std::vector<Shader>& shaders);
+		virtual void createPipelineLayout(const LogicalDevice& device);
 
 	protected:
 		VkPipeline pipeline;
 		VkPipelineLayout pipelineLayout;
 		VkPipelineBindPoint pipelineBindPoint;
+		VkDescriptorSetLayout descriptorSetLayout;
 	};
 }

@@ -15,6 +15,7 @@
 #include "GraphicsPipeline.hpp"
 #include "CommandPool.hpp"
 #include "Buffer.hpp"
+#include "UniformBuffer.hpp"
 #include "CommandBuffer.hpp"
 
 namespace Phronesis
@@ -45,6 +46,8 @@ namespace Phronesis
 		Buffer vertexBuffer;
 		Buffer indexBuffer;
 
+		std::vector<UniformBuffer> uniformBuffers;
+
 		std::vector<CommandBuffer> commandBuffers;
 
 		std::vector<VkSemaphore> imageAvailableSemaphores;
@@ -55,12 +58,13 @@ namespace Phronesis
 		bool framebufferResized = false;
 
 	private:
-		void createGraphicsPipeline();
 		void createCommandBuffers();
 		void createSyncObjects();
 
 		void recreateSwapChain();
 		void cleanupSwapChain();
+
 		void drawFrame();
+		void updateUniformBuffer(uint32_t currentImage);
 	};
 }

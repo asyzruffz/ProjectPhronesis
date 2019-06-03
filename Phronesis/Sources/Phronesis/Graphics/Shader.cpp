@@ -10,7 +10,9 @@
 using namespace Phronesis;
 
 Shader::Shader() :
-	module(VK_NULL_HANDLE)
+	module(VK_NULL_HANDLE),
+	shaderStage(VK_SHADER_STAGE_ALL),
+	shaderStageInfo({})
 {
 }
 
@@ -23,6 +25,13 @@ void Shader::create(const LogicalDevice& device, const std::string& filePath)
 	// create shader stages
 	determineShaderStage(filePath);
 	createShaderStageCreateInfo();
+
+	// create descriptor set layout
+	if(shaderStage & VK_SHADER_STAGE_VERTEX_BIT)
+	{
+		// ubo layout binding
+		descriptorSetLayouts.emplace_back(createDescriptorSetLayout(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT));
+	}
 }
 
 void Shader::dispose(const LogicalDevice& device)
@@ -30,19 +39,35 @@ void Shader::dispose(const LogicalDevice& device)
 	vkDestroyShaderModule(device, module, nullptr);
 }
 
-const VkShaderModule& Shader::getModule()
+const VkShaderModule& Shader::getModule() const
 {
 	return module;
 }
 
-const VkShaderStageFlagBits& Shader::getStage()
+const VkShaderStageFlagBits& Shader::getStage() const
 {
 	return shaderStage;
 }
 
-const VkPipelineShaderStageCreateInfo& Shader::getStageInfo()
+const VkPipelineShaderStageCreateInfo& Shader::getStageInfo() const
 {
 	return shaderStageInfo;
+}
+
+const std::vector<VkDescriptorSetLayoutBinding>& Shader::getDescriptorSetLayouts() const
+{
+	return descriptorSetLayouts;
+}
+
+VkDescriptorSetLayoutBinding Shader::createDescriptorSetLayout(const uint32_t& binding, const VkDescriptorType& descriptorType, const VkShaderStageFlags& stage)
+{
+	VkDescriptorSetLayoutBinding descriptorSetLayoutBinding = {};
+	descriptorSetLayoutBinding.binding = binding;
+	descriptorSetLayoutBinding.descriptorCount = 1;
+	descriptorSetLayoutBinding.descriptorType = descriptorType;
+	descriptorSetLayoutBinding.stageFlags = stage;
+	descriptorSetLayoutBinding.pImmutableSamplers = nullptr;
+	return descriptorSetLayoutBinding;
 }
 
 void Shader::createShaderModule(const LogicalDevice& device, const std::vector<char>& code)

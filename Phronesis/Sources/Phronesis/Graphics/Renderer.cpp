@@ -5,10 +5,12 @@
 #include "Phronesis/Core/Engine.hpp"
 #include "Phronesis/FileIO/BinaryFile.hpp"
 #include "Phronesis/FileIO/Directory.hpp"
+#include "Phronesis/Maths/Matrix4.hpp"
 #include "Window.hpp"
 #include "Shader.hpp"
-#include "Vertex.hpp"
 #include "RenderUtils.hpp"
+#include "Vertex.hpp"
+#include "UniformBufferObject.hpp"
 
 #include <GLFW/glfw3.h>
 
@@ -24,7 +26,7 @@ const std::vector<Vertex> vertices = {
 	{{-0.5f,  0.5f}, {1.0f, 1.0f, 0.0f}}
 };
 
-const std::vector<uint32_t> indices = {
+const std::vector<unsigned int> indices = {
 	0, 1, 2, 2, 3, 0
 };
 
@@ -48,7 +50,24 @@ void Renderer::init()
 	// create render pass
 	renderPass.create(device, swapChain);
 
-	createGraphicsPipeline();
+	// create shaders
+	auto shaderFiles = Directory::getAllFilesIn("Shaders");
+
+	std::vector<Shader> shaders;
+	shaders.resize(shaderFiles.size());
+	for(size_t i = 0; i < shaderFiles.size(); i++)
+	{
+		shaders[i].create(device, shaderFiles[i]);
+	}
+
+	// create graphics pipeline
+	graphicsPipeline.create(device, swapChain, shaders, renderPass);
+
+	// destroy shaders
+	for(auto& shader : shaders)
+	{
+		shader.dispose(device);
+	}
 
 	// create frame buffers
 	frameBuffers.create(device, swapChain, renderPass);
@@ -88,6 +107,15 @@ void Renderer::init()
 
 	// destroy the staging buffer
 	stagingBuffer.dispose(device);
+
+	// create uniform buffers
+	bufferSize = sizeof(UniformBufferObject);
+	uniformBuffers.resize(swapChain.getImages().size());
+	for(size_t i = 0; i < swapChain.getImages().size(); i++)
+	{
+		uniformBuffers[i].create(device, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
+		uniformBuffers[i].allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	}
 
 	createCommandBuffers();
 	createSyncObjects();
@@ -132,36 +160,6 @@ void Renderer::dispose()
 void Renderer::requestResize()
 {
 	framebufferResized = true;
-}
-
-void Renderer::createGraphicsPipeline()
-{
-	auto shaderFiles = Directory::getAllFilesIn("Shaders");
-
-	// create shaders
-	std::vector<Shader> shaders;
-	shaders.resize(shaderFiles.size());
-	for(size_t i = 0; i < shaderFiles.size(); i++)
-	{
-		shaders[i].create(device, shaderFiles[i]);
-	}
-
-	// get shader stages
-	std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
-	shaderStages.resize(shaders.size());
-	for(size_t i = 0; i < shaders.size(); i++)
-	{
-		shaderStages[i] = shaders[i].getStageInfo();
-	}
-
-	// createGraphicsPipeline
-	graphicsPipeline.create(device, swapChain, shaderStages.data(), renderPass);
-
-	// destroy shaders
-	for(auto& shader : shaders)
-	{
-		shader.dispose(device);
-	}
 }
 
 void Renderer::createCommandBuffers()
@@ -242,8 +240,30 @@ void Renderer::recreateSwapChain()
 	// recreate objects that depend on the swap chain or the window size
 	swapChain.create(device, surface);
 	renderPass.create(device, swapChain);
-	createGraphicsPipeline();
+
+	auto shaderFiles = Directory::getAllFilesIn("Shaders");
+	std::vector<Shader> shaders;
+	shaders.resize(shaderFiles.size());
+	for(size_t i = 0; i < shaderFiles.size(); i++) {
+		shaders[i].create(device, shaderFiles[i]);
+	}
+
+	graphicsPipeline.create(device, swapChain, shaders, renderPass);
+
+	for(auto& shader : shaders) {
+		shader.dispose(device);
+	}
+
 	frameBuffers.create(device, swapChain, renderPass);
+
+	VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+	uniformBuffers.resize(swapChain.getImages().size());
+	for(size_t i = 0; i < swapChain.getImages().size(); i++)
+	{
+		uniformBuffers[i].create(device, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
+		uniformBuffers[i].allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	}
+
 	createCommandBuffers();
 }
 
@@ -266,6 +286,12 @@ void Renderer::cleanupSwapChain()
 
 	// destroy swap chain (and image views)
 	swapChain.dispose(device);
+
+	// destroy uniform buffers
+	for(size_t i = 0; i < uniformBuffers.size(); i++)
+	{
+		vkDestroyBuffer(device, uniformBuffers[i], nullptr);
+	}
 }
 
 void Renderer::drawFrame()
@@ -303,4 +329,20 @@ void Renderer::drawFrame()
 	}
 
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+}
+
+void Renderer::updateUniformBuffer(uint32_t currentImage)
+{
+	static auto startTime = std::chrono::high_resolution_clock::now();
+
+	auto currentTime = std::chrono::high_resolution_clock::now();
+	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
+	UniformBufferObject ubo = {};
+	ubo.model = Transformation::rotate(Matrix4(1.0f), time * glm::radians(90.0f), Vector3(0.0f, 0.0f, 1.0f));
+	ubo.view = Transformation::lookAt(Vector3(2.0f, 2.0f, 2.0f), Vector3::zero, Vector3::up);
+	ubo.proj = Transformation::perspective(glm::radians(45.0f), swapChain.getExtent().width / (float)swapChain.getExtent().height, 0.1f, 10.0f);
+	ubo.proj[1][1] *= -1;
+
+	uniformBuffers[currentImage].update(device, &ubo);
 }

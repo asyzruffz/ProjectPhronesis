@@ -46,9 +46,12 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Shader.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Surface.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\SwapChain.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\UniformBuffer.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\UniformBufferObject.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Vertex.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Window.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths.hpp" />
+    <ClInclude Include="Sources\Phronesis\Maths\Matrix4.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths\Vector2.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths\Vector3.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities.hpp" />
@@ -80,8 +83,10 @@
     <ClCompile Include="Sources\Phronesis\Graphics\Shader.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Surface.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\SwapChain.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\UniformBuffer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Vertex.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp" />
+    <ClCompile Include="Sources\Phronesis\Maths\Matrix4.cpp" />
     <ClCompile Include="Sources\Phronesis\Maths\Vector2.cpp" />
     <ClCompile Include="Sources\Phronesis\Maths\Vector3.cpp" />
     <ClCompile Include="Sources\Phronesis\Utilities\String.cpp" />

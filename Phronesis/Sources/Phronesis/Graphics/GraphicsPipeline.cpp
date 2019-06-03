@@ -4,15 +4,30 @@
 
 #include "LogicalDevice.hpp"
 #include "SwapChain.hpp"
+#include "Shader.hpp"
 #include "RenderPass.hpp"
 #include "Vertex.hpp"
 #include "RenderUtils.hpp"
 
 using namespace Phronesis;
 
-void GraphicsPipeline::create(const LogicalDevice& device, const SwapChain& swapChain, const VkPipelineShaderStageCreateInfo* shaderStages, const RenderPass& renderPass)
+GraphicsPipeline::GraphicsPipeline()
 {
+	pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+}
+
+void GraphicsPipeline::create(const LogicalDevice& device, const SwapChain& swapChain, const std::vector<Shader>& shaders, const RenderPass& renderPass)
+{
+	createDescriptorSetLayout(device, shaders);
 	createPipelineLayout(device);
+
+	// get shader stages
+	std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
+	shaderStages.resize(shaders.size());
+	for(size_t i = 0; i < shaders.size(); i++)
+	{
+		shaderStages[i] = shaders[i].getStageInfo();
+	}
 
 	// create vertex input (describes the format of the vertex data that will be passed to the vertex shader)
 	auto bindingDescription = Vertex::getBindingDescription();
@@ -83,8 +98,8 @@ void GraphicsPipeline::create(const LogicalDevice& device, const SwapChain& swap
 
 	VkGraphicsPipelineCreateInfo pipelineInfo = {};
 	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-	pipelineInfo.stageCount = 2;
-	pipelineInfo.pStages = shaderStages;
+	pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+	pipelineInfo.pStages = shaderStages.data();
 	pipelineInfo.pVertexInputState = &vertexInputInfo;
 	pipelineInfo.pInputAssemblyState = &inputAssembly;
 	pipelineInfo.pViewportState = &viewportState;
