@@ -357,7 +357,7 @@ void Renderer::updateUniformBuffer(uint32_t currentImage)
 
 	UniformBufferObject ubo = {};
 	ubo.model = Transformation::rotate(Matrix4(1.0f), time * glm::radians(90.0f), Vector3(0.0f, 0.0f, 1.0f));
-	ubo.view = Transformation::lookAt(Vector3(2.0f, 2.0f, 2.0f), Vector3::zero, Vector3::up);
+	ubo.view = Transformation::lookAt(Vector3(2.0f, 2.0f, 2.0f), Vector3::zero, Vector3::forward);
 	ubo.proj = Transformation::perspective(glm::radians(45.0f), swapChain.getExtent().width / (float)swapChain.getExtent().height, 0.1f, 10.0f);
 	ubo.proj[1][1] *= -1;
 
