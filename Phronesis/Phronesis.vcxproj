@@ -30,6 +30,7 @@
     <ClInclude Include="Sources\Phronesis\Graphics\Buffer.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\CommandBuffer.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\CommandPool.hpp" />
+    <ClInclude Include="Sources\Phronesis\Graphics\DescriptorSets.hpp" />
     <ClInclude Include="Sources\Phronesis\Graphics\Pipeline.hpp" />
     <ClInclude Include="Sources\Phronesis\FileIO.hpp" />
     <ClInclude Include="Sources\Phronesis\FileIO\BinaryFile.hpp" />
@@ -70,6 +71,7 @@
     <ClCompile Include="Sources\Phronesis\Graphics\Buffer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\CommandBuffer.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\CommandPool.cpp" />
+    <ClCompile Include="Sources\Phronesis\Graphics\DescriptorSets.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\FrameBuffers.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\GraphicsPipeline.cpp" />
     <ClCompile Include="Sources\Phronesis\Graphics\Instance.cpp" />

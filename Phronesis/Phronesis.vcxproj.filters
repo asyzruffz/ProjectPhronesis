@@ -137,6 +137,9 @@
     <ClInclude Include="Sources\Phronesis\Graphics\UniformBuffer.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Graphics\DescriptorSets.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Maths\Matrix4.cpp">
       <Filter>Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Graphics\DescriptorSets.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

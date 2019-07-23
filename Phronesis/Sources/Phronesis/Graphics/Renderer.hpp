@@ -14,6 +14,7 @@
 #include "FrameBuffers.hpp"
 #include "GraphicsPipeline.hpp"
 #include "CommandPool.hpp"
+#include "DescriptorSets.hpp"
 #include "Buffer.hpp"
 #include "UniformBuffer.hpp"
 #include "CommandBuffer.hpp"
@@ -47,6 +48,8 @@ namespace Phronesis
 		Buffer indexBuffer;
 
 		std::vector<UniformBuffer> uniformBuffers;
+
+		DescriptorSets descriptorSets;
 
 		std::vector<CommandBuffer> commandBuffers;
 

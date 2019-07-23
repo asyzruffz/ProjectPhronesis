@@ -17,10 +17,13 @@ namespace Phronesis
 		void create(const LogicalDevice& device, const std::string& filePath);
 		void dispose(const LogicalDevice& device);
 
+		void setUniformDescriptor(unsigned int descriptorPoolCount);
+
 		const VkShaderModule& getModule() const;
 		const VkShaderStageFlagBits& getStage() const;
 		const VkPipelineShaderStageCreateInfo& getStageInfo() const;
 		const std::vector<VkDescriptorSetLayoutBinding>& getDescriptorSetLayouts() const;
+		const std::vector<VkDescriptorPoolSize>& getDescriptorPools() const;
 
 		static VkDescriptorSetLayoutBinding createDescriptorSetLayout(const uint32_t& binding, const VkDescriptorType& descriptorType, const VkShaderStageFlags& stage);
 
@@ -34,5 +37,6 @@ namespace Phronesis
 		VkShaderStageFlagBits shaderStage;
 		VkPipelineShaderStageCreateInfo shaderStageInfo;
 		std::vector<VkDescriptorSetLayoutBinding> descriptorSetLayouts;
+		std::vector<VkDescriptorPoolSize> descriptorPools;
 	};
 }

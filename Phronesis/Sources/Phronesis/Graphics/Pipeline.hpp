@@ -20,9 +20,12 @@ namespace Phronesis
 		const VkPipeline& getPipeline() const;
 		const VkPipelineLayout& getPipelineLayout() const;
 		const VkPipelineBindPoint& getPipelineBindPoint() const;
+		const VkDescriptorSetLayout& getDescriptorSetLayout() const;
+		const VkDescriptorPool& getDescriptorPool() const;
 
 	protected:
-		virtual void createDescriptorSetLayout(const LogicalDevice& device, const std::vector<Shader>& shaders);
+		virtual void createDescriptorSetLayout(const LogicalDevice& device, const Shader& shader);
+		virtual void createDescriptorPool(const LogicalDevice& device, const Shader& shader, unsigned int maxSets);
 		virtual void createPipelineLayout(const LogicalDevice& device);
 
 	protected:
@@ -30,5 +33,6 @@ namespace Phronesis
 		VkPipelineLayout pipelineLayout;
 		VkPipelineBindPoint pipelineBindPoint;
 		VkDescriptorSetLayout descriptorSetLayout;
+		VkDescriptorPool descriptorPool;
 	};
 }

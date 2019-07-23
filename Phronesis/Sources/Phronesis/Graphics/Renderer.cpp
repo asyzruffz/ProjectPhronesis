@@ -58,6 +58,13 @@ void Renderer::init()
 	for(size_t i = 0; i < shaderFiles.size(); i++)
 	{
 		shaders[i].create(device, shaderFiles[i]);
+
+		// extra for vertex shader
+		if(shaders[i].getStage() & VK_SHADER_STAGE_VERTEX_BIT)
+		{
+			// add uniform buffer descriptor's descriptor pools
+			shaders[i].setUniformDescriptor(swapChain.getImages().size());
+		}
 	}
 
 	// create graphics pipeline
@@ -116,6 +123,10 @@ void Renderer::init()
 		uniformBuffers[i].create(device, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
 		uniformBuffers[i].allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 	}
+
+	// create descriptor sets to bind them to the uniform buffer descriptor
+	descriptorSets.allocate(device, graphicsPipeline, swapChain.getImages().size());
+	descriptorSets.configureDescriptors(device, uniformBuffers);
 
 	createCommandBuffers();
 	createSyncObjects();
@@ -192,6 +203,7 @@ void Renderer::createCommandBuffers()
 			VkDeviceSize offset = 0;
 			vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, &vertexBuffer.getBuffer(), &offset);
 			vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+			vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline.getPipelineLayout(), 0, 1, &descriptorSets[i], 0, nullptr);
 
 			vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
@@ -257,12 +269,14 @@ void Renderer::recreateSwapChain()
 	frameBuffers.create(device, swapChain, renderPass);
 
 	VkDeviceSize bufferSize = sizeof(UniformBufferObject);
-	uniformBuffers.resize(swapChain.getImages().size());
-	for(size_t i = 0; i < swapChain.getImages().size(); i++)
+	for(size_t i = 0; i < uniformBuffers.size(); i++)
 	{
 		uniformBuffers[i].create(device, bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
 		uniformBuffers[i].allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 	}
+
+	descriptorSets.allocate(device, graphicsPipeline, swapChain.getImages().size());
+	descriptorSets.configureDescriptors(device, uniformBuffers);
 
 	createCommandBuffers();
 }
@@ -278,7 +292,7 @@ void Renderer::cleanupSwapChain()
 		commandBuffer.free(device, commandPool);
 	}
 
-	// destroy graphics pipeline (and pipeline layout)
+	// destroy graphics pipeline (and pipeline layout, descriptor set layout, descriptor pool)
 	graphicsPipeline.dispose(device);
 
 	// destroy render pass
@@ -290,7 +304,7 @@ void Renderer::cleanupSwapChain()
 	// destroy uniform buffers
 	for(size_t i = 0; i < uniformBuffers.size(); i++)
 	{
-		vkDestroyBuffer(device, uniformBuffers[i], nullptr);
+		uniformBuffers[i].dispose(device);
 	}
 }
 
@@ -316,6 +330,9 @@ void Renderer::drawFrame()
 	}
 
 	vkResetFences(device, 1, &inFlightFences[currentFrame]);
+
+	// 
+	updateUniformBuffer(imageIndex);
 
 	// submit the command buffer
 	commandBuffers[imageIndex].submit(device.getGraphicsQueue(), waitStage, waitSemaphore, signalSemaphore, inFlightFences[currentFrame]);

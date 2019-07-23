@@ -18,7 +18,8 @@ GraphicsPipeline::GraphicsPipeline()
 
 void GraphicsPipeline::create(const LogicalDevice& device, const SwapChain& swapChain, const std::vector<Shader>& shaders, const RenderPass& renderPass)
 {
-	createDescriptorSetLayout(device, shaders);
+	createDescriptorSetLayout(device, shaders[1]); // TODO: better way to choose vertex shader
+	createDescriptorPool(device, shaders[1], static_cast<unsigned int>(swapChain.getImages().size()));
 	createPipelineLayout(device);
 
 	// get shader stages
@@ -73,7 +74,7 @@ void GraphicsPipeline::create(const LogicalDevice& device, const SwapChain& swap
 	rasterizer.polygonMode = VK_POLYGON_MODE_FILL; // FILL, LINE, POINT (mode other than fill requires enabling a GPU feature)
 	rasterizer.lineWidth = 1.0f; // line thicker than 1.0f requires you to enable the wideLines GPU feature
 	rasterizer.cullMode = VK_CULL_MODE_BACK_BIT; // can disable culling, cull the front faces, cull the back faces or both
-	rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE; // specifies the vertex order
+	rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE; // specifies the vertex order (technically VK_FRONT_FACE_CLOCKWISE but reversed by Y-flip in the projection matrix)
 	rasterizer.depthBiasEnable = VK_FALSE;
 
 	VkPipelineMultisampleStateCreateInfo multisampling = {}; // disabled for now

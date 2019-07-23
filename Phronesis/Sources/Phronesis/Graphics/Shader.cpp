@@ -25,18 +25,24 @@ void Shader::create(const LogicalDevice& device, const std::string& filePath)
 	// create shader stages
 	determineShaderStage(filePath);
 	createShaderStageCreateInfo();
-
-	// create descriptor set layout
-	if(shaderStage & VK_SHADER_STAGE_VERTEX_BIT)
-	{
-		// ubo layout binding
-		descriptorSetLayouts.emplace_back(createDescriptorSetLayout(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT));
-	}
 }
 
 void Shader::dispose(const LogicalDevice& device)
 {
 	vkDestroyShaderModule(device, module, nullptr);
+}
+
+void Shader::setUniformDescriptor(unsigned int descriptorPoolCount)
+{
+	// ubo layout binding
+	descriptorSetLayouts.emplace_back(createDescriptorSetLayout(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, shaderStage));
+
+	// add descriptor pool
+	VkDescriptorPoolSize poolSize = {};
+	poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	poolSize.descriptorCount = descriptorPoolCount;
+
+	descriptorPools.emplace_back(poolSize);
 }
 
 const VkShaderModule& Shader::getModule() const
@@ -57,6 +63,11 @@ const VkPipelineShaderStageCreateInfo& Shader::getStageInfo() const
 const std::vector<VkDescriptorSetLayoutBinding>& Shader::getDescriptorSetLayouts() const
 {
 	return descriptorSetLayouts;
+}
+
+const std::vector<VkDescriptorPoolSize>& Shader::getDescriptorPools() const
+{
+	return descriptorPools;
 }
 
 VkDescriptorSetLayoutBinding Shader::createDescriptorSetLayout(const uint32_t& binding, const VkDescriptorType& descriptorType, const VkShaderStageFlags& stage)

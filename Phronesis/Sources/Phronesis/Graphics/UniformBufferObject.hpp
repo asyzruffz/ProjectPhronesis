@@ -6,8 +6,8 @@ namespace Phronesis
 {
 	struct UniformBufferObject
 	{
-		Matrix4 model;
-		Matrix4 view;
-		Matrix4 proj;
+		alignas(16) Matrix4 model;
+		alignas(16) Matrix4 view;
+		alignas(16) Matrix4 proj;
 	};
 }
