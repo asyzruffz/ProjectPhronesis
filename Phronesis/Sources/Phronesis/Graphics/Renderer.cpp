@@ -38,11 +38,11 @@ void Renderer::init()
 	// pick physical device
 	physicalDevice.pick(instance, surface);
 
-	// acquire the basic surface capabilities, supported surface formats & supported presentation modes
-	surface.acquireProperties(physicalDevice);
-
 	// create logical device (and queues)
 	device.create(physicalDevice, surface);
+
+	// acquire the basic surface capabilities, supported surface formats & supported presentation modes
+	surface.acquireProperties(physicalDevice);
 
 	// create swap chain (and image views)
 	swapChain.create(device, surface);
@@ -250,6 +250,7 @@ void Renderer::recreateSwapChain()
 	cleanupSwapChain();
 
 	// recreate objects that depend on the swap chain or the window size
+	surface.acquireProperties(physicalDevice);
 	swapChain.create(device, surface);
 	renderPass.create(device, swapChain);
 
