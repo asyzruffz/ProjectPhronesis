@@ -140,6 +140,12 @@
     <ClInclude Include="Sources\Phronesis\Graphics\DescriptorSets.hpp">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Utilities\Time.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Utilities\ElapsedTime.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -235,6 +241,12 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\DescriptorSets.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Utilities\Time.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Utilities\ElapsedTime.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

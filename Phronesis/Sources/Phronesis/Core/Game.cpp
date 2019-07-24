@@ -11,6 +11,13 @@ using namespace Phronesis;
 const int Game::WIDTH = 600;
 const int Game::HEIGHT = 600;
 
+Game::Game() :
+	fpsLimit(-1.0f),
+	elapsedRender(Time::Seconds(-1.0f)),
+	elapsedUpdate(Time::Microseconds(14705))
+{
+}
+
 void Game::run()
 {
 	init();
@@ -20,6 +27,9 @@ void Game::run()
 
 void Game::init()
 {
+	elapsedUpdate.start();
+	elapsedRender.start();
+
 	modules.add<Window>(Module::Stage::Pre);
 	modules.get<Window>()->init(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
 
@@ -31,14 +41,22 @@ void Game::mainLoop()
 {
 	while(Engine::Get()->isRunning())
 	{
+		elapsedRender.setInterval(Time::Seconds(1.0f / fpsLimit));
+
+		// always update.
 		modules.updateStage(Module::Stage::Always);
 
-		modules.updateStage(Module::Stage::Pre);
-		modules.updateStage(Module::Stage::Normal);
-		modules.updateStage(Module::Stage::Post);
+		if(elapsedUpdate.getElapsed() != 0)
+		{
+			modules.updateStage(Module::Stage::Pre);
+			modules.updateStage(Module::Stage::Normal);
+			modules.updateStage(Module::Stage::Post);
+		}
 
-
-		modules.updateStage(Module::Stage::Render);
+		if(elapsedRender.getElapsed() != 0)
+		{
+			modules.updateStage(Module::Stage::Render);
+		}
 	}
 }
 
