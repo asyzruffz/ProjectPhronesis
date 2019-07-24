@@ -146,6 +146,9 @@
     <ClInclude Include="Sources\Phronesis\Utilities\ElapsedTime.hpp">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Utilities\TimeUpdate.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -246,6 +249,9 @@
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Utilities\ElapsedTime.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\Utilities\TimeUpdate.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
   </ItemGroup>

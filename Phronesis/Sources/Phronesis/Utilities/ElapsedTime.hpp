@@ -12,8 +12,8 @@ namespace Phronesis
 		void start();
 		unsigned int getElapsed();
 
-		void setStartTime(const Time& time);
 		void setInterval(const Time& time);
+		const Time& getInterval() const;
 
 	private:
 		Time startTime;

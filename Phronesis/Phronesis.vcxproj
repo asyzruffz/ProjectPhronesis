@@ -59,6 +59,7 @@
     <ClInclude Include="Sources\Phronesis\Utilities\ElapsedTime.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities\String.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities\Time.hpp" />
+    <ClInclude Include="Sources\Phronesis\Utilities\TimeUpdate.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities\TypeInfo.hpp" />
     <ClInclude Include="Sources\StdAfx.hpp" />
   </ItemGroup>
@@ -96,6 +97,7 @@
     <ClCompile Include="Sources\Phronesis\Utilities\ElapsedTime.cpp" />
     <ClCompile Include="Sources\Phronesis\Utilities\String.cpp" />
     <ClCompile Include="Sources\Phronesis\Utilities\Time.cpp" />
+    <ClCompile Include="Sources\Phronesis\Utilities\TimeUpdate.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

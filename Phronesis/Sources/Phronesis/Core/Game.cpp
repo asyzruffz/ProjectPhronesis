@@ -25,6 +25,21 @@ void Game::run()
 	dispose();
 }
 
+const Time& Game::getDeltaTime() const
+{
+	return deltaUpdate.getChange();
+}
+
+const unsigned int& Game::getUps() const
+{
+	return ups.getValue();
+}
+
+const unsigned int& Game::getFps() const
+{
+	return fps.getValue();
+}
+
 void Game::init()
 {
 	elapsedUpdate.start();
@@ -48,13 +63,25 @@ void Game::mainLoop()
 
 		if(elapsedUpdate.getElapsed() != 0)
 		{
+			ups.update(Time::now());
+
 			modules.updateStage(Module::Stage::Pre);
 			modules.updateStage(Module::Stage::Normal);
 			modules.updateStage(Module::Stage::Post);
+
+			deltaUpdate.update();
+		}
+
+		// prioritize updates over rendering
+		if(std::fabs(elapsedUpdate.getInterval().asSeconds() - deltaUpdate.getChange().asSeconds()) > 0.8f)
+		{
+			continue;
 		}
 
 		if(elapsedRender.getElapsed() != 0)
 		{
+			fps.update(Time::now());
+
 			modules.updateStage(Module::Stage::Render);
 		}
 	}

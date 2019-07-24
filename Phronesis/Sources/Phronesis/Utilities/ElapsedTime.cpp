@@ -31,12 +31,12 @@ unsigned int ElapsedTime::getElapsed()
 	return elapsed;
 }
 
-void ElapsedTime::setStartTime(const Time& time)
-{
-	startTime = time;
-}
-
 void ElapsedTime::setInterval(const Time& time)
 {
 	interval = time;
+}
+
+const Time& ElapsedTime::getInterval() const
+{
+	return interval;
 }

@@ -16,6 +16,7 @@
 #include <set>
 #include <unordered_map>
 #include <optional>
+#include <cmath>
 #include <algorithm>
 
 #include <glm/glm.hpp>
