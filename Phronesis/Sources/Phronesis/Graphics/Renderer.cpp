@@ -258,6 +258,9 @@ void Renderer::recreateSwapChain()
 	shaders.resize(shaderFiles.size());
 	for(size_t i = 0; i < shaderFiles.size(); i++) {
 		shaders[i].create(device, shaderFiles[i]);
+		if(shaders[i].getStage() & VK_SHADER_STAGE_VERTEX_BIT) {
+			shaders[i].setUniformDescriptor(swapChain.getImages().size());
+		}
 	}
 
 	graphicsPipeline.create(device, swapChain, shaders, renderPass);
