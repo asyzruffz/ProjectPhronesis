@@ -5,7 +5,7 @@
 
 SandboxGame::SandboxGame()
 {
-	//setFpsLimit(60);
+	setFpsLimit(120);
 }
 
 

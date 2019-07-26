@@ -13,8 +13,9 @@ const int Game::HEIGHT = 600;
 
 Game::Game() :
 	fpsLimit(-1.0f),
+	elapsedFPS(Time::Seconds(1.0f)),
 	elapsedRender(Time::Seconds(-1.0f)),
-	elapsedUpdate(Time::Microseconds(14705))
+	elapsedUpdate(Time::Seconds(-1.0f))//Time::Microseconds(14705)) // ~60FPS
 {
 }
 
@@ -61,6 +62,11 @@ void Game::mainLoop()
 		// always update.
 		modules.updateStage(Module::Stage::Always);
 
+		if(elapsedFPS.getElapsed() != 0)
+		{
+			Log::debug("UPS: {}, FPS: {}", ups.getValue(), fps.getValue());
+		}
+
 		if(elapsedUpdate.getElapsed() != 0)
 		{
 			ups.update(Time::now());
@@ -73,7 +79,7 @@ void Game::mainLoop()
 		}
 
 		// prioritize updates over rendering
-		if(std::fabs(elapsedUpdate.getInterval().asSeconds() - deltaUpdate.getChange().asSeconds()) > 0.8f)
+		if((elapsedUpdate.getInterval().asSeconds() - deltaUpdate.getChange().asSeconds()) > 0.8f)
 		{
 			continue;
 		}

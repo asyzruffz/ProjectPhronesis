@@ -58,6 +58,7 @@ namespace Phronesis
 	private:
 		ModuleHandler modules;
 
+		ElapsedTime elapsedFPS;
 		ElapsedTime elapsedUpdate;
 		ElapsedTime elapsedRender;
 		Delta deltaUpdate;
