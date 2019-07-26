@@ -19,6 +19,7 @@ namespace Phronesis
 		void dispose();
 
 		const Vector2ui& getSize() const;
+		const float getAspectRatio() const;
 
 		std::vector<const char*> getRequiredExtensions() const;
 

@@ -4,7 +4,7 @@
 
 #include <GLFW/glfw3.h>
 
-#include "Phronesis/Core/Engine.hpp"
+#include "Phronesis/Core/Module.ext.hpp"
 #include "Renderer.hpp"
 
 using namespace Phronesis;
@@ -50,6 +50,11 @@ void Phronesis::Window::dispose()
 const Vector2ui& Window::getSize() const
 {
 	return size;
+}
+
+const float Phronesis::Window::getAspectRatio() const
+{
+	return size.x / (float)size.y;
 }
 
 std::vector<const char*> Window::getRequiredExtensions() const

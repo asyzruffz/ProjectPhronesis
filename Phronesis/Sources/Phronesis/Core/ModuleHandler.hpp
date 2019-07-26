@@ -21,14 +21,14 @@ namespace Phronesis
 		template<typename T>
 		bool has() const
 		{
-			const auto it = modules.find(GetModuleTypeId<T>());
+			const auto it = modules.find(getModuleTypeId<T>());
 			return it != modules.end() && it->second.module != nullptr;
 		}
 
 		template<typename T>
 		T* get() const
 		{
-			const auto it = modules.find(GetModuleTypeId<T>());
+			const auto it = modules.find(getModuleTypeId<T>());
 
 			if(it == modules.end() || it->second.module == nullptr)
 			{
@@ -42,14 +42,14 @@ namespace Phronesis
 		template<typename T>
 		void add(const Module::Stage& stage)
 		{
-			const auto typeId = GetModuleTypeId<T>();
+			const auto typeId = getModuleTypeId<T>();
 			modules[typeId] = { std::unique_ptr<Module>(static_cast<Module*>(new T)), stage };
 		}
 
 		template<typename T>
 		void remove()
 		{
-			modules.erase(GetModuleTypeId<T>());
+			modules.erase(getModuleTypeId<T>());
 		}
 
 	private:

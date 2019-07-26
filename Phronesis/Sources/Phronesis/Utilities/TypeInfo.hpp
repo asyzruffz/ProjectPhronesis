@@ -13,23 +13,23 @@ namespace Phronesis
 		TypeInfo() = delete;
 
 		template<typename K>
-		inline static TypeID GetTypeId()
+		inline static TypeID getTypeId()
 		{
-			static const auto id = NextTypeId();
+			static const auto id = getNextTypeId();
 			return id;
 		}
 
 	private:
-		inline static TypeID NextTypeId() noexcept
+		inline static TypeID getNextTypeId() noexcept
 		{
-			const auto id = m_nextTypeId;
-			++m_nextTypeId;
+			const auto id = nextTypeId;
+			++nextTypeId;
 			return id;
 		}
 
 		// next type ID for T.
-		static TypeID m_nextTypeId;
+		static TypeID nextTypeId;
 	};
 
-	template<typename K> TypeID TypeInfo<K>::m_nextTypeId = 0;
+	template<typename K> TypeID TypeInfo<K>::nextTypeId = 0;
 }

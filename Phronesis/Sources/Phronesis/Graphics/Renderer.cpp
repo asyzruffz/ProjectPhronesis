@@ -2,7 +2,7 @@
 #include "StdAfx.hpp"
 #include "Renderer.hpp"
 
-#include "Phronesis/Core/Engine.hpp"
+#include "Phronesis/Core/Module.ext.hpp"
 #include "Phronesis/FileIO/BinaryFile.hpp"
 #include "Phronesis/FileIO/Directory.hpp"
 #include "Phronesis/Maths/Matrix4.hpp"
@@ -63,7 +63,7 @@ void Renderer::init()
 		if(shaders[i].getStage() & VK_SHADER_STAGE_VERTEX_BIT)
 		{
 			// add uniform buffer descriptor's descriptor pools
-			shaders[i].setUniformDescriptor(swapChain.getImages().size());
+			shaders[i].setUniformDescriptor(static_cast<unsigned int>(swapChain.getImages().size()));
 		}
 	}
 
@@ -125,7 +125,7 @@ void Renderer::init()
 	}
 
 	// create descriptor sets to bind them to the uniform buffer descriptor
-	descriptorSets.allocate(device, graphicsPipeline, swapChain.getImages().size());
+	descriptorSets.allocate(device, graphicsPipeline, static_cast<unsigned int>(swapChain.getImages().size()));
 	descriptorSets.configureDescriptors(device, uniformBuffers);
 
 	createCommandBuffers();
@@ -260,7 +260,7 @@ void Renderer::recreateSwapChain()
 	for(size_t i = 0; i < shaderFiles.size(); i++) {
 		shaders[i].create(device, shaderFiles[i]);
 		if(shaders[i].getStage() & VK_SHADER_STAGE_VERTEX_BIT) {
-			shaders[i].setUniformDescriptor(swapChain.getImages().size());
+			shaders[i].setUniformDescriptor(static_cast<unsigned int>(swapChain.getImages().size()));
 		}
 	}
 
@@ -279,7 +279,7 @@ void Renderer::recreateSwapChain()
 		uniformBuffers[i].allocateMemory(device, physicalDevice, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 	}
 
-	descriptorSets.allocate(device, graphicsPipeline, swapChain.getImages().size());
+	descriptorSets.allocate(device, graphicsPipeline, static_cast<unsigned int>(swapChain.getImages().size()));
 	descriptorSets.configureDescriptors(device, uniformBuffers);
 
 	createCommandBuffers();

@@ -27,9 +27,9 @@ namespace Phronesis
 	template class TypeInfo<Module>;
 
 	template<typename T>
-	TypeID GetModuleTypeId() noexcept
+	TypeID getModuleTypeId() noexcept
 	{
 		static_assert(std::is_base_of<Module, T>::value, "[ERROR] T must be a Module");
-		return TypeInfo<Module>::GetTypeId<T>();
+		return TypeInfo<Module>::getTypeId<T>();
 	}
 }
