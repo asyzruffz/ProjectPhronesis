@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Phronesis\Core\Log.hpp" />
+    <ClInclude Include="Sources\Phronesis\Core\Module.ext.hpp" />
     <ClInclude Include="Sources\Phronesis\Core\ModuleHandler.hpp" />
     <ClInclude Include="Sources\Phronesis.hpp" />
     <ClInclude Include="Sources\Phronesis\Core.hpp" />
@@ -55,6 +56,13 @@
     <ClInclude Include="Sources\Phronesis\Maths\Matrix4.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths\Vector2.hpp" />
     <ClInclude Include="Sources\Phronesis\Maths\Vector3.hpp" />
+    <ClInclude Include="Sources\Phronesis\SceneManagement.hpp" />
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Camera.hpp" />
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Component.ext.hpp" />
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Component.hpp" />
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Entity.hpp" />
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Scene.hpp" />
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Scenes.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities\ElapsedTime.hpp" />
     <ClInclude Include="Sources\Phronesis\Utilities\String.hpp" />
@@ -65,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Log.cpp" />
-    <ClCompile Include="Sources\Phronesis\Core\Module.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\ModuleHandler.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp" />
     <ClCompile Include="Sources\Phronesis\Core\Game.cpp" />
@@ -94,6 +101,11 @@
     <ClCompile Include="Sources\Phronesis\Maths\Matrix4.cpp" />
     <ClCompile Include="Sources\Phronesis\Maths\Vector2.cpp" />
     <ClCompile Include="Sources\Phronesis\Maths\Vector3.cpp" />
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Camera.cpp" />
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Component.cpp" />
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Entity.cpp" />
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Scene.cpp" />
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Scenes.cpp" />
     <ClCompile Include="Sources\Phronesis\Utilities\ElapsedTime.cpp" />
     <ClCompile Include="Sources\Phronesis\Utilities\String.cpp" />
     <ClCompile Include="Sources\Phronesis\Utilities\Time.cpp" />
@@ -188,7 +200,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources;$(SolutionDir)Phronesis\Sources\External</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
@@ -214,7 +226,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources;$(SolutionDir)Phronesis\Sources\External</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
@@ -242,7 +254,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources;$(SolutionDir)Phronesis\Sources\External</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>
@@ -270,7 +282,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\VStudioExtLib\VulkanSDK\1.1.101.0\Include;D:\VStudioExtLib\glfw-3.2.1\include;D:\VStudioExtLib\glm;$(SolutionDir)Phronesis\Sources;$(SolutionDir)Phronesis\Sources\External</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeaderFile>StdAfx.hpp</PrecompiledHeaderFile>

@@ -5,6 +5,7 @@
 #include "Engine.hpp"
 #include "Phronesis/Graphics/Window.hpp"
 #include "Phronesis/Graphics/Renderer.hpp"
+#include "Phronesis/SceneManagement/Scenes.hpp"
 
 using namespace Phronesis;
 
@@ -15,6 +16,7 @@ Game::Game() :
 	fpsLimit(-1.0f),
 	elapsedFPS(Time::Seconds(1.0f)),
 	elapsedRender(Time::Seconds(-1.0f)),
+	elapsedPhysics(Time::Seconds(0.02f)),
 	elapsedUpdate(Time::Seconds(-1.0f))//Time::Microseconds(14705)) // ~60FPS
 {
 }
@@ -49,6 +51,9 @@ void Game::init()
 	modules.add<Window>(Module::Stage::Pre);
 	modules.get<Window>()->init(WIDTH, HEIGHT, "Phronesis - Sandbox (Vulkan)");
 
+	modules.add<Scenes>(Module::Stage::Normal);
+	modules.get<Scenes>()->init();
+
 	modules.add<Renderer>(Module::Stage::Render);
 	modules.get<Renderer>()->init();
 }
@@ -78,6 +83,11 @@ void Game::mainLoop()
 			deltaUpdate.update();
 		}
 
+		if(elapsedPhysics.getElapsed() != 0)
+		{
+			modules.updateStage(Module::Stage::Physics);
+		}
+
 		// prioritize updates over rendering
 		if((elapsedUpdate.getInterval().asSeconds() - deltaUpdate.getChange().asSeconds()) > 0.8f)
 		{
@@ -95,6 +105,7 @@ void Game::mainLoop()
 
 void Game::dispose()
 {
+	modules.get<Scenes>()->dispose();
 	modules.get<Renderer>()->dispose();
 	modules.get<Window>()->dispose();
 }

@@ -10,7 +10,7 @@ namespace Phronesis
 {
 	struct StagedModule
 	{
-		std::unique_ptr<Module> module;
+		Module::Ptr module;
 		Module::Stage stage;
 	};
 

@@ -4,4 +4,5 @@
 #include "Phronesis/FileIO.hpp"
 #include "Phronesis/Graphics.hpp"
 #include "Phronesis/Maths.hpp"
+#include "Phronesis/SceneManagement.hpp"
 #include "Phronesis/Utilities.hpp"

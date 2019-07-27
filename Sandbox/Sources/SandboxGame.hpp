@@ -6,6 +6,6 @@ class SandboxGame : public Phronesis::Game
 {
 public:
 	SandboxGame();
-	~SandboxGame();
-};
 
+	void init() override;
+};

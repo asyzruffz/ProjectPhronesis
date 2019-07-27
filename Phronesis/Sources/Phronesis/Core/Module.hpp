@@ -10,10 +10,12 @@ namespace Phronesis
 
 		enum class Stage
 		{
-			Always, Pre, Normal, Post, Render
+			Always, Pre, Normal, Post, Physics, Render
 		};
 
 		virtual ~Module() = default;
+
+		typedef std::unique_ptr<Module> Ptr;
 
 		virtual void update() = 0;
 

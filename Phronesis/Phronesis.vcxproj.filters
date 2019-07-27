@@ -22,6 +22,9 @@
     <Filter Include="Maths">
       <UniqueIdentifier>{0cb6fd54-7e69-4774-8483-74f132eb6167}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ScenesManagement">
+      <UniqueIdentifier>{71e8c908-7b9e-49ec-a008-bf5c16e447c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Phronesis.hpp" />
@@ -149,6 +152,30 @@
     <ClInclude Include="Sources\Phronesis\Utilities\TimeUpdate.hpp">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Phronesis\SceneManagement.hpp">
+      <Filter>ScenesManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Scenes.hpp">
+      <Filter>ScenesManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Scene.hpp">
+      <Filter>ScenesManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Camera.hpp">
+      <Filter>ScenesManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Component.hpp">
+      <Filter>ScenesManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Entity.hpp">
+      <Filter>ScenesManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\Core\Module.ext.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Phronesis\SceneManagement\Component.ext.hpp">
+      <Filter>ScenesManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Phronesis\Core\Engine.cpp">
@@ -184,9 +211,6 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\Window.cpp">
       <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\Phronesis\Core\Module.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Graphics\PhysicalDevice.cpp">
       <Filter>Graphics</Filter>
@@ -253,6 +277,21 @@
     </ClCompile>
     <ClCompile Include="Sources\Phronesis\Utilities\TimeUpdate.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Scenes.cpp">
+      <Filter>ScenesManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Scene.cpp">
+      <Filter>ScenesManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Camera.cpp">
+      <Filter>ScenesManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Component.cpp">
+      <Filter>ScenesManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Phronesis\SceneManagement\Entity.cpp">
+      <Filter>ScenesManagement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

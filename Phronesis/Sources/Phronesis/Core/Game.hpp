@@ -51,15 +51,16 @@ namespace Phronesis
 		static const int HEIGHT;
 
 	protected:
-		void init();
+		virtual void init();
 		void mainLoop();
-		void dispose();
+		virtual void dispose();
 
 	private:
 		ModuleHandler modules;
 
 		ElapsedTime elapsedFPS;
 		ElapsedTime elapsedUpdate;
+		ElapsedTime elapsedPhysics;
 		ElapsedTime elapsedRender;
 		Delta deltaUpdate;
 		ChangePerSecond ups, fps;

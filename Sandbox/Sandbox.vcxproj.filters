@@ -4,6 +4,7 @@
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp" />
     <ClCompile Include="Sources\SandboxGame.cpp" />
+    <ClCompile Include="Sources\Scene1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resources">
@@ -28,5 +29,6 @@
   <ItemGroup>
     <ClInclude Include="Sources\StdAfx.hpp" />
     <ClInclude Include="Sources\SandboxGame.hpp" />
+    <ClInclude Include="Sources\Scene1.hpp" />
   </ItemGroup>
 </Project>

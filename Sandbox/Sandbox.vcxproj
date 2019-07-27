@@ -204,6 +204,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Scene1.cpp" />
     <ClCompile Include="Sources\SandboxGame.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\StdAfx.cpp">
@@ -215,6 +216,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\SandboxGame.hpp" />
+    <ClInclude Include="Sources\Scene1.hpp" />
     <ClInclude Include="Sources\StdAfx.hpp" />
   </ItemGroup>
   <ItemGroup>
