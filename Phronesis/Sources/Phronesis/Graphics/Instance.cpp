@@ -17,7 +17,8 @@ const bool Instance::enableValidationLayers = true;
 
 // Requested standard diagnostics layers provided by the Vulkan SDK
 const std::vector<const char*> Instance::validationLayers = {
-	"VK_LAYER_LUNARG_standard_validation"
+	//"VK_LAYER_LUNARG_standard_validation" // For old vulkan sdk version
+	"VK_LAYER_KHRONOS_validation"
 };
 
 // Requested device extension for image presentation to surface
