@@ -42,3 +42,4 @@ include_directories(${GLFW3_INCLUDE_DIR})
 target_link_libraries (Phronesis ${GLFW3_LIBRARY})
 
 install(TARGETS Sandbox DESTINATION ${CMAKE_SOURCE_DIR}/Build-Debug/Linux)
+install(CODE "execute_process(COMMAND sh \"${CMAKE_CURRENT_SOURCE_DIR}/Resources/Shaders/compileshader.sh\" \"${CMAKE_SOURCE_DIR}/Build-Debug/Linux\")")
