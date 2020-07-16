@@ -38,4 +38,7 @@ link_directories(Sandbox PUBLIC
 
 target_link_libraries(Sandbox PUBLIC Phronesis)
 
+include_directories(${GLFW3_INCLUDE_DIR})
+target_link_libraries (Phronesis ${GLFW3_LIBRARY})
+
 install(TARGETS Sandbox DESTINATION ${CMAKE_SOURCE_DIR}/Build-Debug/Linux)

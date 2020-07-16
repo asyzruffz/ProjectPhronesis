@@ -40,7 +40,7 @@ void Window::update()
 	glfwPollEvents();
 }
 
-void Phronesis::Window::dispose()
+void Window::dispose()
 {
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -52,7 +52,7 @@ const Vector2ui& Window::getSize() const
 	return size;
 }
 
-const float Phronesis::Window::getAspectRatio() const
+const float Window::getAspectRatio() const
 {
 	return size.x / (float)size.y;
 }

@@ -31,14 +31,14 @@ file(GLOB_RECURSE PHRONESIS_SOURCE_FILES
 		"*.cpp"
 		)
 
-add_library(Phronesis ${PHRONESIS_HEADER_FILES} ${PHRONESIS_SOURCE_FILES})
+add_library(Phronesis STATIC ${PHRONESIS_HEADER_FILES} ${PHRONESIS_SOURCE_FILES})
 
 target_include_directories(Phronesis PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/Sources
 		${CMAKE_CURRENT_SOURCE_DIR}/Sources/External
 		)
 
-find_package(Vulkan REQUIRED FATAL_ERROR)
+find_package(Vulkan REQUIRED)
 if (Vulkan_FOUND)
 	include_directories(${Vulkan_INCLUDE_DIRS})
 	target_link_libraries (Phronesis ${Vulkan_LIBRARIES})
@@ -47,9 +47,14 @@ else ()
 endif ()
 
 find_package(glfw3 3.2 REQUIRED)
-include_directories(${GLFW3_INCLUDE_DIR})
-target_link_libraries (Phronesis ${GLFW3_LIBRARY})
-#target_link_libraries (Phronesis glfw)
+#if (GLFW3_FOUND)
+	include_directories(${GLFW3_INCLUDE_DIR})
+	#link_directories(${GLFW_LIBRARY_DIRS})
+	target_link_libraries (Phronesis ${GLFW3_LIBRARY})
+	#target_link_libraries (Phronesis glfw)
+#else ()
+	#message(FATAL_ERROR "Could not find glfw3")
+#endif ()
 
 find_package(GLM REQUIRED)
 if (GLM_FOUND)

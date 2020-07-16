@@ -21,9 +21,9 @@ namespace Phronesis
 	template<typename K>
 	bool Vector2T<T>::operator==(const Vector2T<K> &other) const
 	{
-		return detail::compute_equal<T, std::numeric_limits<T>::is_iec559>::call(x, other.x) &&
-			   detail::compute_equal<T, std::numeric_limits<T>::is_iec559>::call(y, other.y);
-		//return x == other.x && y == other.y;
+		//return detail::compute_equal<T, std::numeric_limits<T>::is_iec559>::call(this->x, other.x) &&
+		//	   detail::compute_equal<T, std::numeric_limits<T>::is_iec559>::call(this->y, other.y);
+		return this->x == other.x && this->y == other.y;
 	}
 
 	template<typename T>
