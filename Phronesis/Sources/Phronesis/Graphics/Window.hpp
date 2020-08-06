@@ -1,36 +1,38 @@
 #pragma once
 
-#include <vector>
-
-#include <vulkan/vulkan.h>
+#include <memory>
 
 #include "Phronesis/Core/Module.hpp"
 #include "Phronesis/Maths/Vector2.hpp"
 
-struct GLFWwindow;
-
 namespace Phronesis
 {
+	class WindowImpl
+	{
+	public:
+		virtual void init(unsigned int width, unsigned int height, const char* title) = 0;
+		virtual void update() = 0;
+		virtual void dispose() = 0;
+		virtual void handleMinimize() = 0;
+	};
+
 	class Window : public Module
 	{
 	public:
 		void init(unsigned int width, unsigned int height, const char* title);
 		void update() override;
-		void dispose();
+		void dispose() override;
 
-		const Vector2ui& getSize() const;
-		const float getAspectRatio() const;
-
-		std::vector<const char*> getRequiredExtensions() const;
-
-		VkResult createSurface(const VkInstance& instance, const VkAllocationCallbacks* allocator, VkSurfaceKHR* surface) const;
-
-		void triggerResize(unsigned int width, unsigned int height);
 		void handleMinimize();
 
-	private:
-		GLFWwindow* window;
+		const Vector2ui& getSize() const;
+		void setSize(unsigned int width, unsigned int height);
+		const float getAspectRatio() const;
 
+		WindowImpl* getImpl() const;
+
+	private:
 		Vector2ui size;
+		std::unique_ptr<WindowImpl> impl;
 	};
 }

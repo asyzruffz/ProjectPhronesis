@@ -3,15 +3,15 @@
 #include "Surface.hpp"
 
 #include "Phronesis/Core.hpp"
-#include "Window.hpp"
+#include "Platform/GLFWWindow.hpp"
 #include "Instance.hpp"
 #include "PhysicalDevice.hpp"
 #include "RenderUtils.hpp"
 
 using namespace Phronesis;
 
-Surface::Surface() :
-	surface(VK_NULL_HANDLE)
+Surface::Surface(VkSurfaceKHR surface) :
+	surface(surface)
 {
 }
 
@@ -27,12 +27,8 @@ const VkSurfaceKHR& Surface::getSurface() const
 
 void Surface::create(const Instance& instance)
 {
-	VkResult result = Engine::Get()->getGame().getModule<Window>()->createSurface(instance, nullptr, &surface);
-	if(result != VK_SUCCESS)
-	{
-		Log::error("[Vulkan] Failed to create window surface");
-		RenderUtils::checkVk(result);
-	}
+	auto windowmodule = static_cast<GLFWWindow*>(Module::getModule<Window>()->getImpl());
+	windowmodule->createSurface(instance, nullptr, &surface);
 }
 
 void Surface::dispose(const Instance& instance)

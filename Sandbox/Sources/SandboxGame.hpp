@@ -5,7 +5,7 @@
 class SandboxGame : public Phronesis::Game
 {
 public:
-	SandboxGame();
+	SandboxGame(const char* title);
 
 	void init() override;
 };

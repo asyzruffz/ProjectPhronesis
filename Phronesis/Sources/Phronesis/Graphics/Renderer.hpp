@@ -1,73 +1,32 @@
 #pragma once
 
-#include <vector>
-
-#include <vulkan/vulkan.h>
+#include <memory>
 
 #include "Phronesis/Core/Module.hpp"
-#include "Instance.hpp"
-#include "Surface.hpp"
-#include "PhysicalDevice.hpp"
-#include "LogicalDevice.hpp"
-#include "SwapChain.hpp"
-#include "RenderPass.hpp"
-#include "FrameBuffers.hpp"
-#include "GraphicsPipeline.hpp"
-#include "CommandPool.hpp"
-#include "DescriptorSets.hpp"
-#include "Buffer.hpp"
-#include "UniformBuffer.hpp"
-#include "CommandBuffer.hpp"
 
 namespace Phronesis
 {
+	class RendererImpl
+	{
+	public:
+		virtual void init() = 0;
+		virtual void update() = 0;
+		virtual void dispose() = 0;
+		virtual void requestResize() = 0;
+	};
+
 	class Renderer : public Module
 	{
 	public:
 		void init();
 		void update() override;
-		void dispose();
+		void dispose() override;
 
 		void requestResize();
 
-	private:
-		Instance instance;
-		Surface surface;
-		PhysicalDevice physicalDevice;
-		LogicalDevice device;
-
-		SwapChain swapChain;
-		RenderPass renderPass;
-		FrameBuffers frameBuffers;
-
-		GraphicsPipeline graphicsPipeline;
-
-		CommandPool commandPool;
-
-		Buffer vertexBuffer;
-		Buffer indexBuffer;
-
-		std::vector<UniformBuffer> uniformBuffers;
-
-		DescriptorSets descriptorSets;
-
-		std::vector<CommandBuffer> commandBuffers;
-
-		std::vector<VkSemaphore> imageAvailableSemaphores;
-		std::vector<VkSemaphore> renderFinishedSemaphores;
-		std::vector<VkFence> inFlightFences;
-		size_t currentFrame = 0;
-
-		bool framebufferResized = false;
+		RendererImpl* getImpl() const;
 
 	private:
-		void createCommandBuffers();
-		void createSyncObjects();
-
-		void recreateSwapChain();
-		void cleanupSwapChain();
-
-		void drawFrame();
-		void updateUniformBuffer(uint32_t currentImage);
+		std::unique_ptr<RendererImpl> impl;
 	};
 }

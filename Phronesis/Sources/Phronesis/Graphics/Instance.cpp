@@ -2,10 +2,9 @@
 #include "StdAfx.hpp"
 #include "Instance.hpp"
 
-#include "Phronesis/Core/Engine.hpp"
-#include "Phronesis/Core/Game.hpp"
+#include "Phronesis/Core.hpp"
 #include "RenderUtils.hpp"
-#include "Window.hpp"
+#include "Platform/GLFWWindow.hpp"
 
 using namespace Phronesis;
 
@@ -149,7 +148,8 @@ bool Instance::checkValidationLayerSupport()
 
 std::vector<const char*> Instance::getRequiredExtensions()
 {
-	auto extensions = Engine::Get()->getGame().getModule<Window>()->getRequiredExtensions();
+	auto windowmodule = static_cast<GLFWWindow*>(Module::getModule<Window>()->getImpl());
+	auto extensions = windowmodule->getRequiredExtensions();
 
 	// extension to set up a debug messenger with a callback
 	if(enableValidationLayers)

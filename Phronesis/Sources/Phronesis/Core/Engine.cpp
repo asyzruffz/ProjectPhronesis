@@ -44,14 +44,15 @@ Game& Engine::getGame()
 
 void Engine::run()
 {
-	running = true;
-
 	try {
 		// TODO: implement multi-threading
+		running = true;
 		if(game) game->run();
+		running = false;
 	}
 	catch(const std::exception& e)
 	{
+		running = false;
 		Log::error(e.what());
 		throw;
 	}

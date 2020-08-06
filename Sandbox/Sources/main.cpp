@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 {
 	try {
 		Phronesis::Engine engine(argv, argc);
-		engine.setGame(new SandboxGame());
+		engine.setGame(new SandboxGame("Phronesis - Sandbox (Vulkan)"));
 		engine.run();
 	}
 	catch(const std::exception& e) {

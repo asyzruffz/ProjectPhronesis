@@ -12,7 +12,7 @@ namespace Phronesis
 	class Surface
 	{
 	public:
-		Surface();
+		Surface(VkSurfaceKHR surface = VK_NULL_HANDLE);
 
 		operator const VkSurfaceKHR&() const;
 		const VkSurfaceKHR& getSurface() const;

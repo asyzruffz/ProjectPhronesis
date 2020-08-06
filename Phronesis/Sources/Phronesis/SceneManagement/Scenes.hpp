@@ -10,7 +10,7 @@ namespace Phronesis
 	public:
 		void init();
 		void update() override;
-		void dispose();
+		void dispose() override;
 
 		void setScene(Scene* newScene);
 		Scene& getCurrentScene();

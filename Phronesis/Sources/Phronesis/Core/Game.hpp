@@ -11,7 +11,7 @@ namespace Phronesis
 	class Game
 	{
 	public:
-		Game();
+		Game(const char* title = "Phronesis");
 		virtual ~Game() = default;
 
 		void run();
@@ -65,6 +65,7 @@ namespace Phronesis
 		Delta deltaUpdate;
 		ChangePerSecond ups, fps;
 
+		const char* title;
 		float fpsLimit;
 	};
 }
