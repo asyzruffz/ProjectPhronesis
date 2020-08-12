@@ -16,6 +16,7 @@ list(APPEND SANDBOX_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/StdAfx.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/SandboxGame.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Scene1.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/TestScript.hpp
 	)
 
 list(APPEND SANDBOX_SOURCE_FILES
@@ -23,6 +24,7 @@ list(APPEND SANDBOX_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/StdAfx.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/SandboxGame.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Scene1.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/TestScript.cpp
 	)
 
 #message(STATUS "Sandbox sources at ${CMAKE_CURRENT_SOURCE_DIR}/Sources")

@@ -1,4 +1,5 @@
 #pragma once
 
-#include "Components/Render2D.hpp"
+#include "Components/Camera.hpp"
 #include "Components/Circle.hpp"
+#include "Components/Render2D.hpp"

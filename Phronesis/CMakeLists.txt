@@ -147,10 +147,12 @@ list(APPEND PHRONESIS_SOURCE_FILES ${PHRONESIS_EXTERNAL_SOURCE_FILES})
 
 if(USE_SFML)
 	list(APPEND PHRONESIS_HEADER_FILES
+		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Platform/SFMLCamera.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Platform/SFMLRender2D.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Platform/SFMLWindow.hpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Platform/SFMLRenderer.hpp)
 	list(APPEND PHRONESIS_SOURCE_FILES
+		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Platform/SFMLCamera.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Platform/SFMLRender2D.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Platform/SFMLWindow.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Platform/SFMLRenderer.cpp)
