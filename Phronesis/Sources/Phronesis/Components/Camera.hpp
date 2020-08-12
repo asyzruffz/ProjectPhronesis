@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Component.hpp"
+#include "Phronesis/SceneManagement/Component.hpp"
 #include "Phronesis/Maths/Matrix4.hpp"
 
 namespace Phronesis

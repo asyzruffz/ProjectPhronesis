@@ -29,6 +29,8 @@ cmake_dependent_option(USE_GLFW "Use glfw implementation" ON "USE_VULKAN;NOT USE
 list(APPEND PHRONESIS_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/StdAfx.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Camera.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core/Engine.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core/Game.hpp
@@ -68,7 +70,6 @@ list(APPEND PHRONESIS_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Vector3.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Vector3.inl
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Camera.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Component.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Component.ext.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Entity.hpp

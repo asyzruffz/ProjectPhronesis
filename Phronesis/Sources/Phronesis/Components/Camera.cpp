@@ -2,7 +2,7 @@
 #include "StdAfx.hpp"
 #include "Camera.hpp"
 
-#include "Component.ext.hpp"
+#include "Phronesis/SceneManagement/Component.ext.hpp"
 #include "Phronesis/Core.hpp"
 #include "Phronesis/Graphics/Window.hpp"
 
@@ -23,7 +23,7 @@ void Camera::start()
 void Camera::update()
 {
 	viewMatrix = Transformation::lookAt(Vector3(2.0f, 2.0f, 2.0f), Vector3::zero, Vector3::forward);
-	projectionMatrix = Transformation::perspective(glm::radians(fov), Engine::Get()->getGame().getModule<Window>()->getAspectRatio(), 0.1f, 10.0f);
+	projectionMatrix = Transformation::perspective(glm::radians(fov), Module::getModule<Window>()->getAspectRatio(), 0.1f, 10.0f);
 }
 
 void Camera::setFov(const float& angle)
