@@ -6,24 +6,28 @@ project(Sandbox VERSION 0.1 LANGUAGES CXX)
 
 # Force all compilers to use the correct C++ standard versions.
 # Needed to allow for CheckCXXSourceCompiles to work correctly.
-set(CMAKE_REQUIRED_FLAGS "-std=c++17")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Find source to this project's executable.
 
-file(GLOB_RECURSE SANDBOX_HEADER_FILES #RELATIVE 
-		${CMAKE_CURRENT_SOURCE_DIR}/Sources
-		"*.hpp" "*.inl"
-		)
+list(APPEND SANDBOX_HEADER_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/StdAfx.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/SandboxGame.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Scene1.hpp
+	)
 
-file(GLOB_RECURSE SANDBOX_SOURCE_FILES #RELATIVE 
-		${CMAKE_CURRENT_SOURCE_DIR}/Sources
-		"*.cpp"
-		)
+list(APPEND SANDBOX_SOURCE_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/main.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/StdAfx.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/SandboxGame.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Scene1.cpp
+	)
 
 #message(STATUS "Sandbox sources at ${CMAKE_CURRENT_SOURCE_DIR}/Sources")
+
+# Create target executable
 
 add_executable (Sandbox ${SANDBOX_HEADER_FILES} ${SANDBOX_SOURCE_FILES})
 
@@ -37,9 +41,6 @@ link_directories(Sandbox PUBLIC
 		)
 
 target_link_libraries(Sandbox PUBLIC Phronesis)
-
-include_directories(${GLFW3_INCLUDE_DIR})
-target_link_libraries (Phronesis ${GLFW3_LIBRARY})
 
 install(TARGETS Sandbox DESTINATION ${CMAKE_SOURCE_DIR}/Build-Debug/Linux)
 install(CODE "execute_process(COMMAND sh \"${CMAKE_CURRENT_SOURCE_DIR}/Resources/Shaders/compileshader.sh\" \"${CMAKE_SOURCE_DIR}/Build-Debug/Linux\")")
