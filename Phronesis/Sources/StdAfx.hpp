@@ -20,6 +20,4 @@
 #include <cmath>
 #include <algorithm>
 
-#include <glm/glm.hpp>
-
 #include "Phronesis/Core/Log.hpp"
