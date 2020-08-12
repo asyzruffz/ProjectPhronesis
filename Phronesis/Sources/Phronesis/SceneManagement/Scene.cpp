@@ -6,7 +6,7 @@ using namespace Phronesis;
 
 Scene::Scene() :
 	isStarted(false),
-	root(std::make_shared<Entity>())
+	root(std::make_shared<Entity>("Root"))
 {
 }
 
@@ -18,9 +18,9 @@ void Scene::update()
 {
 }
 
-Entity::Ptr Scene::createEntity()
+Entity::Ptr Scene::createEntity(const char* name)
 {
-	return addToRoot(new Entity);
+	return addToRoot(new Entity(name));
 }
 
 bool Scene::hasStarted()

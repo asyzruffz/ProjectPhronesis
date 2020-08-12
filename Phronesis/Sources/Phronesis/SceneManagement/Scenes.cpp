@@ -6,6 +6,7 @@ using namespace Phronesis;
 
 void Scenes::init()
 {
+	currentScene = nullptr;
 }
 
 void Scenes::update()
@@ -33,7 +34,7 @@ void Scenes::setScene(Scene* newScene)
 	currentScene.reset(newScene);
 }
 
-Scene& Phronesis::Scenes::getCurrentScene()
+Scene* Scenes::getCurrentScene()
 {
-	return *currentScene;
+	return currentScene.get();
 }

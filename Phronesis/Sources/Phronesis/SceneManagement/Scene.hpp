@@ -17,14 +17,13 @@ namespace Phronesis
 		virtual void start();
 		virtual void update();
 
-		Entity::Ptr createEntity();
-
-		bool hasStarted();
-		void setStarted();
+		Entity::Ptr createEntity(const char* name = "Unnamed Entity");
 
 	private:
 		friend class Scenes;
 
+		bool hasStarted();
+		void setStarted();
 		void internalStart();
 		void internalUpdate();
 

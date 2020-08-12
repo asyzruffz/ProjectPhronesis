@@ -50,12 +50,14 @@ void Game::init()
 	elapsedRender.start();
 
 	modules.add<Window>(Module::Stage::Pre);
-	modules.get<Window>()->init(WIDTH, HEIGHT, title);
-
+	Log::info("Window module added");
 	modules.add<Scenes>(Module::Stage::Normal);
-	modules.get<Scenes>()->init();
-
+	Log::info("Scenes module added");
 	modules.add<Renderer>(Module::Stage::Render);
+	Log::info("Renderer module added");
+
+	modules.get<Window>()->init(WIDTH, HEIGHT, title);
+	modules.get<Scenes>()->init();
 	modules.get<Renderer>()->init();
 }
 
@@ -106,7 +108,14 @@ void Game::mainLoop()
 
 void Game::dispose()
 {
-	modules.get<Scenes>()->dispose();
 	modules.get<Renderer>()->dispose();
+	modules.get<Scenes>()->dispose();
 	modules.get<Window>()->dispose();
+	
+	modules.remove<Renderer>();
+	Log::info("Renderer module removed");
+	modules.remove<Scenes>();
+	Log::info("Scenes module removed");
+	modules.remove<Window>();
+	Log::info("Window module removed");
 }

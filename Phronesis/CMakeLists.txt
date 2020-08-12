@@ -18,8 +18,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-option(USE_SFML "Use SFML implementation" OFF)
-option(USE_VULKAN "Use Vulkan implementation" ON)
+option(USE_SFML "Use SFML implementation" ON)
+option(USE_VULKAN "Use Vulkan implementation" OFF)
 # Use glm and glfw if USE_VULKAN is ON
 cmake_dependent_option(USE_GLM "Use glm implementation" ON "USE_VULKAN;NOT USE_SFML" OFF)
 cmake_dependent_option(USE_GLFW "Use glfw implementation" ON "USE_VULKAN;NOT USE_SFML" OFF)
@@ -31,6 +31,8 @@ list(APPEND PHRONESIS_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Camera.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Circle.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Render2D.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core/Engine.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core/Game.hpp
@@ -42,26 +44,27 @@ list(APPEND PHRONESIS_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/FileIO/BinaryFile.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/FileIO/Directory.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Buffer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/CommandBuffer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/CommandPool.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/DescriptorSets.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/FrameBuffers.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/GraphicsPipeline.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Instance.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/LogicalDevice.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/PhysicalDevice.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Pipeline.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/QueueFamilyIndices.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Buffer.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/CommandBuffer.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/CommandPool.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/DescriptorSets.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/FrameBuffers.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/GraphicsPipeline.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Instance.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/LogicalDevice.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/PhysicalDevice.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Pipeline.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/QueueFamilyIndices.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Renderer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/RenderPass.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/RenderUtils.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Shader.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Surface.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/SwapChain.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/UniformBuffer.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/UniformBufferObject.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Vertex.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/RenderPass.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/RenderUtils.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Shader.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Surface.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/SwapChain.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/UniformBuffer.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/UniformBufferObject.hpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Vertex.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/VertexBase.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Window.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Matrix4.hpp
@@ -85,6 +88,9 @@ list(APPEND PHRONESIS_HEADER_FILES
 
 list(APPEND PHRONESIS_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/StdAfx.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Camera.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Circle.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Render2D.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core/Engine.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core/Game.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core/Log.cpp
@@ -92,30 +98,29 @@ list(APPEND PHRONESIS_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Core/ModuleHandler.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/FileIO/BinaryFile.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/FileIO/Directory.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Buffer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/CommandBuffer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/CommandPool.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/DescriptorSets.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/FrameBuffers.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/GraphicsPipeline.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Instance.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/LogicalDevice.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/PhysicalDevice.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Pipeline.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/QueueFamilyIndices.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Buffer.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/CommandBuffer.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/CommandPool.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/DescriptorSets.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/FrameBuffers.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/GraphicsPipeline.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Instance.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/LogicalDevice.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/PhysicalDevice.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Pipeline.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/QueueFamilyIndices.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Renderer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/RenderPass.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/RenderUtils.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Shader.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Surface.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/SwapChain.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/UniformBuffer.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Vertex.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/RenderPass.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/RenderUtils.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Shader.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Surface.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/SwapChain.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/UniformBuffer.cpp
+	#${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Vertex.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Window.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Matrix4.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Vector2.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Vector3.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Camera.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Component.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Entity.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Scene.cpp
@@ -139,6 +144,14 @@ list(APPEND PHRONESIS_SOURCE_FILES ${PHRONESIS_EXTERNAL_SOURCE_FILES})
 # Find implementation source to this project's library.
 
 if(USE_SFML)
+	list(APPEND PHRONESIS_HEADER_FILES
+		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Platform/SFMLRender2D.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Platform/SFMLWindow.hpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Platform/SFMLRenderer.hpp)
+	list(APPEND PHRONESIS_SOURCE_FILES
+		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Components/Platform/SFMLRender2D.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Platform/SFMLWindow.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Graphics/Platform/SFMLRenderer.cpp)
 endif()
 if(USE_VULKAN)
 	list(APPEND PHRONESIS_HEADER_FILES

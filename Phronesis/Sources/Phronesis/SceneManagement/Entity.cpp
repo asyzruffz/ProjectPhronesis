@@ -3,10 +3,16 @@
 
 using namespace Phronesis;
 
-Entity::Entity() :
-	name("Unnamed Entity"),
+Entity::Entity(const char* name) :
+	name(name),
 	enabled(true)
 {
+}
+
+Entity::~Entity()
+{
+	components.clear();
+	children.clear();
 }
 
 Entity::Ptr Entity::setParent(const Entity::Ptr& newParent)

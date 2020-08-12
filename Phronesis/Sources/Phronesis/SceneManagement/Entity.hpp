@@ -12,8 +12,8 @@ namespace Phronesis
 	class Entity : public std::enable_shared_from_this<Entity>
 	{
 	public:
-		Entity();
-		virtual ~Entity() = default;
+		Entity(const char* name = "Unnamed Entity");
+		virtual ~Entity();
 
 		typedef std::shared_ptr<Entity> Ptr;
 
@@ -23,6 +23,8 @@ namespace Phronesis
 		bool has() noexcept;
 		template <typename T>
 		T& get();
+		template <typename T>
+		void getInChildren(std::vector<T*>& components);
 
 		Entity::Ptr setParent(const Entity::Ptr& parent);
 		Entity::Ptr getParent() const;
@@ -70,5 +72,18 @@ namespace Phronesis
 	{
 		const auto typeId = getComponentTypeId<T>();
 		return *(std::dynamic_pointer_cast<T>(components[typeId]));
+	}
+
+	template <typename T>
+	void Entity::getInChildren(std::vector<T*>& components)
+	{
+		if(has<T>())
+		{
+			components.push_back(&get<T>());
+		}
+		for(auto it = children.begin(); it != children.end(); ++it)
+		{
+			(*it)->getInChildren<T>(components);
+		}
 	}
 }

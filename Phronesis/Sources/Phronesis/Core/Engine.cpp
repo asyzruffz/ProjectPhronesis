@@ -34,7 +34,7 @@ Engine::~Engine()
 
 void Engine::setGame(Game* newGame)
 {
-	game = std::unique_ptr<Game>(newGame);
+	game.reset(newGame);
 }
 
 Game& Engine::getGame()
