@@ -9,6 +9,7 @@ namespace Phronesis
 	class RendererImpl
 	{
 	public:
+		virtual ~RendererImpl() = default;
 		virtual void init() = 0;
 		virtual void update() = 0;
 		virtual void dispose() = 0;
@@ -18,6 +19,8 @@ namespace Phronesis
 	class Renderer : public Module
 	{
 	public:
+		Renderer();
+
 		void init();
 		void update() override;
 		void dispose() override;

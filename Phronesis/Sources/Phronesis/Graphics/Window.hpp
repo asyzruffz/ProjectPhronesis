@@ -10,6 +10,7 @@ namespace Phronesis
 	class WindowImpl
 	{
 	public:
+		virtual ~WindowImpl() = default;
 		virtual void init(unsigned int width, unsigned int height, const char* title) = 0;
 		virtual void update() = 0;
 		virtual void dispose() = 0;
@@ -19,6 +20,8 @@ namespace Phronesis
 	class Window : public Module
 	{
 	public:
+		Window();
+
 		void init(unsigned int width, unsigned int height, const char* title);
 		void update() override;
 		void dispose() override;

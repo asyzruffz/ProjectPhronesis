@@ -2,15 +2,26 @@
 #include "StdAfx.hpp"
 #include "Window.hpp"
 
+#ifdef USING_GLFW
 #include "Phronesis/Graphics/Platform/GLFWWindow.hpp"
+#elif defined(USING_SFML)
+#include "Phronesis/Graphics/Platform/SFMLWindow.hpp"
+#endif
 
 using namespace Phronesis;
+
+Window::Window() :
+#ifdef USING_GLFW
+	impl(std::make_unique<GLFWWindow>())
+#elif defined(USING_SFML)
+	impl(std::make_unique<SFMLWindow>())
+#endif
+{
+}
 
 void Window::init(unsigned int width, unsigned int height, const char* title)
 {
 	size.x = width; size.y = height;
-
-	impl = std::make_unique<GLFWWindow>();
 	impl->init(width, height, title);
 }
 
