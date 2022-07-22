@@ -5,7 +5,6 @@ project(ProjectPhronesis VERSION 0.1 LANGUAGES CXX)
 
 include(CMakeDependentOption)
 
-#set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/")
 
 add_subdirectory(Phronesis)

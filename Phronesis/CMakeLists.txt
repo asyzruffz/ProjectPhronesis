@@ -115,7 +115,6 @@ list(APPEND PHRONESIS_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Matrix4.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Vector2.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/Maths/Vector3.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Camera.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Component.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Entity.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Sources/Phronesis/SceneManagement/Scene.cpp
@@ -198,7 +197,7 @@ endif()
 
 if(USE_GLFW)
 	message(STATUS "Using glfw implementation")
-	find_package(glfw3 3.2 REQUIRED)
+	find_package(glfw3 REQUIRED)
 	#include_directories(${GLFW3_INCLUDE_DIR})
 	#target_link_libraries (Phronesis ${GLFW3_LIBRARY})
 	target_link_libraries (Phronesis glfw)
