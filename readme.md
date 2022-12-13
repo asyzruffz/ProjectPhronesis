@@ -1,3 +1,5 @@
+![Phronesis Logo](/phronesis.png?raw=true "Phronesis")
+
 Project Phronesis
 =================
 
