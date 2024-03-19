@@ -84,7 +84,7 @@ void CommandBuffer::submit(const VkQueue& queue, const VkPipelineStageFlags& wai
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 	submitInfo.commandBufferCount = 1;
 	submitInfo.pCommandBuffers = &commandBuffer;
-	if(waitStages != VK_NULL_HANDLE)
+	if(waitStages != VK_PIPELINE_STAGE_NONE)
 	{
 		submitInfo.pWaitDstStageMask = &waitStages;
 	}
